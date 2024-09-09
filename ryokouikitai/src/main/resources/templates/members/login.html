@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" integrity="sha384-
+ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <!-- Custom styles for this template -->
+    <link href="/css/jumbotron-narrow.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body th:style="'background-image: url(/img/21.png);background-size: cover;overflow:hidden'">
+<div class="container">
+    <!--    <div th:replace="fragments/bodyHeader :: bodyHeader"/>-->
+    <div class="login-form">
+        <form role="form" action="/api/members/login" th:object="${loginForm}" method="post">
+            <div class="form-group">
+                <label th:for="name">ID</label>
+                <input type="text" th:field="*{id}" class="form-control" placeholder="ID를 입력하세요">
+            </div>
+            <div class="form-group">
+                <label th:for="password">PASSWORD</label>
+                <input type="password" th:field="*{password}" class="form-control"
+                       placeholder="비밀번호를 입력하세요">
+            </div>
+            <button type="submit" class="btn btn-primary">로그인</button>
+            <button type="button" class="btn btn-primary">회원가입</button>
+        </form>
+    </div>
+    <br/>
+    <!--    <div th:replace="fragments/footer :: footer"/>-->
+</div> <!-- /container -->
+</body>
+</html>
