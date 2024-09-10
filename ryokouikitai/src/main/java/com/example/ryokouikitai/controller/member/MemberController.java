@@ -1,4 +1,4 @@
-package com.example.ryokouikitai.controller;
+package com.example.ryokouikitai.controller.member;
 
 import com.example.ryokouikitai.domian.member.JoinForm;
 import com.example.ryokouikitai.domian.member.LoginForm;
@@ -24,9 +24,8 @@ public class MemberController {
     public String login(LoginForm loginForm){
         System.out.println("loginForm.getId() = " + loginForm.getId());
         System.out.println("loginForm.getPassword() = " + loginForm.getPassword());
-        return "members/login";
+        return "redirect:/members/login";
     }
-
     @GetMapping("/join")
     public String join(Model model){
         model.addAttribute("joinForm", new JoinForm());
