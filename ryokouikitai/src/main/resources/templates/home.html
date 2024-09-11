@@ -1,16 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <link rel="stylesheet" href="/css/bootstrap.min.css" integrity="sha384-
-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-          crossorigin="anonymous">
-    <!-- Custom styles for this template -->
-    <link href="/css/jumbotron-narrow.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/login.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+<head th:replace="fragments/header :: header">
+
     <meta charset="UTF-8">
+
+    <title>Title</title>
+</head>
+<head>
     <style>
         .btn {
             background-color: #A7B7D0;
@@ -35,7 +31,6 @@ ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
             opacity: 0.3;
         }
     </style>
-    <title>Title</title>
 </head>
 <body th:style="'background-image: url(/img/startPage.png);background-size: cover;overflow:hidden'">
 <div class="background"></div>
@@ -45,7 +40,6 @@ ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
         공유된 계획으로 영역전쟁을 시작하자!<br>
         일본지도를 나의 테마색으로 점령!</p>
     <a href="/members/login" class="btn btn-primary">시작하기</a>
-    <a th:background=""></a>
 
 </div>
 </body>
