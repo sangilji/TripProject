@@ -17,34 +17,35 @@
 
 /*}*/
 
-/*html, body {*/
-/*    height: 100%;*/
-/*    margin: 0;*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*    font-family: "Jua", sans-serif;*/
-/*    font-weight: 400;*/
-/*    font-style: normal;*/
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Jua", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 
-/*}*/
+}
 
-.login-form {
+.join-form {
     position: relative;
     z-index: 1;
-    width: 320px;
+    width: 550px;
     padding: 20px;
     /*background-color: white;*/
     border-radius: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.login-form .form-group {
+.join-form .form-group {
     margin-bottom: 10px; /* 각 필드 간의 간격을 넓힘 */
     margin-top: 10px; /* 각 필드 간의 간격을 넓힘 */
+    margin-left: 110px;
 }
 
-.login-form:after {
+.join-form:after {
     content: "";
     display: block;
     position: absolute;
@@ -52,19 +53,45 @@
     left: 0;
     border-radius: 30px;
     background-color: white;
-    width: 320px;
+    width: 550px;
     height: 100%;
     opacity: 0.3;
     z-index: -1;
 }
+.duplicated label{
+    display: block;
+}
+.duplicated input{
+    display: inline;
+}
+.duplicated button{
+    margin-top: 0;
+    margin-bottom: 3px;
+    margin-left: 15px;
+    font-size: 16px;
+    inline-size: fit-content;
+    border-radius: 10px;
+}
 
-.login-form label {
+.duplicated button:hover {
+    /*width: 100%; !* 버튼의 너비를 폼에 맞춤 *!*/
+    /*height: 50px; !* 버튼 높이를 키움 *!*/
+    font-size: 16px; /* 버튼 글씨 크기를 키움 */
+    /*margin-top: 10px; !* 버튼 간의 간격 추가 *!*/
+    margin-bottom: 3px;
+    border-radius: 10px; /* 버튼 모서리를 둥글게 */
+    background-color: #355F83;
+    opacity: 0.8;
+    border-color: #355F83;
+}
+
+.join-form label {
     font-size: 16px; /* 레이블의 글씨 크기를 키움 */
     margin-bottom: 5px;
 }
 
-.login-form input {
-    width: 100%; /* 입력 필드 너비를 폼에 맞춤 */
+.join-form input {
+    width: 70%; /* 입력 필드 너비를 폼에 맞춤 */
     height: 45px; /* 입력 필드의 높이를 키움 */
     padding: 10px; /* 입력 필드 내부 여백을 추가 */
     font-size: 16px; /* 입력 글씨 크기를 키움 */
@@ -73,8 +100,8 @@
 }
 
 .button-style {
-    width: 100%; /* 버튼의 너비를 폼에 맞춤 */
-    height: 50px; /* 버튼 높이를 키움 */
+    width: 70%; /* 버튼의 너비를 폼에 맞춤 */
+    height: 40px; /* 버튼 높이를 키움 */
     font-size: 18px; /* 버튼 글씨 크기를 키움 */
     margin-top: 10px; /* 버튼 간의 간격 추가 */
     border-radius: 5px; /* 버튼 모서리를 둥글게 */
@@ -83,9 +110,9 @@
     border-color: #162336;
 }
 
-.login-form button:hover {
-    width: 100%; /* 버튼의 너비를 폼에 맞춤 */
-    height: 50px; /* 버튼 높이를 키움 */
+.login-button:hover {
+    width: 70%; /* 버튼의 너비를 폼에 맞춤 */
+    height: 40px; /* 버튼 높이를 키움 */
     font-size: 18px; /* 버튼 글씨 크기를 키움 */
     margin-top: 10px; /* 버튼 간의 간격 추가 */
     border-radius: 5px; /* 버튼 모서리를 둥글게 */
@@ -93,6 +120,10 @@
     opacity: 0.8;
     border-color: #355F83;
 }
+
+
+
+
 
 a {
     padding: 10px;
