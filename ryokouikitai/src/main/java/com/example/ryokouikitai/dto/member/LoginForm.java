@@ -1,4 +1,4 @@
-package com.example.ryokouikitai.domian.member;
+package com.example.ryokouikitai.dto.member;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

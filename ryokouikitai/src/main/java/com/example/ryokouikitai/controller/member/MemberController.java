@@ -1,7 +1,7 @@
 package com.example.ryokouikitai.controller.member;
 
-import com.example.ryokouikitai.domian.member.JoinForm;
-import com.example.ryokouikitai.domian.member.LoginForm;
+import com.example.ryokouikitai.dto.member.JoinForm;
+import com.example.ryokouikitai.dto.member.LoginForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
