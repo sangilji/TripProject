@@ -83,7 +83,7 @@
     border-color: #162336;
 }
 
-.login-form button:hover {
+.button-style:hover {
     width: 100%; /* 버튼의 너비를 폼에 맞춤 */
     height: 50px; /* 버튼 높이를 키움 */
     font-size: 18px; /* 버튼 글씨 크기를 키움 */

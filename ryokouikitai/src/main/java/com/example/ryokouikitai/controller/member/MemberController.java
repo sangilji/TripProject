@@ -3,11 +3,13 @@ package com.example.ryokouikitai.controller.member;
 import com.example.ryokouikitai.dto.member.JoinForm;
 import com.example.ryokouikitai.dto.member.LoginForm;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Controller
 @RequiredArgsConstructor
