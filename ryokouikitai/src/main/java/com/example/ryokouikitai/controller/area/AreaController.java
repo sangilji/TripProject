@@ -15,10 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AreaController {
 
 
-    @GetMapping("/{area_name}")
+    @GetMapping("/{area_name}/main-proc")
     public String login(Model model, @PathVariable("area_name") String area) {
         log.info(area);
         model.addAttribute("areaName",area);
-        return "area/MainProc";
+        return "area/mainProc";
+    }
+
+    @GetMapping("/{area_name}")
+    public String main(Model model, @PathVariable("area_name") String area) {
+        model.addAttribute("areaName",area);
+        return "area/main";
     }
 }

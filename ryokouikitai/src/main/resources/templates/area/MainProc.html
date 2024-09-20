@@ -76,10 +76,11 @@ ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
             opacity: 0.3;
         }
     </style>
-    <script>
+    <script th:inline="javascript">
         // 3초 후 페이지 이동
         setTimeout(function() {
-            window.location.href = '/members/login'; // 이동할 페이지 URL
+            var area = [[${areaName}]];
+            window.location.href = `/area/${area}`; // 이동할 페이지 URL
         }, 3000); // 3000ms = 3초
     </script>
 </head>
