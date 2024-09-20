@@ -33,4 +33,9 @@ public class MemberController {
         model.addAttribute("joinForm", new JoinForm());
         return "members/join";
     }
+    @GetMapping("/mypage")
+    public String join(){
+
+        return "members/mypage";
+    }
 }
