@@ -23,7 +23,7 @@
     position: absolute;
     top: 8%;
     left: 5%;
-    width: 245px;
+    width: 180px;
     height: 500px;
 
     border: 1px solid #FFFFFF;
@@ -59,16 +59,15 @@
 
     box-sizing: border-box;
 
-    width: 150.16px;
-    height: 137.38px;
+    width: 150px;
+    height: 130px;
     left: 442px;
     top: 466.28px;
 
     border: 1px solid #FFFFFF;
     border-radius: 10px;
-
     margin-top: 20px;
-    color: white;
+    color: #ffffff;
     font-size: 15px;
     padding: 15px;
 }
@@ -79,7 +78,7 @@
     top: 8%;
     right: 5%;
     position: absolute;
-    width: 393px;
+    width: 450px;
     height: 500px;
 
     display: flex;
@@ -102,7 +101,7 @@
 .join-form .form-group {
     margin-bottom: 10px; /* 각 필드 간의 간격을 넓힘 */
     margin-top: 10px; /* 각 필드 간의 간격을 넓힘 */
-    margin-left: 110px;
+    margin-left: 80px;
 }
 
 .duplicated label {
@@ -116,21 +115,17 @@
 .duplicated button {
     margin-top: 0;
     margin-bottom: 3px;
-    margin-left: 15px;
+    margin-left: 5px;
     font-size: 16px;
     inline-size: fit-content;
     border-radius: 10px;
 }
 
 .duplicated button:hover {
-    /*width: 100%; !* 버튼의 너비를 폼에 맞춤 *!*/
-    /*height: 50px; !* 버튼 높이를 키움 *!*/
     font-size: 16px; /* 버튼 글씨 크기를 키움 */
-    /*margin-top: 10px; !* 버튼 간의 간격 추가 *!*/
     margin-bottom: 3px;
     border-radius: 10px; /* 버튼 모서리를 둥글게 */
     background-color: #424C6E;
-    /*opacity: 0.8;*/
     border-color: #424C6E;
 }
 
@@ -141,7 +136,7 @@
 }
 
 .join-form input {
-    width: 55%; /* 입력 필드 너비를 폼에 맞춤 */
+    width: 60%; /* 입력 필드 너비를 폼에 맞춤 */
     height: 35px; /* 입력 필드의 높이를 키움 */
     padding: 10px; /* 입력 필드 내부 여백을 추가 */
     font-size: 15px; /* 입력 글씨 크기를 키움 */
@@ -150,7 +145,7 @@
 }
 
 .button-style {
-    width: 70%; /* 버튼의 너비를 폼에 맞춤 */
+    width: 80%; /* 버튼의 너비를 폼에 맞춤 */
     height: 40px; /* 버튼 높이를 키움 */
     font-size: 18px; /* 버튼 글씨 크기를 키움 */
     margin-top: 10px; /* 버튼 간의 간격 추가 */
@@ -161,13 +156,12 @@
 }
 
 .login-button:hover {
-    width: 70%; /* 버튼의 너비를 폼에 맞춤 */
+    width: 60%; /* 버튼의 너비를 폼에 맞춤 */
     height: 40px; /* 버튼 높이를 키움 */
     font-size: 18px; /* 버튼 글씨 크기를 키움 */
     margin-top: 10px; /* 버튼 간의 간격 추가 */
     border-radius: 5px; /* 버튼 모서리를 둥글게 */
     background-color: #424C6E;
-    /*opacity: 0.8;*/
     border-color: #424C6E;
 }
 
@@ -175,7 +169,7 @@
     all:unset;
     width: 60px;
     height: 25px;
-    margin-left: 45%;
+    margin-left: 51%;
     font-size: 13px;
     border-radius: 15px;
     color:#2C2C2C;
@@ -190,7 +184,7 @@
     all:unset;
     width: 60px;
     height: 25px;
-    margin-left: 45%;
+    margin-left: 51%;
     font-size: 13px;
     border-radius: 15px;
     color:white;
@@ -205,7 +199,7 @@
     border-top: 0.1em solid white;
     border-bottom: 20px;
     margin-bottom: 10px;
-    width: 300px;
+    width: 350px;
 }
 
 .table-header {
@@ -253,30 +247,30 @@ a {
 /*버튼*/
 .selected-btn1 {
     position: absolute;
-    top: -7.8%;
+    margin-top: -5.2%;
     left: 4%;
 }
 
 .selected-btn2 {
     position: absolute;
-    top: -7.8%;
+    margin-top: -5.2%;
     left: 19%;
 }
 
 .selected-btn3 {
     position: absolute;
-    top: -7.8%;
+    margin-top: -5.2%;
     left: 27.5%;
 }
 
 .selected-btn4 {
     position: absolute;
-    top: -7.8%;
+    margin-top: -5.2%;
     left: 38.6%;
 }
 
 .selected-btn5 {
     position: absolute;
-    top: -7.8%;
+    margin-top: -5.2%;
     left: 48.2%;
 }
