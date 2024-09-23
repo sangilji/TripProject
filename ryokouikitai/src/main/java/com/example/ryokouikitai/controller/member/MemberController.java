@@ -19,7 +19,6 @@ public class MemberController {
         model.addAttribute("loginForm",new LoginForm());
         return "members/login";
     }
-
     @PostMapping("/login")
     public String login(LoginForm loginForm){
         System.out.println("loginForm.getId() = " + loginForm.getId());
@@ -30,5 +29,30 @@ public class MemberController {
     public String join(Model model){
         model.addAttribute("joinForm", new JoinForm());
         return "members/join";
+    }
+    @GetMapping("/mypage")
+    public String mypage(){
+
+        return "members/mypage";
+    }
+    @GetMapping("/mypage2")
+    public String mypage2(){
+
+        return "members/mypage2";
+    }
+    @GetMapping("/mypage3")
+    public String mypage3(){
+
+        return "members/mypage3";
+    }
+    @GetMapping("/mypage4")
+    public String mypage4(){
+
+        return "members/mypage4";
+    }
+    @GetMapping("/mypage5")
+    public String mypage5(){
+
+        return "members/mypage5";
     }
 }
