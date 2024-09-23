@@ -8,15 +8,29 @@
 <head>
     <link rel="stylesheet" href="/css/members/mypage.css">
     <title>마이페이지</title>
+    <script>
+        const person = [];
+        person.push({name: '소이치'});
+        person.push({name: '쌀밥킹'});
+        person.push({name: '금쪽이'});
+    </script>
 </head>
 <body th:style="'background-image: url(/img/bg.png);background-size: cover;overflow:hidden'">
 <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
 <div class="box">
-    <button class="selected-btn1 btn btn-primary unselected-btn-color" th:onclick="|location.href='@{/members/mypage}'|">개인정보수정</button>
-    <button class="selected-btn2 btn btn-primary unselected-btn-color" th:onclick="|location.href='@{/members/mypage2}'|">내 글</button>
-    <button class="selected-btn3 btn btn-primary unselected-btn-color" th:onclick="|location.href='@{/members/mypage3}'|">친구목록</button>
-    <button class="selected-btn4 btn btn-primary selected-btn-color">포인트</button>
-    <button class="selected-btn5 btn btn-primary unselected-btn-color" th:onclick="|location.href='@{/members/mypage5}'|">저장된 내역</button>
+    <button class="selected-btn1 btn btn-primary unselected-btn-color"
+            th:onclick="|location.href='@{/members/mypage}'|">개인정보수정
+    </button>
+    <button class="selected-btn2 btn btn-primary unselected-btn-color"
+            th:onclick="|location.href='@{/members/mypage2}'|">내 글
+    </button>
+    <button class="selected-btn3 btn btn-primary unselected-btn-color" th:onclick="|location.href='@{/members/mypage3}'|">친구목록
+    </button>
+    <button class="selected-btn4 btn btn-primary selected-btn-color">포인트
+    </button>
+    <button class="selected-btn5 btn btn-primary unselected-btn-color"
+            th:onclick="|location.href='@{/members/mypage5}'|">저장된 내역
+    </button>
     <div class="left-box">
         <div class="theme"><p th:style="'margin-top:2px'">감성</p></div>
         <div><img src="/img/profile.jpg" class="profile"></div>
@@ -27,34 +41,36 @@
         </div>
         <!--        <div class="profile-textarea" th:style="'margin-top:20px; color: white'" th:text="${member.introduce}">안녕! 우리 친하게 지내자</div>-->
     </div>
+
+
     <div class="right-box">
         <div class="join-form">
-            <div role="form" action="/api/members/login" method="post">
-                <div class="form-group duplicated">
-                    <label th:for="passwordCheck">NICKNAME</label>
-                    <input type="text" class="form-control"
-                           placeholder="닉네임을 입력하세요">
-                    <button type="button" class="button-style btn btn-primary">중복확인</button>
-                </div>
-                <div class="form-group">
-                    <label th:for="password">PASSWORD</label>
-                    <input type="password" class="form-control"
-                           placeholder="비밀번호를 입력하세요">
-                </div>
-                <div class="form-group">
-                    <label th:for="passwordCheck">PASSWORD 확인</label>
-                    <input type="password" class="form-control"
-                           placeholder="비밀번호를 확인">
+            <div class="form-group">
+                <div>
+                    <div class="archive">포인트
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label th:for="passwordCheck">테마</label>
-                    <input type="text" class="form-control"
-                           placeholder="이메일을 입력하세요">
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="login-button button-style btn btn-primary">수정하기</button>
-                </div>
+                <table class="table line">
+                    <tr class="table-header">
+                        <td class="num">01</td>
+                        <td class="title">글작성</td>
+                        <td>+30pt</td>
+                        <td>2024.09.17</td>
+                    </tr>
+                    <tr class="table-header">
+                        <td class="num">02</td>
+                        <td class="title">상품 구매</td>
+                        <td>-5,000pt</td>
+                        <td>2024.09.17</td>
+                    </tr>
+                    <tr class="table-header">
+                        <td class="num">03</td>
+                        <td class="title">베스트글</td>
+                        <td>+2,000pt</td>
+                        <td>2024.09.17</td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>

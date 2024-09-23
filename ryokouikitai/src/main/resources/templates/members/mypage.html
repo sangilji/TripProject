@@ -12,11 +12,19 @@
 <body th:style="'background-image: url(/img/bg.png);background-size: cover;overflow:hidden'">
 <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
 <div class="box">
-    <button class="selected-btn1 btn btn-primary selected-btn-color" >개인정보수정</button>
-    <button class="selected-btn2 btn btn-primary unselected-btn-color" th:onclick="|location.href='@{/members/mypage2}'|" >내 글</button>
-    <button class="selected-btn3 btn btn-primary unselected-btn-color" th:onclick="|location.href='@{/members/mypage3}'|">친구목록</button>
-    <button class="selected-btn4 btn btn-primary unselected-btn-color" th:onclick="|location.href='@{/members/mypage4}'|">포인트</button>
-    <button class="selected-btn5 btn btn-primary unselected-btn-color" th:onclick="|location.href='@{/members/mypage5}'|">저장된 내역</button>
+    <button class="selected-btn1 btn btn-primary selected-btn-color">개인정보수정</button>
+    <button class="selected-btn2 btn btn-primary unselected-btn-color"
+            th:onclick="|location.href='@{/members/mypage2}'|">내 글
+    </button>
+    <button class="selected-btn3 btn btn-primary unselected-btn-color"
+            th:onclick="|location.href='@{/members/mypage3}'|">친구목록
+    </button>
+    <button class="selected-btn4 btn btn-primary unselected-btn-color"
+            th:onclick="|location.href='@{/members/mypage4}'|">포인트
+    </button>
+    <button class="selected-btn5 btn btn-primary unselected-btn-color"
+            th:onclick="|location.href='@{/members/mypage5}'|">저장된 내역
+    </button>
     <div class="left-box">
         <div class="theme"><p th:style="'margin-top:2px'">감성</p></div>
         <div><img src="/img/profile.jpg" class="profile"></div>

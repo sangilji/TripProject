@@ -58,18 +58,10 @@
                     <th:block th:each="i : ${#numbers.sequence(1,3)}">
                         <tr class="table-header">
                             <td class="num" th:text="'0'+${i}">01</td>
-                            <td class="title" >소이치</td>
-                            <td><input type="checkbox"></td>
+                            <td class="title" th:style="'margin-left:30%'" >소이치</td>
+                            <td><input type="checkbox" th:style="'background: #424C6E; width: 20px; height: 20px; margin-left:70%' "></td>
                         </tr>
                     </th:block>
-                    <tr class="table-header">
-                        <td class="num">02</td>
-                        <td class="title">쌀밥킹</td>
-                    </tr>
-                    <tr class="table-header">
-                        <td class="num">03</td>
-                        <td class="title">금쪽이</td>
-                    </tr>
                 </table>
             </div>
         </div>
