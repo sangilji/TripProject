@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/css/members/mypage.css">
     <title>마이페이지</title>
 </head>
+</head>
 <body th:style="'background-image: url(/img/bg.png);background-size: cover;overflow:hidden'">
 <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
 <div class="box">
@@ -42,7 +43,7 @@
                     <label th:for="passwordCheck">NICKNAME</label>
                     <input type="text" class="form-control"
                            placeholder="닉네임을 입력하세요">
-                    <button type="button" class="button-style btn btn-primary">중복확인</button>
+                    <button type="button" class="button-style btn btn-primary" th:style="'position: relative;left: 30px;'">중복확인</button>
                 </div>
                 <div class="form-group">
                     <label th:for="password">PASSWORD</label>
