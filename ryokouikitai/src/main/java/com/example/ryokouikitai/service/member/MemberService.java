@@ -2,9 +2,12 @@ package com.example.ryokouikitai.service.member;
 
 import com.example.ryokouikitai.domain.member.Member;
 import com.example.ryokouikitai.dto.member.JoinForm;
+import com.example.ryokouikitai.dto.member.LoginForm;
 import com.example.ryokouikitai.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,5 +33,13 @@ public class MemberService {
                 .theme(joinForm.getTheme())
                 .build();
         memberRepository.save(member);
+    }
+
+    public Member login(LoginForm loginForm) {
+        Optional<Member> member = memberRepository.findByUserIdAndPassword(loginForm.getId(), loginForm.getPassword());
+        if (!member.isPresent()) {
+            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+        }
+        return member.get();
     }
 }

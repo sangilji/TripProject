@@ -31,4 +31,12 @@ public class Member {
     private Double score = 0.0;
 
     private String theme;
+    public MemberInfo toMemberInfo() {
+        return MemberInfo.builder()
+                .id(id)
+                .userId(userId)
+                .nickname(nickname)
+                .theme(theme)
+                .build();
+    }
 }

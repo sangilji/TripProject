@@ -1,5 +1,7 @@
 package com.example.ryokouikitai.controller.member;
 
+import com.example.ryokouikitai.domain.member.Member;
+import com.example.ryokouikitai.domain.member.MemberInfo;
 import com.example.ryokouikitai.dto.member.JoinForm;
 import com.example.ryokouikitai.dto.member.LoginForm;
 import com.example.ryokouikitai.service.member.MemberService;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -30,10 +33,18 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String login(LoginForm loginForm) {
-        System.out.println("loginForm.getId() = " + loginForm.getId());
-        System.out.println("loginForm.getPassword() = " + loginForm.getPassword());
-        return "redirect:/members/login";
+    public String login(@Valid LoginForm loginForm, BindingResult result, HttpSession session) {
+            Member member;
+        try {
+            member = memberService.login(loginForm);
+            MemberInfo memberInfo = member.toMemberInfo();
+            session.setAttribute("memberInfo", memberInfo);
+        }catch (Exception e) {
+            result.addError(new FieldError("loginForm", "password", e.getMessage()));
+            return "members/login";
+        }
+
+        return "redirect:/area/tokyo/main-proc";
     }
 
     @GetMapping("/join")
