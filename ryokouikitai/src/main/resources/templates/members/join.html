@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <link rel="stylesheet" href="/css/bootstrap.min.css" integrity="sha384-
 ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -13,37 +14,108 @@ ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <title>Title</title>
+    <script>
+        var idCheck = false;
+        var nicknameC = false;
+
+        function loginIdCheck() {
+            const userId = $("#id").val();
+            console.log("로그인", userId);
+            $.ajax({
+                type: "post",
+                url: "/api/members/join/duplicated-id",
+                data: {"userId": userId},
+                dataType: "JSON",
+                success: function (result) {
+                    alert("사용 가능한 아이디입니다.");
+                    idCheck = true;
+                },
+                error: function (request, status, error) {
+                    alert("중복된 아이디입니다.");
+                }
+            });
+        }
+
+        function nicknameCheck() {
+            const nickname = $("#email").val();
+            console.log("로그인", nickname);
+            $.ajax({
+                type: "post",
+                url: "/api/members/join/duplicated-nickname",
+                data: {"nickname": nickname},
+                dataType: "JSON",
+                success: function (result) {
+                    alert("사용 가능한 닉네임입니다.");
+                    nicknameC = true;
+                },
+                error: function (request, status, error) {
+                    alert("중복된 닉네임입니다.");
+                }
+            });
+        }
+
+        function join() {
+            if (!idCheck) {
+                alert("ID 중복확인을 해야 합니다.");
+                return false;
+            }
+            if (!nicknameC) {
+                alert("NICKNAME 중복확인을 해야 합니다.");
+                return false;
+            }
+            return true;
+        }
+    </script>
+    <style>
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
 </head>
 <body th:style="'background-image: url(/img/21.png);background-size: cover;overflow:hidden'">
 <div class="container">
     <!--    <div th:replace="fragments/bodyHeader :: bodyHeader"/>-->
     <div class="join-form">
-        <form role="form" action="/api/members/login" th:object="${joinForm}" method="post">
+        <h1 align="center">회원가입</h1>
+        <form role="form" action="/members/join" th:object="${joinForm}" onsubmit="return join()" method="post">
             <div class="form-group duplicated">
                 <label th:for="name">ID</label>
                 <input type="text" th:field="*{id}" class="form-control" placeholder="ID를 입력하세요">
-                <button type="button" class="button-style btn btn-primary">중복확인</button>
+                <button type="button" class="button-style btn btn-primary" onclick="loginIdCheck()">중복확인</button>
             </div>
             <div class="form-group">
                 <label th:for="password">PASSWORD</label>
-                <input type="password" th:field="*{password}" class="form-control"
+                <input type="password" th:field="*{password}" class="form-control" th:errorclass="field-error"
                        placeholder="비밀번호를 입력하세요">
+
             </div>
             <div class="form-group">
                 <label th:for="passwordCheck">PASSWORD 확인</label>
                 <input type="password" th:field="*{passwordCheck}" class="form-control"
                        placeholder="비밀번호를 확인">
+                <div class="field-error" th:errors="*{passwordCheck}" ></div>
             </div>
             <div class="form-group duplicated">
                 <label th:for="passwordCheck">NICKNAME</label>
                 <input type="text" th:field="*{nickname}" class="form-control"
                        placeholder="닉네임을 입력하세요">
-                <button type="button" class="button-style btn btn-primary">중복확인</button>
+                <button type="button" class="button-style btn btn-primary" onclick="nicknameCheck()">중복확인</button>
             </div>
             <div class="form-group">
                 <label th:for="passwordCheck">EMAIL</label>
                 <input type="text" th:field="*{email}" class="form-control"
                        placeholder="이메일을 입력하세요">
+            </div>
+            <div class="form-group">
+                <label th:for="theme">테마</label>
+                <select name="theme" id="theme" class="form-select select-style">
+                    <option value="food">식도락</option>
+                    <option value="emotion">감성</option>
+                    <option value="shopping">쇼핑</option>
+                    <option value="activity">액티비티</option>
+                    <option value="tourism">관광</option>
+                </select>
             </div>
             <div class="form-group">
                 <button type="submit" class="login-button button-style btn btn-primary">회원가입</button>

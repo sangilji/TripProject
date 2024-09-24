@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+</head>
+<head>
+    <link rel="stylesheet" href="/css/store/store.css">
+</head>
+<body th:style="'background-image: url(/img/bg.png);background-size: cover;'">
+<div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+<div class="container">
+    <div class="box-group">
+        <div class="box">
+            <div>
+                <button>전체보기</button>
+                <button>상품권 교환권</button>
+                <button>커피 교환권</button>
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="검색어를 입력하세요">
+                    <button class="search-btn"><img src="/img/search.png"></button>
+                </div>
+            </div><!-- button, 검색 그룹 -->
+            <div></div><!-- 아이템 -->
+        </div>
+    </div>
+</div>
+</body>
+</html>
