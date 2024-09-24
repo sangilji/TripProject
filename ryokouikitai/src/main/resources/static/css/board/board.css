@@ -3,7 +3,7 @@
     box-sizing: border-box;
 
     position: absolute;
-    width: 1200px;
+    width: 739px;
     height: 600px;
     margin-top: 120px;
     background: conic-gradient(from 90deg at 50% 50%, rgba(36, 59, 85, 0.6) -27deg, rgba(20, 30, 48, 0.6) 90deg, rgba(28, 45, 67, 0.6) 203.4deg, rgba(36, 59, 85, 0.6) 333deg, rgba(20, 30, 48, 0.6) 450deg);
@@ -23,7 +23,7 @@
     position: absolute;
     top: 8%;
     left: 5%;
-    width: 280px;
+    width: 150px;
     height: 500px;
 
     border: 1px solid #FFFFFF;
@@ -78,12 +78,12 @@
     top: 8%;
     right: 5%;
     position: absolute;
-    width: 750px;
+    width: 480px;
     height: 500px;
 
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 
     border: 1px solid #FFFFFF;
     border-radius: 15px;
@@ -94,14 +94,14 @@
 .join-form {
     position: relative;
     z-index: 1;
-    width: 580px;
+    width: 550px;
     padding: 20px;
 }
 
 .join-form .form-group {
     margin-bottom: 10px; /* 각 필드 간의 간격을 넓힘 */
-    margin-top: 20px; /* 각 필드 간의 간격을 넓힘 */
-    margin-left: -5%;
+    margin-top: 10px; /* 각 필드 간의 간격을 넓힘 */
+    margin-left: 65px;
 }
 
 .duplicated label {
@@ -115,7 +115,7 @@
 .duplicated button {
     margin-top: 0;
     margin-bottom: 3px;
-    /*margin-left: 5px;*/
+    margin-left: 5px;
     font-size: 16px;
     inline-size: fit-content;
     border-radius: 10px;
@@ -136,7 +136,7 @@
 }
 
 .join-form input {
-    width: 85%; /* 입력 필드 너비를 폼에 맞춤 */
+    width: 60%; /* 입력 필드 너비를 폼에 맞춤 */
     height: 35px; /* 입력 필드의 높이를 키움 */
     padding: 10px; /* 입력 필드 내부 여백을 추가 */
     font-size: 15px; /* 입력 글씨 크기를 키움 */
@@ -145,11 +145,10 @@
 }
 
 .button-style {
-    width: 105%; /* 버튼의 너비를 폼에 맞춤 */
+    width: 80%; /* 버튼의 너비를 폼에 맞춤 */
     height: 40px; /* 버튼 높이를 키움 */
     font-size: 18px; /* 버튼 글씨 크기를 키움 */
     margin-top: 10px; /* 버튼 간의 간격 추가 */
-
     border-radius: 5px; /* 버튼 모서리를 둥글게 */
     background-color: #D9D9D9;
     color: #2C2C2C;
@@ -157,7 +156,7 @@
 }
 
 .login-button:hover {
-    width: 105%; /* 버튼의 너비를 폼에 맞춤 */
+    width: 60%; /* 버튼의 너비를 폼에 맞춤 */
     height: 40px; /* 버튼 높이를 키움 */
     font-size: 18px; /* 버튼 글씨 크기를 키움 */
     margin-top: 10px; /* 버튼 간의 간격 추가 */
@@ -166,44 +165,41 @@
     border-color: #424C6E;
 }
 
-.delete-btn {
-    all: unset;
+.write-btn {
+    all:unset;
     width: 60px;
     height: 25px;
-    position: relative;
-    left: 455px;
+    margin-left: 52%;
     font-size: 13px;
     border-radius: 15px;
-    color: #2C2C2C;
-    background-color: #D9D9D9;
+    color:#2C2C2C;
+    background-color:#D9D9D9 ;
     border-color: #D9D9D9;
     text-align: center;
     position: relative;
-    bottom: 5px;
+    bottom:5px;
 }
 
-.delete-btn:hover {
-    all: unset;
+.write-btn:hover {
+    all:unset;
     width: 60px;
     height: 25px;
-    position: relative;
-    left: 455px;
+    margin-left: 52%;
     font-size: 13px;
     border-radius: 15px;
-    color: white;
-    background-color: #424C6E;
+    color:white;
+    background-color:#424C6E ;
     border-color: #424C6E;
     text-align: center;
     position: relative;
-    bottom: 5px;
+    bottom:5px;
 }
 
 .line {
     border-top: 0.1em solid white;
     border-bottom: 20px;
     margin-bottom: 10px;
-    width: 600px;
-    width: 600px;
+    width: 380px;
 }
 
 .table-header {
@@ -251,43 +247,18 @@ a {
 /*버튼*/
 .selected-btn1 {
     position: absolute;
-    margin-top: -3.2%;
-    left: 4%;
+    margin-top: -5.2%;
+    margin-left: 4%;
 }
 
 .selected-btn2 {
     position: absolute;
-    margin-top: -3.2%;
-    left: 14%;
+    margin-top: -5.2%;
+    margin-left: 18%;
 }
 
 .selected-btn3 {
     position: absolute;
-    margin-top: -3.2%;
-    left: 20%;
-}
-
-.selected-btn4 {
-    position: absolute;
-    margin-top: -3.2%;
-    left: 27.5%;
-}
-
-.selected-btn5 {
-    position: absolute;
-    margin-top: -3.2%;
-    left: 34%;
-}
-
-.num {
-    width: 20%;
-}
-
-.title {
-    width: 50%;
-    text-overflow:ellipsis;
-}
-
-.calendar {
-    width: 30%;
+    margin-top: -5.2%;
+    margin-left: 30%;
 }
