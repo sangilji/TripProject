@@ -4,9 +4,13 @@
 }
 
 div.headerTop {
+    background-image: url(/img/bg.png);
+    background-size: cover;
+
     position: fixed;
     top: 0;
     width: 100%;
+    z-index: 1;
 }
 
 /* 검색창 스타일 */
