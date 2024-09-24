@@ -31,7 +31,6 @@ public class MemberController {
         model.addAttribute("loginForm", new LoginForm());
         return "members/login";
     }
-
     @PostMapping("/login")
     public String login(@Valid LoginForm loginForm, BindingResult result, HttpSession session) {
             Member member;
@@ -70,8 +69,28 @@ public class MemberController {
     }
 
     @GetMapping("/mypage")
-    public String join() {
+    public String mypage(){
 
         return "members/mypage";
+    }
+    @GetMapping("/mypage2")
+    public String mypage2(){
+
+        return "members/mypage2";
+    }
+    @GetMapping("/mypage3")
+    public String mypage3(){
+
+        return "members/mypage3";
+    }
+    @GetMapping("/mypage4")
+    public String mypage4(){
+
+        return "members/mypage4";
+    }
+    @GetMapping("/mypage5")
+    public String mypage5(){
+
+        return "members/mypage5";
     }
 }
