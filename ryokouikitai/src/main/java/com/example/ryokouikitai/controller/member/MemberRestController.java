@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/members")
@@ -39,5 +41,11 @@ public class MemberRestController {
             return BaseResponse.fail("중복된 이메일", 400);
         }
         return BaseResponse.ok(HttpStatus.OK,"사용가능한 이메일입니다.");
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpSession session) {
+        session.invalidate();
+        return BaseResponse.ok(HttpStatus.OK,"로그아웃");
     }
 }
