@@ -4,6 +4,12 @@
 </head>
 <head>
     <link rel="stylesheet" href="/css/login.css">
+    <style>
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
 </head>
 <body th:style="'background-image: url(/img/21.png);background-size: cover;overflow:hidden'">
 <div class="container">
@@ -17,6 +23,7 @@
                 <label th:for="password">PASSWORD</label>
                 <input type="password" th:field="*{password}" class="form-control"
                        placeholder="비밀번호를 입력하세요">
+                <div class="field-error" th:errors="*{password}" ></div>
             </div>
             <button type="submit" class="button-style btn btn-primary">로그인</button>
             <a class="form-group" href="#">forgot password?</a>
