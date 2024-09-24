@@ -1,0 +1,32 @@
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.box-group {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: 100px;
+}
+.box {
+    box-sizing: border-box;
+    position: relative;
+    display: inherit;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 1000px;
+    height: 550px;
+
+    background: conic-gradient(from 90deg at 50% 50%, rgba(36, 59, 85, 0.6) -27deg, rgba(20, 30, 48, 0.6) 90deg, rgba(28, 45, 67, 0.6) 203.4deg, rgba(36, 59, 85, 0.6) 333deg, rgba(20, 30, 48, 0.6) 450deg);
+    border-width: 1px 5px 5px 1px;
+    border-style: solid;
+    border-color: #2C2C2C;
+    border-radius: 30px;
+    margin: 30px;
+}

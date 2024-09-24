@@ -121,14 +121,14 @@ html, body {
     border-color: #355F83;
 }
 
-
-
-
-
 a {
     padding: 10px;
     color: black;
     display: flex;
+}
+
+.select-style{
+    width: 70%;
 }
 
 

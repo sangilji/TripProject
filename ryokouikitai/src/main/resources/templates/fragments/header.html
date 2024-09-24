@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="header">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="/css/bootstrap.min.css" integrity="sha384-
 ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
     crossorigin="anonymous">
@@ -12,7 +13,24 @@ ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
     <meta charset="UTF-8">
     <link rel="stylesheet"  href="/css/fragments/header.css">
     <link rel="stylesheet"  href="/css/fragments/bodyHeader.css">
-        <title>りょこういきたい</title>
+    <title>りょこういきたい</title>
+    <script>
+        function logout() {
+            console.log('logout')
+            $.ajax({
+                type: "post",
+                url: "/api/members/logout",
+                data: {},
+                dataType: "JSON",
+                success: function (result) {
+                    location.href='/members/login';
+                },
+                error: function (request, status, error) {
+                    alert("중복된 아이디입니다.");
+                }
+            });
+        }
+    </script>
 </head>
 
 </html>
