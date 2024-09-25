@@ -1,0 +1,337 @@
+.box {
+    box-sizing: border-box;
+    position: relative;
+    top: 300px;
+    width: 1200px;
+    height: 1200px;
+    margin-top: 120px;
+    background: conic-gradient(from 90deg at 50% 50%, rgba(36, 59, 85, 0.6) -27deg, rgba(20, 30, 48, 0.6) 90deg, rgba(28, 45, 67, 0.6) 203.4deg, rgba(36, 59, 85, 0.6) 333deg, rgba(20, 30, 48, 0.6) 450deg);
+    border-width: 1px 5px 5px 1px;
+    border-style: solid;
+    border-color: #2C2C2C;
+    border-radius: 30px;
+}
+
+/*왼쪽 박스*/
+.left-box {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+
+    margin-top: 95px;
+    margin-left: 50px;
+    width: 280px;
+    height: 500px;
+
+    border: 1px solid #FFFFFF;
+    border-radius: 15px;
+
+}
+
+.theme {
+    width: 50px;
+    height: 20px;
+    top: 10%;
+    margin-top: 50px;
+    text-align: center;
+    justify-content: center;
+    font-size: 13px;
+    color: white;
+
+    background: #424C6E;
+    border-radius: 10px;
+
+}
+
+.profile {
+    width: 60px;
+    height: 60px;
+    margin-top: 20px;
+    border-radius: 100%;
+    left: 40%;
+    top: 20%;
+}
+
+.left-button-group {
+    margin-top: 5px;
+    padding: 15px;
+}
+
+.button-style {
+    width: 105%; /* 버튼의 너비를 폼에 맞춤 */
+    height: 40px; /* 버튼 높이를 키움 */
+    font-size: 18px; /* 버튼 글씨 크기를 키움 */
+    margin-top: 10px; /* 버튼 간의 간격 추가 */
+
+    border-radius: 5px; /* 버튼 모서리를 둥글게 */
+    background-color: #D9D9D9;
+    color: #2C2C2C;
+    border-color: #D9D9D9;
+}
+
+/*오른쪽 박스*/
+.right-box {
+    box-sizing: border-box;
+    top: 8%;
+    right: 5%;
+    position: absolute;
+    width: 750px;
+    height: 1000px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    border: 1px solid #FFFFFF;
+    border-radius: 15px;
+
+}
+
+.detail-form {
+    position: relative;
+    /*z-index: 1;*/
+    width: 580px;
+    padding: 20px;
+}
+
+.detail-form .form-group {
+    margin-bottom: 10px; /* 각 필드 간의 간격을 넓힘 */
+    margin-top: 20px; /* 각 필드 간의 간격을 넓힘 */
+    /*margin-left: -5%;*/
+}
+
+.detail-form label {
+    font-size: 15px; /* 레이블의 글씨 크기를 키움 */
+    /*margin-bottom: 5px;*/
+    color: white;
+}
+
+.detail-form input {
+    width: 550px; /* 입력 필드 너비를 폼에 맞춤 */
+    height: 50px; /* 입력 필드의 높이를 키움 */
+    /*padding: 10px; !* 입력 필드 내부 여백을 추가 *!*/
+    font-size: 15px; /* 입력 글씨 크기를 키움 */
+    /*border-radius: 5px; !* 입력 필드 모서리를 둥글게 *!*/
+    border: 1px solid #ccc; /* 입력 필드의 테두리 */
+}
+
+.board {
+    display: flex;
+    justify-content: center;
+}
+
+.archive {
+    color: white;
+    font-size: 20px;
+}
+
+.square2 {
+    border: 1px solid #FFFFFF;
+    width: 600px;
+    height: 350px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.write-btn-detail {
+    all: unset;
+    width: 60px;
+    height: 25px;
+    /*position: relative;*/
+    /*left: 350px;*/
+    /*top: 80px;*/
+    font-size: 13px;
+    border-radius: 15px;
+    margin-left: 5px;
+    color: #2C2C2C;
+    background-color: #D9D9D9;
+    border-color: #D9D9D9;
+    text-align: center;
+    bottom: 5px;
+}
+
+.write-btn-detail:hover {
+    all: unset;
+    width: 60px;
+    height: 25px;
+    /*position: relative;*/
+    /*left: 350px;*/
+    /*top: 80px;*/
+    font-size: 13px;
+    border-radius: 15px;
+    margin-left: 5px;
+    color: #ffffff;
+    background-color: #424C6E;
+    border-color: #424C6E;
+    text-align: center;
+    bottom: 5px;
+}
+
+.mid-group {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.title-detail {
+    /*width: 50%;*/
+    text-overflow: ellipsis;
+    /*margin-top: 30px;*/
+    font-size: 23px;
+
+}
+
+.time {
+    font-size: 12px;
+}
+
+.profile-box-in-detail {
+    display: flex;
+    align-items: flex-start;
+    /*margin-top: 60px;*/
+    position: relative;
+    justify-content: space-between;
+    /*width: 540px;*/
+}
+
+.profile-box-group {
+    display: flex;
+    flex-direction: row;
+}
+
+.profile-s-detail {
+    width: 55px;
+    height: 55px;
+    border-radius: 100%;
+    left: 40%;
+    top: 20%;
+}
+
+.theme-s {
+    width: 50px;
+    height: 20px;
+    top: 10%;
+    text-align: center;
+    justify-content: center;
+    font-size: 13px;
+    color: white;
+
+    background: #424C6E;
+    border-radius: 10px;
+}
+
+.content-detail {
+    width: 540px;
+    height: 50px;
+    font-size: 15px;
+    margin-top: 30px;
+    margin-bottom:30px;
+}
+
+.last{
+    display:flex;
+    justify-content: space-between;
+    width:100%;
+}
+
+.write-btn1 {
+    all: unset;
+    width: 60px;
+    height: 25px;
+    font-size: 13px;
+    border-radius: 15px;
+    color: #2C2C2C;
+    background-color: #D9D9D9;
+    border-color: #D9D9D9;
+    text-align: center;
+}
+
+.write-btn1:hover {
+    all: unset;
+    width: 60px;
+    height: 25px;
+    font-size: 13px;
+    border-radius: 15px;
+    color: white;
+    background-color: #424C6E;
+    border-color: #424C6E;
+    text-align: center;
+
+}
+
+.square3 {
+    border: 1px solid #FFFFFF;
+    width: 600px;
+    height: 120px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.profile-box-group-comment {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+}
+
+.profile-s-comment {
+    width: 45px;
+    height: 45px;
+    margin-top: 10px;
+}
+
+.comment{
+    margin-left:15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.comment-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-top:40px;
+}
+
+.comment-text{
+    border: #FFFFFF;
+    width: 600px;
+    /*margin-top: 20px;*/
+
+}
+
+.comment-btn:hover {
+    opacity: 0.5;
+
+}
+
+.comment-btn {
+    background-color: #ffffff;
+    cursor: pointer;
+    padding: 10px;
+    width: 50px;
+    height: 50px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
