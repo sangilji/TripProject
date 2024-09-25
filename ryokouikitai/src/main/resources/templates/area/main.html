@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<head>
+    <link rel="stylesheet" href="/css/area/area-main.css">
+</head>
+<body th:style="'background-image: url(/img/bg.png);background-size: cover;'">
+<div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+<div class="container">
+    <div class="box-group">
+        <div class="box">
+            <p th:text="${areaName.toUpperCase()}">메인</p>
+        </div>
+        <div>
+            <p>내 일정</p>
+            <div class="box" th:style="'margin-top:10px;'">
+            </div>
+        </div>
+        <div>
+            <div class="half">
+                <div>
+                    <p>날씨</p>
+                    <div class="half-box" th:style="'margin-top:10px;'"></div>
+                </div>
+                <div>
+                    <p>추천 컬러</p>
+                    <div class="half-box" th:style="'margin-top:10px;'">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="half">
+                <div>
+                    <p>지역톡</p>
+                    <div class="half-box" th:style="'margin-top:10px;'"></div>
+                </div>
+                <div>
+                    <p>여행지 추천</p>
+                    <div class="half-box" th:style="'margin-top:10px;'">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

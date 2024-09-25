@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" integrity="sha384-
+ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <!-- Custom styles for this template -->
+    <link href="/css/jumbotron-narrow.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: "Jua", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+
+        .text-overlay {
+            color: white;
+            font-size: 100px;
+            position: absolute;
+            top: 20%;
+            left: 45%;
+            transform: translate(-50%, -50%);
+            z-index: 1; /* 텍스트가 이미지 위에 오도록 설정 */
+        }
+
+        .text-overlay2 {
+            color: white;
+            font-size: 25px;
+            position: absolute;
+            top: 55%;
+            left: 40%;
+            transform: translate(-50%, -50%);
+            z-index: 1; /* 텍스트가 이미지 위에 오도록 설정 */
+        }
+
+        .text-overlay3 {
+            color: white;
+            font-size: 25px;
+            position: absolute;
+            top: 85%;
+            left: 40%;
+            transform: translate(-50%, -50%);
+            z-index: 1; /* 텍스트가 이미지 위에 오도록 설정 */
+        }
+
+        .line {
+            border-top: 0.1em solid white; /* 상단에 2픽셀 두께의 검은색 선 */
+            border-bottom: 20px;
+            margin-bottom: 10px;
+            width: 160px;
+
+        }
+
+        .area {
+            margin: 0;
+            font-size: 22px;
+        }
+        .background {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            background: #000000;
+            opacity: 0.3;
+        }
+    </style>
+    <script th:inline="javascript">
+        // 3초 후 페이지 이동
+        setTimeout(function() {
+            var area = [[${areaName}]];
+            window.location.href = `/area/${area}`; // 이동할 페이지 URL
+        }, 3000); // 3000ms = 3초
+    </script>
+</head>
+<body th:style="${areaName == 'tokyo' ? 'background-color:#77c6df;'
+                : (areaName == 'osaka' ? 'background-color:#010000;'
+                : (areaName == 'hukuoka' ? 'background-color:#e9cce9;'
+                : (areaName == 'hokkaido' ? 'background-color:#f9fbff;'
+                : (areaName == 'okinawa' ? 'background-color:#b7e8f8;'
+                : ''))))} + 'background-size: cover;overflow:hidden'">
+<div>
+    <img th:src="@{'/img/' + ${areaName} + '.png'}" alt="Background Image" th:style="'filter: brightness(0.7);'"/>
+    <div class="text-overlay">
+        <p th:if="${areaName}=='tokyo'">関<br>東</p>
+        <p th:if="${areaName}=='hukuoka'">九<br>州</p>
+        <p th:if="${areaName}=='okinawa'">沖<br>繩</p>
+        <p th:if="${areaName}=='osaka'">関<br>西</p>
+        <p th:if="${areaName}=='hokkaido'"><br>北<br>海<br>道</p>
+    </div>
+    <div class="text-overlay2">
+        <p th:style="'margin:0'">대표도시</p>
+        <div class="line"></div>
+        <div th:if="${areaName}=='tokyo'">
+            <p class="area">Tokyo</p>
+            <p class="area">Yokohama</p>
+            <p class="area">Kamakura</p>
+        </div>
+        <div th:if="${areaName}=='osaka'">
+            <p class="area">Osaka</p>
+            <p class="area">Kyoto</p>
+            <p class="area">Hiroshima</p>
+            <p class="area">Shikoku</p>
+        </div>
+        <div th:if="${areaName}=='hukuoka'">
+            <p class="area">Hakata</p>
+            <p class="area">Kumamoto</p>
+            <p class="area">Yufuin</p>
+        </div>
+        <div th:if="${areaName}=='hokkaido'">
+            <p class="area">Sapporo</p>
+        </div>
+        <div th:if="${areaName}=='okinawa'">
+            <p class="area">Okinawa</p>
+        </div>
+    </div>
+
+    <div class="text-overlay3">
+        <p th:style="'margin:0'">대표관광지</p>
+        <div class="line"></div>
+        <div th:if="${areaName}=='tokyo'">
+            <p class="area">Hujisan</p>
+            <p class="area">Hacone</p>
+            <p class="area">Gunma</p>
+        </div>
+        <div th:if="${areaName}=='osaka'">
+            <p class="area">USJ</p>
+            <p class="area">Osaka Castle</p>
+            <p class="area">Arashiyama</p>
+        </div>
+        <div th:if="${areaName}=='hukuoka'">
+            <p class="area">Fukuoka Tower</p>
+        </div>
+        <div th:if="${areaName}=='hokkaido'">
+            <p class="area">Biei</p>
+        </div>
+        <div th:if="${areaName}=='okinawa'">
+            <p class="area">American Village</p>
+            <p class="area">Aquarium</p>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
