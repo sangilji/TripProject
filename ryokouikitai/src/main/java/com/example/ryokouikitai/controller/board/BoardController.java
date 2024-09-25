@@ -13,15 +13,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 public class BoardController {
     @GetMapping("/board1")
-    public String getBoard1(){
+    public String getBoard1() {
         return "board/board1";
     }
+
     @GetMapping("/board2")
-    public String getBoard2(){
+    public String getBoard2() {
         return "board/board2";
     }
+
     @GetMapping("/board3")
-    public String getBoard3(){
+    public String getBoard3() {
         return "board/board3";
+    }
+
+    @GetMapping("/write")
+    public String getWriteBoard() {
+        return "board/write";
     }
 }
