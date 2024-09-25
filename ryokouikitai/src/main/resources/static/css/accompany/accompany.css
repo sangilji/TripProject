@@ -92,7 +92,7 @@
 }
 
 
-.join-form {
+.text-form {
     margin-top: 40px;
     /*z-index: 2;*/
     display: flex;
@@ -101,7 +101,7 @@
     flex-direction: column;
 }
 
-.join-form .form-group {
+.text-form .form-group {
     margin-bottom: 10px; /* 각 필드 간의 간격을 넓힘 */
     margin-top: 20px; /* 각 필드 간의 간격을 넓힘 */
     margin-left: -5%;
@@ -132,13 +132,13 @@
     border-color: #424C6E;
 }
 
-.join-form label {
+.text-form label {
     font-size: 15px; /* 레이블의 글씨 크기를 키움 */
     margin-bottom: 5px;
     color: white;
 }
 
-.join-form input {
+.text-form input {
     width: 88%; /* 입력 필드 너비를 폼에 맞춤 */
     height: 35px; /* 입력 필드의 높이를 키움 */
     padding: 10px; /* 입력 필드 내부 여백을 추가 */
@@ -308,4 +308,41 @@ a {
     margin: 0 32px;
     margin-top: 10px;
     width: 100%;
+}
+
+.square-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.note-editor {
+    width: 600px;
+    margin-top: 30px;
+}
+
+.note-statusbar{
+    content-visibility: hidden;
+}
+
+.write-btn {
+    all: unset;
+    width: 60px;
+    height: 25px;
+    font-size: 13px;
+    border-radius: 15px;
+    color: #2C2C2C;
+    background-color: #d9d9d9;
+    border-color: #d9d9d9;
+    text-align: center;
+
+    margin-top: 20px;
+
+}
+
+.btn-group1 {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
 }
