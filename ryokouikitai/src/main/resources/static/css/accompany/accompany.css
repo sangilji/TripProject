@@ -1,0 +1,311 @@
+
+.box {
+    box-sizing: border-box;
+    position: relative;
+    top:300px;
+    width: 1200px;
+    height: 1200px;
+    margin-top: 120px;
+    background: conic-gradient(from 90deg at 50% 50%, rgba(36, 59, 85, 0.6) -27deg, rgba(20, 30, 48, 0.6) 90deg, rgba(28, 45, 67, 0.6) 203.4deg, rgba(36, 59, 85, 0.6) 333deg, rgba(20, 30, 48, 0.6) 450deg);
+    border-width: 1px 5px 5px 1px;
+    border-style: solid;
+    border-color: #2C2C2C;
+    border-radius: 30px;
+}
+
+/*왼쪽 박스*/
+.left-box {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+
+    margin-top: 95px;
+    margin-left: 50px;
+    width: 280px;
+    height: 500px;
+
+    border: 1px solid #FFFFFF;
+    border-radius: 15px;
+
+}
+
+.theme {
+    width: 50px;
+    height: 20px;
+    top: 10%;
+    margin-top: 50px;
+    text-align: center;
+    justify-content: center;
+    font-size: 13px;
+    color: white;
+
+    background: #424C6E;
+    border-radius: 10px;
+
+}
+
+.profile {
+    width: 60px;
+    height: 60px;
+    margin-top: 20px;
+    border-radius: 100%;
+    left: 40%;
+    top: 20%;
+}
+
+.profile-textarea {
+
+    box-sizing: border-box;
+
+    width: 150px;
+    height: 130px;
+    left: 442px;
+    top: 466.28px;
+
+    border: 1px solid #FFFFFF;
+    border-radius: 10px;
+    margin-top: 20px;
+    color: #ffffff;
+    font-size: 15px;
+    padding: 15px;
+}
+
+/*오른쪽 박스*/
+.right-box {
+    box-sizing: border-box;
+    top: 8%;
+    right: 5%;
+    position: absolute;
+    width: 750px;
+    height: 1000px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    border: 1px solid #FFFFFF;
+    border-radius: 15px;
+
+}
+
+
+.join-form {
+    margin-top: 40px;
+    /*z-index: 2;*/
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.join-form .form-group {
+    margin-bottom: 10px; /* 각 필드 간의 간격을 넓힘 */
+    margin-top: 20px; /* 각 필드 간의 간격을 넓힘 */
+    margin-left: -5%;
+}
+
+.duplicated label {
+    display: block;
+}
+
+.duplicated input {
+    display: inline;
+}
+
+.duplicated button {
+    margin-top: 0;
+    margin-bottom: 3px;
+    /*margin-left: 5px;*/
+    font-size: 16px;
+    inline-size: fit-content;
+    border-radius: 10px;
+}
+
+.duplicated button:hover {
+    font-size: 16px; /* 버튼 글씨 크기를 키움 */
+    margin-bottom: 3px;
+    border-radius: 10px; /* 버튼 모서리를 둥글게 */
+    background-color: #424C6E;
+    border-color: #424C6E;
+}
+
+.join-form label {
+    font-size: 15px; /* 레이블의 글씨 크기를 키움 */
+    margin-bottom: 5px;
+    color: white;
+}
+
+.join-form input {
+    width: 88%; /* 입력 필드 너비를 폼에 맞춤 */
+    height: 35px; /* 입력 필드의 높이를 키움 */
+    padding: 10px; /* 입력 필드 내부 여백을 추가 */
+    font-size: 15px; /* 입력 글씨 크기를 키움 */
+    border-radius: 5px; /* 입력 필드 모서리를 둥글게 */
+    border: 1px solid #ccc; /* 입력 필드의 테두리 */
+}
+
+.button-style {
+    width: 105%; /* 버튼의 너비를 폼에 맞춤 */
+    height: 40px; /* 버튼 높이를 키움 */
+    font-size: 18px; /* 버튼 글씨 크기를 키움 */
+    margin-top: 20px; /* 버튼 간의 간격 추가 */
+
+    border-radius: 5px; /* 버튼 모서리를 둥글게 */
+    background-color: #d9d9d9;
+    color: #2C2C2C;
+    border-color: #D9D9D9;
+}
+
+.login-button:hover {
+    width: 105%; /* 버튼의 너비를 폼에 맞춤 */
+    height: 40px; /* 버튼 높이를 키움 */
+    font-size: 18px; /* 버튼 글씨 크기를 키움 */
+    margin-top: 10px; /* 버튼 간의 간격 추가 */
+    border-radius: 5px; /* 버튼 모서리를 둥글게 */
+    background-color: #424C6E;
+    border-color: #424C6E;
+}
+
+.delete-btn {
+    all: unset;
+    width: 60px;
+    height: 25px;
+    position: relative;
+    left: 455px;
+    font-size: 13px;
+    border-radius: 15px;
+    color: #2C2C2C;
+    background-color: #D9D9D9;
+    border-color: #D9D9D9;
+    text-align: center;
+    position: relative;
+    bottom: 5px;
+}
+
+.delete-btn:hover {
+    all: unset;
+    width: 60px;
+    height: 25px;
+    position: relative;
+    left: 455px;
+    font-size: 13px;
+    border-radius: 15px;
+    color: white;
+    background-color: #424C6E;
+    border-color: #424C6E;
+    text-align: center;
+    position: relative;
+    bottom: 5px;
+}
+
+.line {
+    border-top: 0.1em solid white;
+    border-bottom: 20px;
+    margin-bottom: 10px;
+    width: 600px;
+    width: 600px;
+}
+
+.table-header {
+    font-size: 15px;
+    color: white;
+}
+
+.archive {
+    color: white;
+    font-size: 20px;
+}
+
+a {
+    padding: 10px;
+    color: white;
+    display: flex;
+}
+
+.selected-btn-color {
+    background: #424C6E;
+    color: #FFFFFF;
+    border-color: #424C6E;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.selected-btn-color:hover {
+    background: #424C6E;
+    border-color: #424C6E;
+}
+
+.unselected-btn-color {
+    background: #D9D9D9;
+    color: #2C2C2C;
+    border-color: #D9D9D9;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.unselected-btn-color:hover {
+    background: #424C6E;
+    border-color: #424C6E;
+}
+
+.button-group {
+    margin-top: 5px;
+    padding: 15px;
+}
+
+.date-group {
+    display: flex;
+    color: white;
+    /*margin: 0 20px;*/
+    width: 100%;
+    justify-content: space-around;
+}
+.date-group input{
+    width: 200px;
+}
+.square {
+    border: 1px solid #FFFFFF;
+    width: 600px;
+    height: 270px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+
+}
+
+.square2 {
+    border: 1px solid #FFFFFF;
+    width: 600px;
+    height: 570px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 35px;
+
+}
+
+.date{
+    display: flex;
+    flex-direction: column;
+}
+
+.select-style{
+    width: 100%;
+}
+
+.text-style {
+    margin-top: 10px;
+    width: 38%;
+}
+
+.title {
+    display: flex;
+    flex-direction: column;
+    margin: 0 32px;
+    margin-top: 10px;
+    width: 100%;
+}
