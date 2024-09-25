@@ -12,12 +12,12 @@
 <body th:style="'background-image: url(/img/bg.png);background-size: cover;'">
 <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
 <div class="box">
-    <button class="selected-btn1 btn btn-primary unselected-btn-color" th:onclick="|location.href='@{/board/board1}'|">자유게시판
+    <button class="selected-btn1 btn btn-primary unselected-btn-color" th:onclick="|location.href='@{/board/tip}'|">자유게시판
     </button>
     <button class="selected-btn2 btn btn-primary selected-btn-color"
             >일정공유
     </button>
-    <button class="selected-btn3 btn btn-primary unselected-btn-color" th:onclick="|location.href='@{/board/board3}'|">
+    <button class="selected-btn3 btn btn-primary unselected-btn-color" th:onclick="|location.href='@{/board/rank}'|">
         영역다툼
     </button>
     <div class="left-box">
@@ -29,7 +29,7 @@
 
 
     <div class="right-box">
-        <div class="join-form">
+        <div class="board-form">
             <div class="form-group">
                 <div class="board">
                     <div class="archive">일정공유&nbsp;&nbsp;&nbsp;
