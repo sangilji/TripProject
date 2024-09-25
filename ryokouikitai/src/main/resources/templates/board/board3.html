@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>자유게시판</title>
+
+</head>
+<head>
+    <link rel="stylesheet" href="/css/board/board.css">
+    <title>자유게시판</title>
+</head>
+<body th:style="'background-image: url(/img/bg.png);background-size: cover;'">
+<div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+<div class="box">
+    <button class="selected-btn1 btn btn-primary unselected-btn-color" th:onclick="|location.href='@{/board/tip}'|">
+        자유게시판
+    </button>
+    <button class="selected-btn2 btn btn-primary unselected-btn-color" th:onclick="|location.href='@{/board/plan}'|">
+        일정공유
+    </button>
+    <button class="selected-btn3 btn btn-primary selected-btn-color">
+        영역다툼
+    </button>
+    <div class="left-box">
+        <div class="theme"><p th:style="'margin-top:2px'">감성</p></div>
+        <div><img src="/img/profile.jpg" class="profile"></div>
+        <div th:style="'color: white; margin-top:20px; font-size: 16px'">수콩님</div>
+        <div th:style="'color: white; font-size:14px'">포인트 : 10pt</div>
+    </div>
+
+
+    <div class="right-box">
+        <div class="board-form">
+            <div class="form-group">
+                <div class="board">
+                    <div class="archive">영역다툼
+                        <button class="write-btn-none">.</button>
+                        <div class="line"></div>
+                        <div class="btn-group">
+                            <button class="theme-btn">전체</button>
+                            <button class="theme-btn">식도락</button>
+                            <button class="theme-btn">감성</button>
+                            <button class="theme-btn">쇼핑</button>
+                            <button class="theme-btn">액티비티</button>
+                            <button class="theme-btn">관광</button>
+                        </div>
+                        <div class="square" th:style="'height:350px;'">
+                            지도에서 테마별로 영역 보여주는 창
+                        </div>
+                        <div class="archive" th:style="'margin-top:30px;'">이달의 BEST 테마
+                            <button class="write-btn-none">.</button>
+                            <div class="line"></div>
+                            <div class="square" th:style="'height:350px; margin-top:30px;'">
+                                뭔가 시상대처럼 구현하면 좋을 듯!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

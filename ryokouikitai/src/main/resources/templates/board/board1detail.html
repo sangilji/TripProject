@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>자유게시판</title>
+
+</head>
+<head>
+    <link rel="stylesheet" href="/css/board/board.css">
+    <title>자유게시판</title>
+</head>
+<body th:style="'background-image: url(/img/bg.png);background-size: cover;'">
+<div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+<div class="box">
+    <button class="selected-btn1 btn btn-primary selected-btn-color"
+            th:onclick="|location.href='@{/board/tip}'|">자유게시판
+    </button>
+    <button class="selected-btn2 btn btn-primary unselected-btn-color"
+            th:onclick="|location.href='@{/board/plan}'|">일정공유
+    </button>
+    <button class="selected-btn3 btn btn-primary unselected-btn-color" th:onclick="|location.href='@{/board/rank}'|">
+        영역다툼
+    </button>
+    <div class="left-box">
+        <div class="theme"><p th:style="'margin-top:2px'">감성</p></div>
+        <div><img src="/img/profile.jpg" class="profile"></div>
+        <div th:style="'color: white; margin-top:20px; font-size: 16px;'">수콩님</div>
+        <div th:style="'color: white; font-size:14px'">포인트 : 10pt</div>
+    </div>
+
+
+    <div class="right-box">
+        <div class="join-form">
+            <div class="form-group">
+                <div class="board">
+                    <div class="archive">자유게시판
+
+                        <div class="square2">
+                            <div class="button-group">
+                                <button class="write-btn-detail">글 수정</button>
+                                <button class="write-btn-detail">글 삭제</button>
+                            </div>
+                            <div class="mid-group">
+                                <div class="title-detail">
+                                    <p>8월 도쿄 날씨</p>
+                                    <p class="time" th:style="'margin-top:10px;'">3시간 전</p>
+                                </div>
+
+                                <div class="profile-box-in-detail">
+                                    <div class="profile-box-group">
+                                        <div>
+                                            <img src="/img/profile.jpg" class="profile-s-detail">
+                                        </div>
+                                        <div th:style="'margin-left:10px;'">
+                                            <div class="theme-s"><p th:style="'margin-top:2px'">감성</p></div>
+                                            <div th:style="'color: white; margin-top:10px; font-size: 15px; text-align:center;'">
+                                                수콩님
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="content-detail">
+                                <p>
+                                    8월에 가족 여행 가려고 하는데 날씨 어떤지 궁금합니다!
+                                    많이 더울까요? <br>
+                                    여름에 도쿄 갔다왔던 분들 어땠는지 알려주세요!! <br>이번에 3박 4일 일정으로 계획 세웠는데
+                                    어느 공항으로 선택하는 게 좋을까요?
+
+                                </p>
+                            </div>
+                            <div class="last">
+                                <div th:style="'color: white; font-size:12px;'">조회수 / 좋아요 / 댓글</div>
+                                <button class="write-btn1">좋아요</button>
+                            </div>
+                        </div>
+
+                        <div class="square3">
+                            <div class="profile-box-group-comment">
+                                <div>
+                                    <img src="/img/profile.jpg" class="profile-s-comment">
+                                </div>
+                                <div class="comment">
+                                    <div th:style="'color: white; margin-top:10px; font-size: 15px'">소이치</div>
+                                    <p th:style="'font-size:14px;'">너무 더웠어요! 무조건 반팔 챙기세요!!</p>
+                                    <p class="time">3시간 전&nbsp;&nbsp;&nbsp;댓글쓰기</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment-box">
+                            <input class="comment-text" type="text" placeholder="댓글을 작성해주세요 :)">
+                            <button class="comment-btn"><img src="/img/chat.png"
+                                                             th:style="'width:35px; height:35px;'"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

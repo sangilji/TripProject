@@ -1,10 +1,10 @@
 
 .box {
     box-sizing: border-box;
-
-    position: absolute;
+    position: relative;
+    top:300px;
     width: 1200px;
-    height: 600px;
+    height: 1200px;
     margin-top: 120px;
     background: conic-gradient(from 90deg at 50% 50%, rgba(36, 59, 85, 0.6) -27deg, rgba(20, 30, 48, 0.6) 90deg, rgba(28, 45, 67, 0.6) 203.4deg, rgba(36, 59, 85, 0.6) 333deg, rgba(20, 30, 48, 0.6) 450deg);
     border-width: 1px 5px 5px 1px;
@@ -20,9 +20,10 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    position: absolute;
-    top: 8%;
-    left: 5%;
+    position: relative;
+
+    margin-top: 95px;
+    margin-left: 50px;
     width: 280px;
     height: 500px;
 
@@ -35,7 +36,7 @@
     width: 50px;
     height: 20px;
     top: 10%;
-    margin-top: 20px;
+    margin-top: 50px;
     text-align: center;
     justify-content: center;
     font-size: 13px;
@@ -79,7 +80,7 @@
     right: 5%;
     position: absolute;
     width: 750px;
-    height: 500px;
+    height: 1000px;
 
     display: flex;
     flex-direction: row;
@@ -91,14 +92,16 @@
 }
 
 
-.join-form {
-    position: relative;
-    z-index: 1;
-    width: 580px;
-    padding: 20px;
+.text-form {
+    margin-top: 40px;
+    /*z-index: 2;*/
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
 }
 
-.join-form .form-group {
+.text-form .form-group {
     margin-bottom: 10px; /* 각 필드 간의 간격을 넓힘 */
     margin-top: 20px; /* 각 필드 간의 간격을 넓힘 */
     margin-left: -5%;
@@ -129,14 +132,14 @@
     border-color: #424C6E;
 }
 
-.join-form label {
+.text-form label {
     font-size: 15px; /* 레이블의 글씨 크기를 키움 */
     margin-bottom: 5px;
     color: white;
 }
 
-.join-form input {
-    width: 85%; /* 입력 필드 너비를 폼에 맞춤 */
+.text-form input {
+    width: 88%; /* 입력 필드 너비를 폼에 맞춤 */
     height: 35px; /* 입력 필드의 높이를 키움 */
     padding: 10px; /* 입력 필드 내부 여백을 추가 */
     font-size: 15px; /* 입력 글씨 크기를 키움 */
@@ -148,10 +151,10 @@
     width: 105%; /* 버튼의 너비를 폼에 맞춤 */
     height: 40px; /* 버튼 높이를 키움 */
     font-size: 18px; /* 버튼 글씨 크기를 키움 */
-    margin-top: 10px; /* 버튼 간의 간격 추가 */
+    margin-top: 20px; /* 버튼 간의 간격 추가 */
 
     border-radius: 5px; /* 버튼 모서리를 둥글게 */
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     color: #2C2C2C;
     border-color: #D9D9D9;
 }
@@ -248,47 +251,98 @@ a {
     border-color: #424C6E;
 }
 
-/*버튼*/
-.selected-btn1 {
-    position: absolute;
-    margin-top: -3.2%;
-    left: 4%;
+.button-group {
+    margin-top: 5px;
+    padding: 15px;
 }
 
-.selected-btn2 {
-    position: absolute;
-    margin-top: -3.2%;
-    left: 14%;
+.date-group {
+    display: flex;
+    color: white;
+    /*margin: 0 20px;*/
+    width: 100%;
+    justify-content: space-around;
+}
+.date-group input{
+    width: 200px;
+}
+.square {
+    border: 1px solid #FFFFFF;
+    width: 600px;
+    height: 270px;
+    padding: 10px 30px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+
 }
 
-.selected-btn3 {
-    position: absolute;
-    margin-top: -3.2%;
-    left: 20%;
+.square2 {
+    border: 1px solid #FFFFFF;
+    width: 600px;
+    height: 570px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 35px;
+
 }
 
-.selected-btn4 {
-    position: absolute;
-    margin-top: -3.2%;
-    left: 27.5%;
+.date{
+    display: flex;
+    flex-direction: column;
 }
 
-.selected-btn5 {
-    position: absolute;
-    margin-top: -3.2%;
-    left: 34%;
+.select-style{
+    width: 88%;
 }
 
-.num {
-    width: 20%;
+.text-style {
+    margin-top: 10px;
+    width: 38%;
 }
 
 .title {
-    width: 50%;
-    text-overflow:ellipsis;
+    display: flex;
+    flex-direction: column;
+    margin: 0 32px;
+    margin-top: 10px;
+    width: 100%;
 }
 
-.calendar {
-    width: 30%;
+.square-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
+.note-editor {
+    width: 600px;
+    margin-top: 30px;
+}
+
+.note-statusbar{
+    content-visibility: hidden;
+}
+
+.write-btn {
+    all: unset;
+    width: 60px;
+    height: 25px;
+    font-size: 13px;
+    border-radius: 15px;
+    color: #2C2C2C;
+    background-color: #d9d9d9;
+    border-color: #d9d9d9;
+    text-align: center;
+
+    margin-top: 20px;
+
+}
+
+.btn-group1 {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
