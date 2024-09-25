@@ -29,7 +29,7 @@ html, body {
 
 }
 
-.text-form {
+.join-form {
     position: relative;
     z-index: 1;
     width: 550px;
@@ -39,13 +39,13 @@ html, body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.text-form .form-group {
+.join-form .form-group {
     margin-bottom: 10px; /* 각 필드 간의 간격을 넓힘 */
     margin-top: 10px; /* 각 필드 간의 간격을 넓힘 */
     margin-left: 110px;
 }
 
-.text-form:after {
+.join-form:after {
     content: "";
     display: block;
     position: absolute;
@@ -85,12 +85,12 @@ html, body {
     border-color: #355F83;
 }
 
-.text-form label {
+.join-form label {
     font-size: 16px; /* 레이블의 글씨 크기를 키움 */
     margin-bottom: 5px;
 }
 
-.text-form input {
+.join-form input {
     width: 70%; /* 입력 필드 너비를 폼에 맞춤 */
     height: 45px; /* 입력 필드의 높이를 키움 */
     padding: 10px; /* 입력 필드 내부 여백을 추가 */

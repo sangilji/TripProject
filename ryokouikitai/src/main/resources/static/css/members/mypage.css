@@ -91,14 +91,14 @@
 }
 
 
-.text-form {
+.join-form {
     position: relative;
     z-index: 1;
     width: 580px;
     padding: 20px;
 }
 
-.text-form .form-group {
+.join-form .form-group {
     margin-bottom: 10px; /* 각 필드 간의 간격을 넓힘 */
     margin-top: 20px; /* 각 필드 간의 간격을 넓힘 */
     margin-left: -5%;
@@ -129,13 +129,13 @@
     border-color: #424C6E;
 }
 
-.text-form label {
+.join-form label {
     font-size: 15px; /* 레이블의 글씨 크기를 키움 */
     margin-bottom: 5px;
     color: white;
 }
 
-.text-form input {
+.join-form input {
     width: 85%; /* 입력 필드 너비를 폼에 맞춤 */
     height: 35px; /* 입력 필드의 높이를 키움 */
     padding: 10px; /* 입력 필드 내부 여백을 추가 */
@@ -291,3 +291,4 @@ a {
 .calendar {
     width: 30%;
 }
+

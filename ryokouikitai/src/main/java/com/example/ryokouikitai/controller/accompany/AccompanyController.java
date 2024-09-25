@@ -11,8 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AccompanyController {
 
 
-    @GetMapping("/write")
+    @GetMapping()
     public String getAccompanyPage() {
+        return "accompany/accompanyMain";
+    }
+
+
+    @GetMapping("/write")
+    public String getWriteAccompanyPage() {
         return "accompany/write";
     }
 }
