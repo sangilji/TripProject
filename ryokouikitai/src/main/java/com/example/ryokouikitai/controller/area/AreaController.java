@@ -27,4 +27,9 @@ public class AreaController {
         model.addAttribute("areaName",area);
         return "area/main";
     }
+    @GetMapping("/{area_name}/chat")
+    public String chat(Model model, @PathVariable("area_name") String area) {
+        model.addAttribute("areaName",area);
+        return "area/chat";
+    }
 }
