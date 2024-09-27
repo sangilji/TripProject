@@ -7,6 +7,7 @@ import com.example.ryokouikitai.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
@@ -41,5 +42,11 @@ public class MemberService {
             throw new IllegalArgumentException("존재하지 않는 회원입니다.");
         }
         return member.get();
+    }
+
+    @Transactional
+    public void updateProfile(Integer id, String profile) {
+        Member member = memberRepository.getReferenceById(id);
+        member.updateProfile(profile);
     }
 }

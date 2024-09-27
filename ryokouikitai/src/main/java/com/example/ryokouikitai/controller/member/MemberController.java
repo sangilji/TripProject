@@ -69,8 +69,7 @@ public class MemberController {
     }
 
     @GetMapping("/mypage")
-    public String mypage(){
-
+    public String mypage() {
         return "members/mypage";
     }
     @GetMapping("/mypage2")

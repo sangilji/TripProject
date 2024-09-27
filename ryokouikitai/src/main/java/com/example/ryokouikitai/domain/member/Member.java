@@ -31,12 +31,25 @@ public class Member {
     private Double score = 0.0;
 
     private String theme;
+
+    @Builder.Default
+    private Integer point=0;
+
+    private String profile;
+
     public MemberInfo toMemberInfo() {
         return MemberInfo.builder()
                 .id(id)
                 .userId(userId)
                 .nickname(nickname)
                 .theme(theme)
+                .point(point)
+                .profile(profile)
                 .build();
+    }
+
+    public void updateProfile(String profile) {
+//        DB 저장
+        this.profile=profile;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.ryokouikitai.controller.member;
 
 
+import com.example.ryokouikitai.domain.member.MemberInfo;
 import com.example.ryokouikitai.dto.member.JoinForm;
 import com.example.ryokouikitai.global.response.BaseResponse;
 import com.example.ryokouikitai.service.member.MemberService;
@@ -47,5 +48,14 @@ public class MemberRestController {
     public ResponseEntity<?> logout(HttpSession session) {
         session.invalidate();
         return BaseResponse.ok(HttpStatus.OK,"로그아웃");
+    }
+
+    @PostMapping("profile/save")
+    public ResponseEntity<?> changeProfile(HttpSession session, String profile){
+        MemberInfo memberInfo = (MemberInfo) session.getAttribute("memberInfo");
+        memberService.updateProfile(memberInfo.getId(), profile);
+        memberInfo.setProfile(profile);
+        session.setAttribute("memberInfo",memberInfo);
+        return BaseResponse.ok(HttpStatus.OK,"변경 완료");
     }
 }
