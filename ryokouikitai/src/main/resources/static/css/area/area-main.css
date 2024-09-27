@@ -75,3 +75,17 @@ p {
     width: 20%;
     height: 80%;
 }
+
+.area-talk{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 30px;
+}
+.area-talk p{
+    margin: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 480px;
+}

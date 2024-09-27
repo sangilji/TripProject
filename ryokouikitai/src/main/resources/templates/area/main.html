@@ -6,7 +6,34 @@
 </head>
 <head>
     <link rel="stylesheet" href="/css/area/area-main.css">
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            // 현재 지역 이름 가져오기
+            const areaName = [[${areaName}]];
 
+            // 최근 채팅 기록을 가져오는 함수
+            function loadRecentChat() {
+                $.ajax({
+                    url: `/chat/${areaName}/recent`,  // 채팅 기록을 가져올 API URL
+                    method: 'GET',
+                    success: function (data) {
+                        // 가져온 데이터를 HTML에 표시
+                        let chatBox = $("#chatBox");
+                        chatBox.empty();  // 기존 내용 삭제
+                        data.forEach(function (message) {
+                            chatBox.append("<p>" + message + "</p>");
+                        });
+                    },
+                    error: function (error) {
+                        console.error("Error fetching chat data:", error);
+                    }
+                });
+            }
+
+            // 페이지 로드 시 최근 채팅 기록 로드
+            loadRecentChat();
+        });
+    </script>
 </head>
 <body th:style="'background-image: url(/img/bg.png);background-size: cover;'">
 <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
@@ -37,7 +64,7 @@
             <div class="half">
                 <div>
                     <p>지역톡</p>
-                    <div class="half-box" th:style="'margin-top:10px;'"></div>
+                    <div class="half-box area-talk" id="chatBox" th:style="'margin-top:10px;'"></div>
                 </div>
                 <div>
                     <p>여행지 추천</p>
