@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>지역 메인페이지</title>
+
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            height: 20%;
+            padding: 20px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        header button {
+            margin-left: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* 박스 구조 */
+        .container1 {
+            display: block;
+            flex-wrap: wrap;
+            height: 50%;
+            width: 50%;
+        }
+        .container2 {
+            display: inline-block;
+            flex-wrap: wrap;
+            height: 50%;
+            width: 50%;
+        }
+
+        .box {
+            width: 50%;
+            flex: 1;
+            height: 50%;
+            box-sizing: border-box;
+            padding: 10px;
+        }
+
+        /* 1번 박스: 날씨 정보 */
+        .box-1 {
+            width: 50%;
+            background-color: #e0e0e0;
+        }
+
+        /* 2번 박스 */
+        .box-2 {
+            width: 50%;
+            background-color: #d0d0d0;
+        }
+
+        /* 3번 두 개 박스 (23%씩) */
+        .box-3-1,
+        .box-3-2 {
+            width: 23%;
+            margin: 2%;
+            background-color: #c0c0c0;
+        }
+
+        /* 4번 두 개 박스 (23%씩) */
+        .box-4-1,
+        .box-4-2 {
+            width: 23%;
+            margin: 2%;
+            background-color: #c0c0c0;
+        }
+
+        /* 모달 스타일 */
+        #scheduleBtn {
+            border: none;
+            background-color: rgba(0,0,0,0);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            margin: 15% auto;
+            padding: 20px;
+            width: 300px;
+            background-color: white;
+            text-align: center;
+        }
+
+        .close {
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: red;
+        }
+
+        /* 캘린더 입력 스타일 */
+        .flatpickr {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <button id="scheduleBtn">일정짜기</button>
+    <button>2</button>
+    <button>3</button>
+    <button>4</button>
+</header>
+
+<!-- 메인 박스 레이아웃 -->
+<div class="container1">
+    <div class="box box-1" >Tokyo</div>
+    <div class="box box-2">2번 박스 내용</div>
+</div>
+<div class="container2" th:align="center">
+    <div class="box box-3-1" id="weatherBox"></div>
+    <div class="box box-3-2" id="weatherColor">날씨 정보</div>
+    <div class="box box-4-1">4-1번 박스 내용</div>
+    <div class="box box-4-2">4-2번 박스 내용</div>
+</div>
+
+<!-- 모달 -->
+<div id="calendarModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>출발 및 도착 날짜 선택</h2>
+        <input type="text" id="startDate" class="flatpickr" placeholder="출발 날짜">
+        <input type="text" id="endDate" class="flatpickr" placeholder="도착 날짜">
+        <button id="saveScheduleBtn">일정 저장</button>
+    </div>
+</div>
+
+<!-- Flatpickr 라이브러리 -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="/js/trip/modal.js"></script>
+
+
+
+<script src="/js/trip/weather.js"></script>
+</body>
+</html>

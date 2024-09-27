@@ -30,12 +30,13 @@
     border-radius: 30px;
     margin: 30px;
 }
-.half-box{
+.half-box {
     box-sizing: border-box;
     position: relative;
-    display: inherit;
-    justify-content: space-evenly;
+    display: flex;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
     width: 550px;
     height: 200px;
 
@@ -63,4 +64,14 @@ p {
     color: white;
     font-size: 80px;
     margin: 0;
+}
+#35 days {
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+    border-style: solid;
+    border-color: #2C2C2C;
+    border-radius: 15px;
+    width: 20%;
+    height: 80%;
 }
