@@ -7,6 +7,7 @@
 <head>
     <link rel="stylesheet" href="/css/area/area-main.css">
     <script th:inline="javascript">
+
         $(document).ready(function () {
             // 현재 지역 이름 가져오기
             const areaName = [[${areaName}]];
@@ -63,7 +64,10 @@
         <div>
             <div class="half">
                 <div>
-                    <p>지역톡</p>
+                    <div class="around">
+                        <p>지역톡</p>
+                        <button class="write-btn" onclick="location.href=location.pathname + '/chat'">글 작성</button>
+                    </div>
                     <div class="half-box area-talk" id="chatBox" th:style="'margin-top:10px;'"></div>
                 </div>
                 <div>
@@ -75,6 +79,9 @@
         </div>
     </div>
 </div>
-<script src="/js/trip/weather.js"></script>
+<script src="/js/trip/weather.js">
+
+</script>
+<div th:text="${@environment.getProperty('api.key')}"></div>
 </body>
 </html>

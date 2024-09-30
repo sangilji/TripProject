@@ -89,3 +89,28 @@ p {
     text-overflow: ellipsis;
     width: 480px;
 }
+
+.around {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.write-btn {
+    all: unset;
+    width: 60px;
+    height: 25px;
+    font-size: 13px;
+    border-radius: 15px;
+    color: #2C2C2C;
+    background-color: #d9d9d9;
+    border-color: #d9d9d9;
+    text-align: center;
+
+    position: relative;
+    margin-top: 30px;
+    margin-right: 40px;
+    left: 3px;
+
+
+}
