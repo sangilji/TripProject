@@ -30,12 +30,13 @@
     border-radius: 30px;
     margin: 30px;
 }
-.half-box{
+.half-box {
     box-sizing: border-box;
     position: relative;
-    display: inherit;
-    justify-content: space-evenly;
+    display: flex;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
     width: 550px;
     height: 200px;
 
@@ -63,4 +64,53 @@ p {
     color: white;
     font-size: 80px;
     margin: 0;
+}
+#35 days {
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+    border-style: solid;
+    border-color: #2C2C2C;
+    border-radius: 15px;
+    width: 20%;
+    height: 80%;
+}
+
+.area-talk{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 30px;
+}
+.area-talk p{
+    margin: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 480px;
+}
+
+.around {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.write-btn {
+    all: unset;
+    width: 60px;
+    height: 25px;
+    font-size: 13px;
+    border-radius: 15px;
+    color: #2C2C2C;
+    background-color: #d9d9d9;
+    border-color: #d9d9d9;
+    text-align: center;
+
+    position: relative;
+    margin-top: 30px;
+    margin-right: 40px;
+    left: 3px;
+
+
 }

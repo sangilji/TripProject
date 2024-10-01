@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<head>
+    <link rel="stylesheet" href="/css/trip/TokyoCSS.css"/>
+</head>
+<body th:style="'background-image: url(/img/bg.png);background-size: cover;overflow:hidden;'">
+<div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+<div class = "box">
+    <div class = "table schedule"> <!--전체, n일차 -->
+        <div id ="sidebar">
+            <h3>일정 목록</h3>
+            <div id="dayTabs"></div>
+        </div>
+        <div id="savedcancel" style="text-align: center">
+            <button id ="saved-btn">저장</button>
+            <button id ="cancel-btn">취소</button>
+        </div>
+    </div>
+
+    <div class = "table location"> <!--장소 검색 찜 목록 -->
+        <div id = "location2">
+            <h3>장소검색</h3>
+            <button id ="save-btn">장소저장</button><br>
+	        <div id="commentModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                <span class="close">&times;</span>
+                    <h2>내용 입력</h2>
+                    <textarea id="comment-input" rows="4" cols="50" placeholder="일정 내용을 입력하세요"></textarea>
+                <button id="save-comment-btn">저장</button>
+                </div>
+            </div>
+            <input id="search-box" type="text" placeholder="위치 검색">
+            <!-- 도쿄 유명한 장소들 리스트 -->
+            <div id="saved-locations">
+                <ul id = "location-list"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div class = "table ddaySchedule"id = "DaySchedule"> <!--n일차 일정-->
+        <h2>도쿄</h2> ${n}일차
+        <p>${days}</p>
+    </div>
+
+
+    <div class = "table maps">
+        <div id = "map"></div>
+    </div>
+</div>
+
+<script src = "/js/trip/mapform.js"></script>
+<script async src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyCv7v_klpbd7n2jtI3Ab6Y25WgeVPP_qK4&libraries=places"></script>
+
+</body>
+</html>
