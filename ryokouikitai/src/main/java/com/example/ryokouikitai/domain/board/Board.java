@@ -1,6 +1,7 @@
 package com.example.ryokouikitai.domain.board;
 
 import com.example.ryokouikitai.domain.area.Area;
+import com.example.ryokouikitai.domain.area.Category;
 import com.example.ryokouikitai.domain.member.Member;
 import lombok.*;
 
@@ -24,8 +25,8 @@ public class Board {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "area_id")
-    private Area area;
+    @JoinColumn(name = "category_id")
+    private Category theme;
 
     private String title;
     private String content;

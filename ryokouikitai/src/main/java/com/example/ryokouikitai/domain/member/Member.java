@@ -17,7 +17,6 @@ public class Member {
     private Integer id;
 
     private String userId;
-
     @NonNull
     private String nickname;
     @NonNull
@@ -31,6 +30,7 @@ public class Member {
     private Double score = 0.0;
 
     private String theme;
+
     public MemberInfo toMemberInfo() {
         return MemberInfo.builder()
                 .id(id)
