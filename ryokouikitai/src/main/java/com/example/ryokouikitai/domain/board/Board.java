@@ -20,7 +20,7 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -28,7 +28,12 @@ public class Board {
     @JoinColumn(name = "category_id")
     private Category theme;
 
+    @Column(name = "board_menu")
+    private String boardMenu;
+
     private String title;
+
+    @Column(length = 2048)
     private String content;
     private int likeCount;
     private int viewCount;

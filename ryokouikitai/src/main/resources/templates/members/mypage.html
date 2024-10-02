@@ -9,6 +9,43 @@
     <link rel="stylesheet" href="/css/members/mypage.css">
     <title>마이페이지</title>
     <script>
+        var nicknameCheck=false;
+
+        function nicknameCheck1(){
+            const userNickname=$("#nicknameCheck").val();
+            console.log("닉네임 중복 체크",userNickname);
+            $.ajax({
+                type: "post",
+                url: "/api/members/join/duplicated-nickname",
+                data: {"nickname": userNickname},
+                dataType: "JSON",
+                success:function(result){
+                    alert("사용 가능한 닉네임입니다.");
+                    nicknameCheck=true;
+                },
+                error:function(request, status, error){
+                    alert("중복된 아이디입니다. ");
+                }
+            });
+        }
+
+        function update() {
+            if (!nicknameCheck) {
+                alert("ID 중복확인을 해야 합니다.");
+                return false;
+            }
+            const password = $("#password").val();
+            const passwordCheck = $("#passwordCheck").val();
+
+            if (password!==passwordCheck) {
+                alert("비밀번호가 일치하지 않습니다. ");
+                return false;
+            }
+            return true;
+        }
+
+
+
         $(document).ready(function (e){
             try{
                 $('.profile-textarea').blur(function (){
@@ -24,7 +61,6 @@
                         },
                         error: function (request, status, error) {
                             console.log("자기소개 변경실패");
-
                         }
                     });
 
@@ -49,7 +85,7 @@
             th:onclick="|location.href='@{/members/mypage4}'|">포인트
     </button>
     <button class="selected-btn5 btn btn-primary unselected-btn-color"
-            th:onclick="|location.href='@{/members/mypage5}'|">저장된 내역
+            th:onclick="|location.href='@{/members/mypage5}'|">좋아요
     </button>
     <div class="left-box">
         <div class="theme"><p th:style="'margin-top:2px'" th:text="${session.memberInfo.theme}">감성</p></div>
@@ -63,23 +99,22 @@
     </div>
     <div class="right-box">
         <div class="join-form">
-            <div role="form" action="/api/members/login" method="post">
+            <form role="form" action="/members/mypage" onsubmit="return update()" method="post">
                 <div class="form-group duplicated">
-                    <label th:for="passwordCheck" >NICKNAME</label>
-                    <input type="text" class="form-control"
+                    <input type="text" class="form-control" id="nicknameCheck" name="nickname"
                            placeholder="닉네임을 입력하세요" th:value="${session.memberInfo.nickname}">
                     <button type="button" class="button-style btn btn-primary"
-                            th:style="'position: relative;left: 30px;'">중복확인
+                            th:style="'position: relative;left: 30px;'" onclick="nicknameCheck1()">중복확인
                     </button>
                 </div>
                 <div class="form-group">
                     <label th:for="password">PASSWORD</label>
-                    <input type="password" class="form-control"
-                           placeholder="비밀번호를 입력하세요">
+                    <input type="password" class="form-control" name="password"
+                           placeholder="비밀번호를 입력하세요" id="password">
                 </div>
                 <div class="form-group">
                     <label th:for="passwordCheck">PASSWORD 확인</label>
-                    <input type="password" class="form-control"
+                    <input type="password" class="form-control" id="passwordCheck"
                            placeholder="비밀번호를 확인">
                 </div>
 
@@ -94,9 +129,9 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="login-button button-style btn btn-primary">수정하기</button>
+                    <button type="submit" class="login-button button-style btn btn-primary" onclick="updateInfo()">수정하기</button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>

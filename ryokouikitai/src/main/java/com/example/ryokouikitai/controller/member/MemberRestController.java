@@ -37,11 +37,11 @@ public class MemberRestController {
     @PostMapping("/join/duplicated-nickname")
     public ResponseEntity<?> joinDuplicatedNickname(String nickname) {
 
-        log.info("이메일 중복확인");
+        log.info("닉네임 중복확인");
         if (memberService.existNickname(nickname)) {
-            return BaseResponse.fail("중복된 이메일", 400);
+            return BaseResponse.fail("중복된 닉네임", 400);
         }
-        return BaseResponse.ok(HttpStatus.OK,"사용가능한 이메일입니다.");
+        return BaseResponse.ok(HttpStatus.OK,"사용가능한 닉네임입니다.");
     }
 
     @PostMapping("/logout")

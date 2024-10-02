@@ -4,6 +4,7 @@ import com.example.ryokouikitai.domain.member.Member;
 import com.example.ryokouikitai.domain.member.MemberInfo;
 import com.example.ryokouikitai.dto.member.JoinForm;
 import com.example.ryokouikitai.dto.member.LoginForm;
+import com.example.ryokouikitai.dto.member.UpdateForm;
 import com.example.ryokouikitai.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -70,6 +71,14 @@ public class MemberController {
 
     @GetMapping("/mypage")
     public String mypage() {
+        return "members/mypage";
+    }
+
+    @PostMapping("/mypage")
+    public String updateInfo(HttpSession session, UpdateForm updateForm) {
+        MemberInfo memberInfo = (MemberInfo) session.getAttribute("memberInfo");
+        memberInfo = memberService.updateInfo(memberInfo.getId(), updateForm);
+        session.setAttribute("memberInfo", memberInfo);
         return "members/mypage";
     }
     @GetMapping("/mypage2")

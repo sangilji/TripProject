@@ -21,10 +21,10 @@
         영역다툼
     </button>
     <div class="left-box" th:style="'position:fixed;'">
-            <div class="theme"><p th:style="'margin-top:2px'">감성</p></div>
-            <div><img src="/img/profile.jpg" class="profile"></div>
-            <div th:style="'color: white; margin-top:20px; font-size: 16px'">수콩님</div>
-            <div th:style="'color: white; font-size:14px'">포인트 : 10pt</div>
+        <div class="theme"><p th:style="'margin-top:2px'" th:text="${session.memberInfo.theme}">감성</p></div>
+        <div><img src="/img/profile.jpg" class="profile"></div>
+        <div th:style="'color: white; margin-top:20px; font-size: 16px'" th:text="${session.memberInfo.nickname} + '님'">수콩님</div>
+        <div th:style="'color: white; font-size:14px'"  th:text="'포인트 : ' + ${session.memberInfo.point} + 'pt'">포인트 : 10pt</div>
     </div>
 
 
@@ -33,15 +33,16 @@
             <div class="form-group">
                 <div class="board">
                     <div class="archive">자유게시판
-                        <button class="write-btn">글 작성</button>
+                        <button class="write-btn" th:onclick="|location.href='@{/board/write}'|">글 작성</button>
                         <div class="line"></div>
-                        <div class="square">
+                        <!--리스트 하나의 이름을 보드로 할 것이다-->
+                        <div class="square" th:each="board:${boardList}" th:onclick="|location.href='/board/tip/'+${board.board.id}|">
                             <div th:style="'width:400px;'">
-                                <div class="title">8월 도쿄 날씨</div>
-                                <div class="content">8월에 가족 여행 가려고 하는데
+                                <div class="title" th:text="${board.board.getTitle()}">8월 도쿄 날씨</div>
+                                <div class="content" th:utext="${board.board.getContent()}">8월에 가족 여행 가려고 하는데
                                     날씨 어떤지 궁금합니다! 많이 더울까요?
                                 </div>
-                                <div class="time">3시간 전</div>
+                                <div class="time" th:text="${board.board.getCreatedAt().toLocalDate()}">3시간 전</div>
                             </div>
                             <div class="profile-box" th:style="'width:150px; display:flex;'">
                                 <div class="profile-box-in">
@@ -49,36 +50,29 @@
                                         <img src="/img/profile.jpg" class="profile-s">
                                     </div>
                                     <div th:style="'margin-left:5px;'">
-                                        <div class="theme-s"><p th:style="'margin-top:2px'">감성</p></div>
-                                        <div th:style="'color: white; margin-top:10px; font-size: 15px'">수콩님</div>
+                                        <div class="theme-s"><p th:style="'margin-top:2px'" th:text="${board.board.member.theme}">감성</p></div>
+                                        <div th:style="'color: white; margin-top:10px; font-size: 15px'"th:text="${board.board.member.nickname}">수콩님</div>
                                     </div>
 
                                 </div>
-                                <div th:style="'color: white; font-size:12px'">조회수 / 좋아요 / 댓글</div>
+                                <div th:style="'color: white; font-size:12px'"
+                                     th:text="' 좋아요 '+${board.board.getLikeCount()}+' / 댓글 '+${board.commentCount}">조회수 / 좋아요 / 댓글
+                                </div>
                             </div>
                         </div>
-
-                        <div class="square">
-                            <div th:style="'width:400px;'">
-                                <div class="title">8월 도쿄 날씨</div>
-                                <div class="content">8월에 가족 여행 가려고 하는데
-                                    날씨 어떤지 궁금합니다! 많이 더울까요?
-                                </div>
-                                <div class="time">3시간 전</div>
-                            </div>
-                            <div class="profile-box" th:style="'width:150px; display:flex;'">
-                                <div class="profile-box-in">
-                                    <div>
-                                        <img src="/img/profile.jpg" class="profile-s">
-                                    </div>
-                                    <div th:style="'margin-left:5px;'">
-                                        <div class="theme-s"><p th:style="'margin-top:2px'">감성</p></div>
-                                        <div th:style="'color: white; margin-top:10px; font-size: 15px'">수콩님</div>
-                                    </div>
-
-                                </div>
-                                <div th:style="'color: white; font-size:12px'">조회수 / 좋아요 / 댓글</div>
-                            </div>
+                        <div class="pagination">
+                            <ul>
+                                <li th:if="${page.hasPrevious()}">
+                                    <a th:href="@{tip(page=${page.number - 1})}">&laquo;이전</a>
+                                </li>
+                                <li th:each="i : ${#numbers.sequence(0,page.totalPages - 1)}"
+                                    th:classappend="${page.number == i}?'active'">
+                                    <a th:href="@{tip(page=${i})}" th:text="${i + 1}">1</a>
+                                </li>
+                                <li th:if="${page.hasNext()}">
+                                    <a th:href="@{tip(page=${page.number + 1})}">다음&raquo;</a>
+                                </li>
+                            </ul>
                         </div>
                         <div class="search-bar-s">
                             <input type="text" class="search-input-s" placeholder="검색어를 입력하세요">

@@ -22,10 +22,10 @@
         영역다툼
     </button>
     <div class="left-box" th:style="'position:fixed;'">
-        <div class="theme"><p th:style="'margin-top:2px'">감성</p></div>
+        <div class="theme"><p th:style="'margin-top:2px'" th:text="${session.memberInfo.theme}">감성</p></div>
         <div><img src="/img/profile.jpg" class="profile"></div>
-        <div th:style="'color: white; margin-top:20px; font-size: 16px;'">수콩님</div>
-        <div th:style="'color: white; font-size:14px'">포인트 : 10pt</div>
+        <div th:style="'color: white; margin-top:20px; font-size: 16px;'" th:text="${session.memberInfo.nickname} + '님'">수콩님</div>
+        <div th:style="'color: white; font-size:14px'" th:text="'포인트 : ' + ${session.memberInfo.point} + 'pt'">포인트 : 10pt</div>
     </div>
 
 
@@ -42,8 +42,8 @@
                             </div>
                             <div class="mid-group">
                                 <div class="title-detail">
-                                    <p>도쿄 2박 3일 일정 추천</p>
-                                    <p class="time" th:style="'margin-top:10px;'">3시간 전</p>
+                                    <p th:text="${board.title}">도쿄 2박 3일 일정 추천</p>
+                                    <p class="time" th:style="'margin-top:10px;'" th:text="${board.createdAt.toLocalDate()}">3시간 전</p>
                                 </div>
 
                                 <div class="profile-box-in-detail">
@@ -52,8 +52,8 @@
                                             <img src="/img/profile.jpg" class="profile-s-detail">
                                         </div>
                                         <div th:style="'margin-left:10px;'">
-                                            <div class="theme-s"><p th:style="'margin-top:2px'">감성</p></div>
-                                            <div th:style="'color: white; margin-top:10px; font-size: 15px; text-align:center;'">
+                                            <div class="theme-s"><p th:style="'margin-top:2px'" th:text="${board.member.theme}">감성</p></div>
+                                            <div th:style="'color: white; margin-top:10px; font-size: 15px; text-align:center;'"  th:text="${board.member.nickname}">
                                                 수콩님
                                             </div>
                                         </div>
@@ -62,7 +62,7 @@
 
                             </div>
                             <div class="content-detail">
-                              <p>
+                              <p th:utext="${board.content}">
                                     혼자가는 놀이공원은 처음이었지만 <br>
                                     도파민 보이의 일정 공유합니다!!
                                     너무 재밌었어요! 다들 즐거운 여행 하세요 :)

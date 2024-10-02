@@ -52,4 +52,10 @@ public class Member {
 //        DB 저장
         this.profile=profile;
     }
+
+    public void updateInfo(String nickname, String password, String theme) {
+        this.nickname = nickname;
+        this.password = password;
+        this.theme=theme;
+    }
 }
