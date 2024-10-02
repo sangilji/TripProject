@@ -18,7 +18,7 @@ public class Accompany {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -35,6 +35,7 @@ public class Accompany {
     private int currentCount;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
+    private LocalDateTime createdAt;
     private int likeCount;
     private int viewCount;
 

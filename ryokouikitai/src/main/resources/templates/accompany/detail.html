@@ -12,9 +12,9 @@
 <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
 <div class="box">
     <div class="left-box" th:style="'position:fixed;'">
-        <div class="theme"><p th:style="'margin-top:2px'">감성</p></div>
+        <div class="theme"><p th:style="'margin-top:2px'" th:text="${session.memberInfo.theme}">감성</p></div>
         <div><img src="/img/profile.jpg" class="profile"></div>
-        <div th:style="'color: white; margin-top:20px; font-size: 16px'">수콩님</div>
+        <div th:style="'color: white; margin-top:20px; font-size: 16px'" th:text="${session.memberInfo.nickname}+'님'">수콩님</div>
         <div th:style="'color: white; font-size:14px'">포인트 : 10pt</div>
         <div class="left-button-group">
             <button class="button-style">내동행</button>
@@ -35,8 +35,8 @@
                             </div>
                             <div class="mid-group">
                                 <div class="title-detail">
-                                    <p>8월 도쿄 날씨</p>
-                                    <p class="time" th:style="'margin-top:10px;'">3시간 전</p>
+                                    <p th:text="${accompany.title}">8월 도쿄 날씨</p>
+                                    <p class="time" th:style="'margin-top:10px;'" th:text="${accompany.createdAt.toLocalDate()}">3시간 전</p>
                                 </div>
 
                                 <div class="profile-box-in-detail">
@@ -45,8 +45,8 @@
                                             <img src="/img/profile.jpg" class="profile-s-detail">
                                         </div>
                                         <div th:style="'margin-left:10px;'">
-                                            <div class="theme-s"><p th:style="'margin-top:2px'">감성</p></div>
-                                            <div th:style="'color: white; margin-top:10px; font-size: 15px; text-align:center;'">
+                                            <div class="theme-s"><p th:style="'margin-top:2px'" th:text="${accompany.member.theme}">감성</p></div>
+                                            <div th:style="'color: white; margin-top:10px; font-size: 15px; text-align:center;'" th:text="${accompany.member.nickname}">
                                                 수콩님
                                             </div>
                                         </div>
@@ -55,7 +55,7 @@
 
                             </div>
                             <div class="content-detail">
-                                <p>
+                                <p th:utext="${accompany.content}">
                                     8월에 가족 여행 가려고 하는데 날씨 어떤지 궁금합니다!
                                     많이 더울까요? <br>
                                     여름에 도쿄 갔다왔던 분들 어땠는지 알려주세요!! <br>이번에 3박 4일 일정으로 계획 세웠는데
@@ -64,7 +64,7 @@
                                 </p>
                             </div>
                             <div class="last">
-                                <div th:style="'color: white; font-size:12px;'">조회수 / 좋아요 / 댓글</div>
+                                <div th:style="'color: white; font-size:12px;'" th:text="'조회수 '+ ${accompany.viewCount} + ' / 좋아요 '+${accompany.likeCount} +' / 댓글'">조회수 / 좋아요 / 댓글</div>
                                 <button class="write-btn1">좋아요</button>
                             </div>
                         </div>

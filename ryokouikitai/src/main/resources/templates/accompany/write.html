@@ -48,9 +48,9 @@
                 url: "/api/accompany/write",
                 data: writeForm,
                 dataType: "JSON",
-                success: function (result) {
-                    alert("사용 가능한 닉네임입니다.");
-                    nicknameC = true;
+                success: function (response) {
+                    console.log(response);
+                    window.location.href='/accompany';
                 },
                 error: function (request, status, error) {
                     alert("중복된 닉네임입니다.");
@@ -64,9 +64,9 @@
 <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
 <div class="box">
     <div class="left-box" th:style="'position:fixed;'">
-        <div class="theme"><p th:style="'margin-top:2px'">감성</p></div>
+        <div class="theme"><p th:style="'margin-top:2px'" th:text="${session.memberInfo.theme}">감성</p></div>
         <div><img src="/img/profile.jpg" class="profile"></div>
-        <div th:style="'color: white; margin-top:20px; font-size: 16px'">수콩님</div>
+        <div th:style="'color: white; margin-top:20px; font-size: 16px'" th:text="${session.memberInfo.nickname}+'님'">수콩님</div>
         <div th:style="'color: white; font-size:14px'">포인트 : 10pt</div>
         <div class="button-group">
             <button class="button-style">내동행</button>
@@ -114,7 +114,7 @@
                                 <label th:for="theme">테마</label>
                                 <select name="theme" id="theme" class="form-select select-style">
                                     <option value="default">테마를 선택해주세요</option>
-                                    <option th:each="val : ${theme}" th:value="${val.getName()}"
+                                    <option th:each="val : ${theme}" th:value="${val.getId()}"
                                             th:utext="${val.getName()}"></option>
                                 </select>
                             </div>

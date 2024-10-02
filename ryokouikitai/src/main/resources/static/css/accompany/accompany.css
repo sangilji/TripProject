@@ -2,7 +2,7 @@
 .box {
     box-sizing: border-box;
     position: relative;
-    top:300px;
+    top: 300px;
     width: 1200px;
     height: 1200px;
     margin-top: 120px;
@@ -256,9 +256,11 @@ a {
     width: 100%;
     justify-content: space-around;
 }
-.date-group input{
+
+.date-group input {
     width: 200px;
 }
+
 .square {
     border: 1px solid #FFFFFF;
     width: 600px;
@@ -280,16 +282,17 @@ a {
 
 }
 
-.date{
+.date {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
-.date label{
-    margin : 0 10px;
+
+.date label {
+    margin: 0 10px;
 }
 
-.select-style{
+.select-style {
     width: 100%;
 }
 
@@ -307,6 +310,7 @@ a {
     justify-content: flex-start;
     width: 100%;
 }
+
 .title label {
     margin: 0 10px 0 24px;
 
@@ -321,10 +325,18 @@ a {
 
 .content {
     width: 300px;
-    height: 50px;
+    height: 40px;
     font-size: 14px;
     color: white;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
+
+.content p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 
 .time {
     color: white;
@@ -333,15 +345,15 @@ a {
 
 .profile-box {
     width: 150px;
-    height:170px;
+    height: 170px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: -webkit-center;
-    padding:20px;
+    padding: 20px;
 }
 
-.profile-box-in{
+.profile-box-in {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -399,7 +411,7 @@ a {
 
 }
 
-.note-statusbar{
+.note-statusbar {
     content-visibility: hidden;
 }
 
@@ -422,7 +434,7 @@ a {
     width: 600px;
 }
 
-.search-bar-s{
+.search-bar-s {
     /*margin-top: 40px;*/
     display: flex;
     align-items: center;
@@ -448,7 +460,7 @@ a {
     border: white;
 }
 
-.search-btn-s{
+.search-btn-s {
     background-color: #ffffff;
     cursor: pointer;
     padding: 10px;
@@ -490,4 +502,18 @@ a {
     margin-left: 7px;
     margin-top: 20px;
     margin-bottom: 10px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+
+.pagination ul {
+    display: flex;
+    flex-direction: row;
+}
+
+li {
+    list-style-type: none;
 }
