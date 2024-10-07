@@ -84,7 +84,7 @@
                                         <div th:style="'color: white; margin-top:10px; font-size: 15px'" th:text="${accompany.accompany.member.getNickname()}">수콩님</div>
                                     </div>
                                 </div>
-                                <div th:style="'color: white; font-size:12px'" th:text="'좋아요 '+${accompany.accompany.getLikeCount()}+'/ 댓글 '+${accompany.commentCount}">조회수 / 좋아요 / 댓글</div>
+                                <div th:style="'color: white; font-size:12px'" th:text="'좋아요 '+${accompany.accompany.getLikeCount()}+' / 댓글 '+${accompany.commentCount}">조회수 / 좋아요 / 댓글</div>
                             </div>
                         </div>
                     </div>
@@ -94,9 +94,9 @@
                         <li th:if="${page.hasPrevious()}">
                             <a th:href="@{/accompany(page=${page.number - 1})}">&laquo; 이전</a>
                         </li>
-                        <li th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+                        <li th:each="i : ${#numbers.sequence(0, (page.totalPages - 1 == -1?0:page.totalPages - 1))}"
                             th:classappend="${page.number == i} ? 'active'">
-                            <a th:href="@{/accompany(page=${i})}" th:text="${i + 1}">1</a>
+                            <a th:href="@{/accompany(page=${i})}" th:text="${i + 1}">0</a>
                         </li>
                         <li th:if="${page.hasNext()}">
                             <a th:href="@{/accompany(page=${page.number + 1})}">다음 &raquo;</a>

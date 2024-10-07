@@ -2,14 +2,18 @@ package com.example.ryokouikitai.controller.accompany;
 
 
 import com.example.ryokouikitai.domain.accompany.Accompany;
+import com.example.ryokouikitai.domain.accompany.AccompanyComment;
 import com.example.ryokouikitai.domain.member.MemberInfo;
+import com.example.ryokouikitai.dto.accompany.CommentDto;
 import com.example.ryokouikitai.dto.accompany.WriteForm;
 import com.example.ryokouikitai.global.response.BaseResponse;
 import com.example.ryokouikitai.service.accompany.AccompanyService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,5 +35,12 @@ public class AccompanyRestController {
         Accompany accompany = accompanyService.write(memberInfo.getId(), writeForm);
 
         return BaseResponse.okWithData(HttpStatus.OK, "게시글 저장완료", accompany);
+    }
+
+    @PostMapping("/{postId}/createComment")
+    public ResponseEntity<?> createComment(HttpSession session, String comment,@PathVariable String postId) {
+        MemberInfo memberInfo = (MemberInfo) session.getAttribute("memberInfo");
+        CommentDto commentDto = accompanyService.createComment(memberInfo.getId(), comment, postId);
+        return BaseResponse.okWithData(HttpStatus.OK, "댓글 저장완료",commentDto);
     }
 }

@@ -3,6 +3,7 @@ package com.example.ryokouikitai.domain.accompany;
 import com.example.ryokouikitai.domain.area.Area;
 import com.example.ryokouikitai.domain.area.Category;
 import com.example.ryokouikitai.domain.member.Member;
+import java.util.List;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,6 +27,9 @@ public class Accompany {
     @JoinColumn(name = "area_id")
     private Area area;
 
+    @OneToMany(mappedBy = "accompany", fetch = FetchType.LAZY)
+    private List<AccompanyComment> accompanyComments;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
@@ -40,4 +44,7 @@ public class Accompany {
     private int viewCount;
 
 
+    public void updateViewCount() {
+        this.viewCount+=1;
+    }
 }

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import org.springframework.data.repository.query.Param;
 
 public interface AccompanyRepository extends JpaRepository<Accompany, Integer> {
 
@@ -15,4 +16,8 @@ public interface AccompanyRepository extends JpaRepository<Accompany, Integer> {
             "from Accompany a left join AccompanyComment c on c.accompany = a " +
             "group by a")
     Page<AccompanyResponseDto> getAccompanyWithMemberAndCommentCount(Pageable pageable);
+
+    @Query("select a from Accompany a left join fetch a.accompanyComments where a.id = :id")
+    Accompany findByIdWithComment(@Param("id") Integer id);
+
 }

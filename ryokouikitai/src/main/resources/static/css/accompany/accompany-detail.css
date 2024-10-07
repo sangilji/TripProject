@@ -335,3 +335,16 @@
     align-items: center;
     justify-content: center;
 }
+
+#comments{
+    overflow: scroll;
+    height: 420px;
+    margin-top: 15px;
+    /*display: flex;*/
+    /*width: 100%;*/
+    /*flex-direction: column-reverse;*/
+
+}
+::-webkit-scrollbar {
+    display: none;
+}

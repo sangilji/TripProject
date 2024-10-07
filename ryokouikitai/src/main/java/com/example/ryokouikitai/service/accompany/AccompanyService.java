@@ -5,12 +5,17 @@ import com.example.ryokouikitai.domain.accompany.AccompanyComment;
 import com.example.ryokouikitai.domain.area.Area;
 import com.example.ryokouikitai.domain.area.Category;
 import com.example.ryokouikitai.domain.member.Member;
+import com.example.ryokouikitai.dto.accompany.AccompanyDetailDto;
 import com.example.ryokouikitai.dto.accompany.AccompanyResponseDto;
+import com.example.ryokouikitai.dto.accompany.CommentDto;
 import com.example.ryokouikitai.dto.accompany.WriteForm;
+import com.example.ryokouikitai.repository.accompany.AccompanyCommentRepository;
 import com.example.ryokouikitai.repository.accompany.AccompanyRepository;
 import com.example.ryokouikitai.repository.area.AreaRepository;
 import com.example.ryokouikitai.repository.area.ThemeRepository;
 import com.example.ryokouikitai.repository.member.MemberRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -19,10 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +34,7 @@ public class AccompanyService {
     private final AccompanyRepository accompanyRepository;
     private final ThemeRepository themeRepository;
     private final AreaRepository areaRepository;
+    private final AccompanyCommentRepository accompanyCommentRepository;
 
     @Transactional
     public Accompany write(Integer id, WriteForm writeForm) {
@@ -65,8 +67,33 @@ public class AccompanyService {
         return accompanyRepository.getAccompanyWithMemberAndCommentCount(pageable);
     }
 
-    public Accompany getById(String accompanyId) {
-        return accompanyRepository.findById(Integer.valueOf(accompanyId))
-                .orElseThrow(()->new IllegalArgumentException("존재하지 않는 게시글 입니다."));
+    @Transactional
+    public AccompanyDetailDto getById(String accompanyId) {
+        Accompany accompany = accompanyRepository.findByIdWithComment(Integer.valueOf(accompanyId));
+        accompany.updateViewCount();
+        return new AccompanyDetailDto(accompany);
+    }
+
+    @Transactional
+    public CommentDto createComment(Integer id, String comment, String postId) {
+        Member member = memberRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 멤버입니다."));
+        Accompany accompany = accompanyRepository.getReferenceById(Integer.valueOf(postId));
+        AccompanyComment accompanyComment = AccompanyComment.builder()
+                .accompany(accompany)
+                .member(member)
+                .createdAt(LocalDateTime.now())
+                .content(comment)
+                .build();
+        return accompanyCommentRepository.save(accompanyComment).commentDto();
+
+    }
+
+    public List<CommentDto> getCommentAll(String postId) {
+        return accompanyCommentRepository.findAllByAccompanyId(
+                Integer.parseInt(postId))
+                .stream()
+                .map(AccompanyComment::commentDto)
+                .collect(Collectors.toList());
+
     }
 }

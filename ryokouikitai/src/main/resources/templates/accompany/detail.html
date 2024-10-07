@@ -7,6 +7,54 @@
 <head>
     <link rel="stylesheet" href="/css/accompany/accompany-detail.css">
     <title>마이페이지</title>
+    <script th:inline="javascript">
+        function addComment() {
+            const comment = $("#comment").val();
+            console.log(comment);
+            const postId = [[${accompany.accompany.id}]];
+            console.log(postId);
+            $.ajax({
+                type: "post",
+                url: `/api/accompany/${postId}/createComment`,
+                data: {"comment": comment},
+                dataType: "JSON",
+                success: function (response) {
+                    console.log(response);
+                    var time = response.data.createdAt.substring(0,10)+" "+response.data.createdAt.substring(11,19);
+                    console.log(time);
+                    $("#comment").val("");  // 댓글 입력 폼 초기화
+                    const newComment = `
+                <div class="square3">
+                    <div class="profile-box-group-comment">
+                        <div>
+                            <img src="/img/profile.jpg" class="profile-s-comment">
+                        </div>
+                        <div class="comment">
+                            <div style="color: white; margin-top:10px; font-size: 15px;">${response.data.nickname}</div>
+                            <p style="font-size:14px;">${response.data.content}</p>
+                            <p class="time">${time}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+                    $('#comments').prepend(newComment);
+                    $('#comments').scrollTop(0);
+                },
+                error: function (request, status, error) {
+                    alert("댓글 에러");
+                }
+            });
+
+        }
+
+        $(document).ready(function() {
+            $("#comment").on("keyup", function (e) {
+                if (e.key === 'Enter') {
+                    addComment();
+                }
+            });
+        });
+    </script>
 </head>
 <body th:style="'background-image: url(/img/bg.png);background-size: cover;'">
 <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
@@ -14,7 +62,9 @@
     <div class="left-box" th:style="'position:fixed;'">
         <div class="theme"><p th:style="'margin-top:2px'" th:text="${session.memberInfo.theme}">감성</p></div>
         <div><img src="/img/profile.jpg" class="profile"></div>
-        <div th:style="'color: white; margin-top:20px; font-size: 16px'" th:text="${session.memberInfo.nickname}+'님'">수콩님</div>
+        <div th:style="'color: white; margin-top:20px; font-size: 16px'" th:text="${session.memberInfo.nickname}+'님'">
+            수콩님
+        </div>
         <div th:style="'color: white; font-size:14px'">포인트 : 10pt</div>
         <div class="left-button-group">
             <button class="button-style">내동행</button>
@@ -35,8 +85,9 @@
                             </div>
                             <div class="mid-group">
                                 <div class="title-detail">
-                                    <p th:text="${accompany.title}">8월 도쿄 날씨</p>
-                                    <p class="time" th:style="'margin-top:10px;'" th:text="${accompany.createdAt.toLocalDate()}">3시간 전</p>
+                                    <p th:text="${accompany.accompany.title}">8월 도쿄 날씨</p>
+                                    <p class="time" th:style="'margin-top:10px;'"
+                                       th:text="${accompany.accompany.createdAt.toLocalDate()}">3시간 전</p>
                                 </div>
 
                                 <div class="profile-box-in-detail">
@@ -45,8 +96,10 @@
                                             <img src="/img/profile.jpg" class="profile-s-detail">
                                         </div>
                                         <div th:style="'margin-left:10px;'">
-                                            <div class="theme-s"><p th:style="'margin-top:2px'" th:text="${accompany.member.theme}">감성</p></div>
-                                            <div th:style="'color: white; margin-top:10px; font-size: 15px; text-align:center;'" th:text="${accompany.member.nickname}">
+                                            <div class="theme-s"><p th:style="'margin-top:2px'"
+                                                                    th:text="${accompany.accompany.member.theme}">감성</p></div>
+                                            <div th:style="'color: white; margin-top:10px; font-size: 15px; text-align:center;'"
+                                                 th:text="${accompany.accompany.member.nickname}">
                                                 수콩님
                                             </div>
                                         </div>
@@ -55,7 +108,7 @@
 
                             </div>
                             <div class="content-detail">
-                                <p th:utext="${accompany.content}">
+                                <p th:utext="${accompany.accompany.content}">
                                     8월에 가족 여행 가려고 하는데 날씨 어떤지 궁금합니다!
                                     많이 더울까요? <br>
                                     여름에 도쿄 갔다왔던 분들 어땠는지 알려주세요!! <br>이번에 3박 4일 일정으로 계획 세웠는데
@@ -64,27 +117,32 @@
                                 </p>
                             </div>
                             <div class="last">
-                                <div th:style="'color: white; font-size:12px;'" th:text="'조회수 '+ ${accompany.viewCount} + ' / 좋아요 '+${accompany.likeCount} +' / 댓글'">조회수 / 좋아요 / 댓글</div>
+                                <div th:style="'color: white; font-size:12px;'"
+                                     th:text="'조회수 '+ ${accompany.accompany.viewCount} + ' / 좋아요 '+${accompany.accompany.likeCount} +' / 댓글' +${accompany.getComments().size()}">
+                                    조회수 / 좋아요 / 댓글
+                                </div>
                                 <button class="write-btn1">좋아요</button>
                             </div>
                         </div>
-
-                        <div class="square3">
-                            <div class="profile-box-group-comment">
-                                <div>
-                                    <img src="/img/profile.jpg" class="profile-s-comment">
-                                </div>
-                                <div class="comment">
-                                    <div th:style="'color: white; margin-top:10px; font-size: 15px'">소이치</div>
-                                    <p th:style="'font-size:14px;'">너무 더웠어요! 무조건 반팔 챙기세요!!</p>
-                                    <p class="time">3시간 전&nbsp;&nbsp;&nbsp;댓글쓰기</p>
+                        <div id="comments">
+                            <div  class="square3" th:each="comment:${accompany.comments}">
+                                <div class="profile-box-group-comment">
+                                    <div>
+                                        <img src="/img/profile.jpg" class="profile-s-comment">
+                                    </div>
+                                    <div class="comment">
+                                        <div th:style="'color: white; margin-top:10px; font-size: 15px'"th:text="${comment.member.nickname}">소이치</div>
+                                        <p th:style="'font-size:14px;'" th:text="${comment.content}">너무 더웠어요! 무조건 반팔 챙기세요!!</p>
+                                        <p class="time" th:text="${comment.createdAt.toLocalDate()}+' ' +${comment.createdAt.toLocalTime()}">3시간 전&nbsp;&nbsp;&nbsp;댓글쓰기</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="comment-box">
-                            <input class="comment-text" type="text" placeholder="댓글을 작성해주세요 :)">
-                            <button class="comment-btn"><img src="/img/chat.png"
-                                                             th:style="'width:35px; height:35px;'"></button>
+                            <input id="comment" class="comment-text" type="text" placeholder="댓글을 작성해주세요 :)">
+                            <button type="button" class="comment-btn" onclick="addComment()"><img src="/img/chat.png"
+                                                                                       th:style="'width:35px; height:35px;'">
+                            </button>
                         </div>
                     </div>
                 </div>

@@ -2,6 +2,7 @@ package com.example.ryokouikitai.domain.accompany;
 
 import com.example.ryokouikitai.domain.area.Course;
 import com.example.ryokouikitai.domain.member.Member;
+import com.example.ryokouikitai.dto.accompany.CommentDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,7 +18,7 @@ public class AccompanyComment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -26,5 +27,14 @@ public class AccompanyComment {
     private Accompany accompany;
     private String content;
     private LocalDateTime createdAt;
+
+    public CommentDto commentDto() {
+        return CommentDto.builder()
+                .id(id)
+                .nickname(member.getNickname())
+                .content(content)
+                .createdAt(createdAt)
+                .build();
+    }
 }
 

@@ -2,6 +2,7 @@ package com.example.ryokouikitai.controller.accompany;
 
 import com.example.ryokouikitai.domain.accompany.Accompany;
 import com.example.ryokouikitai.domain.area.Category;
+import com.example.ryokouikitai.dto.accompany.AccompanyDetailDto;
 import com.example.ryokouikitai.dto.accompany.AccompanyResponseDto;
 import com.example.ryokouikitai.service.accompany.AccompanyService;
 import com.example.ryokouikitai.service.area.ThemeService;
@@ -45,8 +46,8 @@ public class AccompanyController {
 
     @GetMapping("/detail/{accompany-id}")
     public String getBoard1Detail(@PathVariable("accompany-id") String accompanyId, Model model) {
-        Accompany accompany = accompanyService.getById(accompanyId);
-        model.addAttribute("accompany", accompany);
+        AccompanyDetailDto accompanyDetailDto = accompanyService.getById(accompanyId);
+        model.addAttribute("accompany", accompanyDetailDto);
         return "accompany/detail";
     }
 }
