@@ -80,8 +80,8 @@
 
                         <div class="square2">
                             <div class="button-group2">
-                                <button class="write-btn-detail">글 수정</button>
-                                <button class="write-btn-detail">글 삭제</button>
+                                <button class="write-btn-detail" th:if="${session.memberInfo.id}==${accompany.accompany.member.id}" th:onclick="|location.href='/accomapny/rewrite/'+${accompany.accompany.id}|">글 수정</button>
+                                <button class="write-btn-detail" th:if="${session.memberInfo.id}==${accompany.accompany.member.id}" >글 삭제</button>
                             </div>
                             <div class="mid-group">
                                 <div class="title-detail">

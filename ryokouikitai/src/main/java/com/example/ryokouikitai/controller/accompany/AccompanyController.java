@@ -42,6 +42,14 @@ public class AccompanyController {
         model.addAttribute("theme", theme);
         return "accompany/write";
     }
+    @GetMapping("/rewrite/{accompany-id}")
+    public String getReWriteAccompanyPage(@PathVariable("accompany-id")String accompanyId, Model model) {
+        Accompany accompany = accompanyService.getById(accompanyId).getAccompany();
+        model.addAttribute("accompany", accompany);
+        List<Category> theme = themeService.getTheme();
+        model.addAttribute("theme", theme);
+        return "accompany/write";
+    }
 
 
     @GetMapping("/detail/{accompany-id}")

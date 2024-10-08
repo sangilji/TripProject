@@ -76,7 +76,8 @@ public class AccompanyService {
 
     @Transactional
     public CommentDto createComment(Integer id, String comment, String postId) {
-        Member member = memberRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 멤버입니다."));
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 멤버입니다."));
         Accompany accompany = accompanyRepository.getReferenceById(Integer.valueOf(postId));
         AccompanyComment accompanyComment = AccompanyComment.builder()
                 .accompany(accompany)
@@ -85,7 +86,6 @@ public class AccompanyService {
                 .content(comment)
                 .build();
         return accompanyCommentRepository.save(accompanyComment).commentDto();
-
     }
 
     public List<CommentDto> getCommentAll(String postId) {

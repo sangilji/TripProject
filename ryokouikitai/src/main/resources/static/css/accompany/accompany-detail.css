@@ -348,3 +348,9 @@
 ::-webkit-scrollbar {
     display: none;
 }
+
+.button-group2 {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}

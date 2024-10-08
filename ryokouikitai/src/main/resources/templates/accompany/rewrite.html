@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<head>
+    <link rel="stylesheet" href="/css/accompany/accompany-write.css">
+    <title>마이페이지</title>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+    <script>
+        function accompanyWrite() {
+            const startDate = $("#searchSdate").val();
+            const endDate = $("#searchEdate").val();
+            const area = $("#area").val();
+            const theme = $("#theme").val();
+            const title = $("#title").val();
+            const content = $('#summernote').summernote('code');
+            if (area === 'default') {
+                alert("지역을 선택해주세요");
+                return;
+            }
+            if (theme === 'default') {
+                alert("테마를 선택해주세요.");
+                return;
+            }
+
+            if (title == null || title === '') {
+                alert("제목을 입력해주세요.");
+                return;
+            }
+            const writeForm = {
+                startDate: startDate,
+                endDate: endDate,
+                area: area,
+                theme: theme,
+                title: title,
+                content: content
+            };
+            console.log(writeForm);
+
+            $.ajax({
+                type: "post",
+                url: "/api/accompany/write",
+                data: writeForm,
+                dataType: "JSON",
+                success: function (response) {
+                    console.log(response);
+                    window.location.href='/accompany';
+                },
+                error: function (request, status, error) {
+                    alert("중복된 닉네임입니다.");
+                }
+            });
+
+        }
+    </script>
+</head>
+<body th:style="'background-image: url(/img/bg.png);background-size: cover;'">
+<div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+<div class="box">
+    <div class="left-box" th:style="'position:fixed;'">
+        <div class="theme"><p th:style="'margin-top:2px'" th:text="${session.memberInfo.theme}">감성</p></div>
+        <div><img src="/img/profile.jpg" class="profile"></div>
+        <div th:style="'color: white; margin-top:20px; font-size: 16px'" th:text="${session.memberInfo.nickname}+'님'">수콩님</div>
+        <div th:style="'color: white; font-size:14px'">포인트 : 10pt</div>
+        <div class="button-group">
+            <button class="button-style">내동행</button>
+            <button class="button-style">동행찾기</button>
+        </div>
+        <!--        <div class="profile-textarea" th:style="'margin-top:20px; color: white'" th:text="${member.introduce}">안녕! 우리 친하게 지내자</div>-->
+    </div>
+    <div class="right-box">
+        <div class="text-form">
+            <div>
+                <div class="archive">
+                    <div>동행찾기</div>
+                    <!--                    <div class="btn-group1">-->
+                    <button class="write-btn" onclick="accompanyWrite()">글쓰기</button>
+                    <!--                    </div>-->
+                </div>
+                <div class="square-group">
+                    <div class="square">
+                        <div class="date-group">
+                            <div class="date">
+                                <label>출발</label>
+                                <input type="date" name="searchSdate" id="searchSdate"
+                                       th:value="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}"/>
+
+                            </div>
+                            <div class="date">
+                                <label>도착</label>
+                                <input type="date" name="searchEdate" id="searchEdate"
+                                       th:value="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}"/>
+                            </div>
+                        </div>
+                        <div class="date-group">
+                            <div class="text-style">
+                                <label th:for="area">지역</label>
+                                <select name="area" id="area" class="form-select select-style">
+                                    <option value="default">지역을 선택해주세요</option>
+                                    <option value="hukuoka">후쿠오카</option>
+                                    <option value="tokyo">도쿄</option>
+                                    <option value="osaka">오사카</option>
+                                    <option value="hokkaido">홋카이도</option>
+                                    <option value="okinawa">오키나와</option>
+                                </select>
+                            </div>
+                            <div class="text-style">
+                                <label th:for="theme">테마</label>
+                                <select name="theme" id="theme" class="form-select select-style">
+                                    <option value="default">테마를 선택해주세요</option>
+                                    <option th:each="val : ${theme}" th:value="${val.getId()}"
+                                            th:utext="${val.getName()}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="title">
+                            <label th:for="title">제목</label>
+                            <input type="text" name="title" id="title" placeholder="제목을 입력하세요.">
+                        </div>
+                    </div>
+                    <div>
+                        <div id="summernote"></div>
+                        <script>
+                            $('#summernote').summernote({
+                                placeholder: '글을 작성해주세요.',
+                                tabsize: 2,
+                                height: 520
+                            });
+                        </script>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
