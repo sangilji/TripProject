@@ -2,6 +2,7 @@ package com.example.ryokouikitai.controller.accompany;
 
 import com.example.ryokouikitai.domain.accompany.Accompany;
 import com.example.ryokouikitai.domain.area.Category;
+import com.example.ryokouikitai.domain.member.MemberInfo;
 import com.example.ryokouikitai.dto.accompany.AccompanyDetailDto;
 import com.example.ryokouikitai.dto.accompany.AccompanyResponseDto;
 import com.example.ryokouikitai.service.accompany.AccompanyService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -43,18 +45,20 @@ public class AccompanyController {
         return "accompany/write";
     }
     @GetMapping("/rewrite/{accompany-id}")
-    public String getReWriteAccompanyPage(@PathVariable("accompany-id")String accompanyId, Model model) {
-        Accompany accompany = accompanyService.getById(accompanyId).getAccompany();
+    public String getReWriteAccompanyPage(HttpSession session, @PathVariable("accompany-id")String accompanyId, Model model) {
+        MemberInfo memberInfo = (MemberInfo) session.getAttribute("memberInfo");
+        Accompany accompany = accompanyService.getById(memberInfo,accompanyId).getAccompany();
         model.addAttribute("accompany", accompany);
         List<Category> theme = themeService.getTheme();
         model.addAttribute("theme", theme);
-        return "accompany/write";
+        return "accompany/rewrite";
     }
 
 
     @GetMapping("/detail/{accompany-id}")
-    public String getBoard1Detail(@PathVariable("accompany-id") String accompanyId, Model model) {
-        AccompanyDetailDto accompanyDetailDto = accompanyService.getById(accompanyId);
+    public String getDetail(HttpSession session, @PathVariable("accompany-id") String accompanyId, Model model) {
+        MemberInfo memberInfo = (MemberInfo) session.getAttribute("memberInfo");
+        AccompanyDetailDto accompanyDetailDto = accompanyService.getById(memberInfo,accompanyId);
         model.addAttribute("accompany", accompanyDetailDto);
         return "accompany/detail";
     }

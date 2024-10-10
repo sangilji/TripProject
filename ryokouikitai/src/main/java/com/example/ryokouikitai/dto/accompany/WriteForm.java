@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 @ToString
 public class WriteForm {
+    private Integer id;
     private String area;
     private String theme;
     private String title;

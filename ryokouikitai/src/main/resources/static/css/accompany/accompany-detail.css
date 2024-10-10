@@ -274,6 +274,18 @@
 
 }
 
+.write-btn1-true {
+    all: unset;
+    width: 60px;
+    height: 25px;
+    font-size: 13px;
+    border-radius: 15px;
+    color: white;
+    background-color: #424C6E;
+    border-color: #424C6E;
+    text-align: center;
+}
+
 .square3 {
     border: 1px solid #FFFFFF;
     width: 600px;

@@ -19,9 +19,19 @@ public class AccompanyDetailDto {
 
     private List<AccompanyComment> comments;
 
+    private Boolean flag;
+
     public AccompanyDetailDto(Accompany accompany) {
         this.accompany = accompany;
         this.comments = accompany.getAccompanyComments();
         this.comments.sort((o1, o2) -> o2.getCreatedAt().compareTo(o1.getCreatedAt()));
+        this.flag = false;
+    }
+
+    public AccompanyDetailDto(boolean b,Accompany accompany) {
+        this.accompany = accompany;
+        this.comments = accompany.getAccompanyComments();
+        this.comments.sort((o1, o2) -> o2.getCreatedAt().compareTo(o1.getCreatedAt()));
+        this.flag =b;
     }
 }

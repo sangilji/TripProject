@@ -8,6 +8,40 @@
     <link rel="stylesheet" href="/css/accompany/accompany-detail.css">
     <title>마이페이지</title>
     <script th:inline="javascript">
+        var isLike = false;
+        function selectLike(){
+            var likeCount = 0;
+            const postId = [[${accompany.accompany.id}]];
+            $.ajax({
+                type: "post",
+                url: `/api/accompany/${postId}/like`,
+                data: null,
+                dataType: "JSON",
+                success: function (response) {
+                    // 서버로부터 isLiked 값을 받아왔다는 가정
+                    console.log(response);
+                    const isLiked = response.data;
+                    let likeCount = parseInt($("#likeCountDisplay").text().split(" / ")[1].split(" ")[1]); // 현재 좋아요 값 가져오기
+                    const likeButton = document.querySelector("#like-button");
+
+                    if (isLiked) {
+                        // 좋아요가 눌린 상태이면 클래스 변경
+                        likeButton.classList.add("write-btn1-true");
+                        likeButton.classList.remove("write-btn1");
+                        likeCount+=1;
+                    } else {
+                        // 좋아요가 취소된 상태이면 원래 클래스 복원
+                        likeButton.classList.remove("write-btn1-true");
+                        likeButton.classList.add("write-btn1");
+                        likeCount-=1;
+                    }
+                    $("#likeCountDisplay").text($("#likeCountDisplay").text().replace(/(좋아요 \d+)/, '좋아요 ' + likeCount));
+                },
+                error: function (request, status, error) {
+                    alert(error);
+                }
+            });
+        }
         function addComment() {
             const comment = $("#comment").val();
             console.log(comment);
@@ -48,6 +82,7 @@
         }
 
         $(document).ready(function() {
+
             $("#comment").on("keyup", function (e) {
                 if (e.key === 'Enter') {
                     addComment();
@@ -80,7 +115,7 @@
 
                         <div class="square2">
                             <div class="button-group2">
-                                <button class="write-btn-detail" th:if="${session.memberInfo.id}==${accompany.accompany.member.id}" th:onclick="|location.href='/accomapny/rewrite/'+${accompany.accompany.id}|">글 수정</button>
+                                <button class="write-btn-detail" th:if="${session.memberInfo.id}==${accompany.accompany.member.id}" th:onclick="|location.href='/accompany/rewrite/'+${accompany.accompany.id}|">글 수정</button>
                                 <button class="write-btn-detail" th:if="${session.memberInfo.id}==${accompany.accompany.member.id}" >글 삭제</button>
                             </div>
                             <div class="mid-group">
@@ -117,11 +152,11 @@
                                 </p>
                             </div>
                             <div class="last">
-                                <div th:style="'color: white; font-size:12px;'"
+                                <div id="likeCountDisplay" th:style="'color: white; font-size:12px;'"
                                      th:text="'조회수 '+ ${accompany.accompany.viewCount} + ' / 좋아요 '+${accompany.accompany.likeCount} +' / 댓글' +${accompany.getComments().size()}">
                                     조회수 / 좋아요 / 댓글
                                 </div>
-                                <button class="write-btn1">좋아요</button>
+                                <button id="like-button" class="write-btn1" onclick="selectLike()" th:classappend="${accompany.flag== true} ? 'write-btn1-true' : 'write-btn1'">좋아요</button>
                             </div>
                         </div>
                         <div id="comments">

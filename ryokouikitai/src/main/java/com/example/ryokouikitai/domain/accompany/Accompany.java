@@ -4,6 +4,8 @@ import com.example.ryokouikitai.domain.area.Area;
 import com.example.ryokouikitai.domain.area.Category;
 import com.example.ryokouikitai.domain.member.Member;
 import java.util.List;
+
+import com.example.ryokouikitai.dto.accompany.WriteForm;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,14 +25,14 @@ public class Accompany {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "area_id")
     private Area area;
 
     @OneToMany(mappedBy = "accompany", fetch = FetchType.LAZY)
     private List<AccompanyComment> accompanyComments;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Category category;
     private String title;
@@ -46,5 +48,16 @@ public class Accompany {
 
     public void updateViewCount() {
         this.viewCount+=1;
+    }
+
+    public void update(WriteForm writeForm, Area area, Category category) {
+        this.area = area;
+        this.category = category;
+        this.content = writeForm.getContent();
+        this.title = writeForm.getTitle();
+    }
+
+    public void updateLikeCount(int count) {
+        likeCount += count;
     }
 }
