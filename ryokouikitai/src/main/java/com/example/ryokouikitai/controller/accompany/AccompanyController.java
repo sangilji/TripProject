@@ -8,6 +8,9 @@ import com.example.ryokouikitai.dto.accompany.AccompanyResponseDto;
 import com.example.ryokouikitai.service.accompany.AccompanyService;
 import com.example.ryokouikitai.service.area.ThemeService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -16,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -23,6 +27,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/accompany")
+@Slf4j
 public class AccompanyController {
 
     private final ThemeService themeService;
@@ -61,5 +66,12 @@ public class AccompanyController {
         AccompanyDetailDto accompanyDetailDto = accompanyService.getById(memberInfo,accompanyId);
         model.addAttribute("accompany", accompanyDetailDto);
         return "accompany/detail";
+    }
+
+    @GetMapping("/search")
+    public String search(@RequestParam String theme, Model model,@PageableDefault(size = 4)Pageable pageable) {
+        log.info("{}",theme);
+//        accompanyService.getByTheme(theme,pageable);
+        return "accompany/accompanyMain :: #search";
     }
 }

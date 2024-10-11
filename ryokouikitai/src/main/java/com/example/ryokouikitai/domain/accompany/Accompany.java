@@ -55,6 +55,8 @@ public class Accompany {
         this.category = category;
         this.content = writeForm.getContent();
         this.title = writeForm.getTitle();
+        this.startAt = writeForm.getStartDate().atStartOfDay();
+        this.endAt = writeForm.getEndDate().atStartOfDay();
     }
 
     public void updateLikeCount(int count) {

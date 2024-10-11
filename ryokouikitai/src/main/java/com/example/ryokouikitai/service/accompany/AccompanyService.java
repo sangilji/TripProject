@@ -146,4 +146,17 @@ public class AccompanyService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 테마"));
         accompany.update(writeForm,area,category);
     }
+
+    @Transactional
+    public void deleteAccompany(String postId) {
+        Accompany accompany = accompanyRepository.findById(Integer.valueOf(postId))
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
+        accompanyCommentRepository.deleteByAccompany(accompany);
+        accompanyLikeRepository.deleteByAccompany(accompany);
+        accompanyRepository.delete(accompany);
+    }
+
+//    public Page<AccompanyResponseDto> getByTheme(String theme,Pageable pageable) {
+//        accompanyRepository.getAccompanyByThemeWithMemberAndCommentCount(theme,pageable);
+//    }
 }

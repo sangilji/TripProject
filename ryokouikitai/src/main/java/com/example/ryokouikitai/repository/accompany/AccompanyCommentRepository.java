@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AccompanyCommentRepository  extends JpaRepository<AccompanyComment, Integer> {
     List<AccompanyComment> findAllByAccompanyId(Integer postId);
+    void deleteByAccompany(Accompany accompany);
 }

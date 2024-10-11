@@ -42,6 +42,27 @@
                 }
             });
         }
+
+        function deleteAccompany(){
+            const bool = confirm("삭제하시겠습니까?");
+            if (!bool){
+                return;
+            }
+            $.ajax({
+                type: "delete",
+                url: `/api${location.pathname}`,
+                data: null,
+                dataType: "JSON",
+                success: function (response) {
+                    alert("글이 삭제되었습니다.");
+                    window.location.href='/accompany';
+                },
+                error: function (request, status, error) {
+                    alert(error);
+                }
+            });
+        }
+
         function addComment() {
             const comment = $("#comment").val();
             console.log(comment);
@@ -54,6 +75,7 @@
                 dataType: "JSON",
                 success: function (response) {
                     console.log(response);
+                    let commentCount = parseInt($("#likeCountDisplay").text().split(" / ")[2].split(" ")[1]) + 1; // 현재 좋아요 값 가져오기
                     var time = response.data.createdAt.substring(0,10)+" "+response.data.createdAt.substring(11,19);
                     console.log(time);
                     $("#comment").val("");  // 댓글 입력 폼 초기화
@@ -73,6 +95,7 @@
             `;
                     $('#comments').prepend(newComment);
                     $('#comments').scrollTop(0);
+                    $("#likeCountDisplay").text($("#likeCountDisplay").text().replace(/(댓글 \d+)/, '댓글 ' + commentCount));
                 },
                 error: function (request, status, error) {
                     alert("댓글 에러");
@@ -116,7 +139,7 @@
                         <div class="square2">
                             <div class="button-group2">
                                 <button class="write-btn-detail" th:if="${session.memberInfo.id}==${accompany.accompany.member.id}" th:onclick="|location.href='/accompany/rewrite/'+${accompany.accompany.id}|">글 수정</button>
-                                <button class="write-btn-detail" th:if="${session.memberInfo.id}==${accompany.accompany.member.id}" >글 삭제</button>
+                                <button class="write-btn-detail" th:if="${session.memberInfo.id}==${accompany.accompany.member.id}" onclick="deleteAccompany()">글 삭제</button>
                             </div>
                             <div class="mid-group">
                                 <div class="title-detail">
@@ -153,7 +176,7 @@
                             </div>
                             <div class="last">
                                 <div id="likeCountDisplay" th:style="'color: white; font-size:12px;'"
-                                     th:text="'조회수 '+ ${accompany.accompany.viewCount} + ' / 좋아요 '+${accompany.accompany.likeCount} +' / 댓글' +${accompany.getComments().size()}">
+                                     th:text="'조회수 '+ ${accompany.accompany.viewCount} + ' / 좋아요 '+${accompany.accompany.likeCount} +' / 댓글 ' +${accompany.getComments().size()}">
                                     조회수 / 좋아요 / 댓글
                                 </div>
                                 <button id="like-button" class="write-btn1" onclick="selectLike()" th:classappend="${accompany.flag== true} ? 'write-btn1-true' : 'write-btn1'">좋아요</button>

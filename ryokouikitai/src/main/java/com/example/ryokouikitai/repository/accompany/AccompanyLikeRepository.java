@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface AccompanyLikeRepository  extends JpaRepository<AccompanyLike, Integer> {
 
     Optional<AccompanyLike> findByMemberAndAccompany(Member member, Accompany accompany);
+    void deleteByAccompany(Accompany accompany);
 }

@@ -57,4 +57,10 @@ public class AccompanyRestController {
         boolean b = accompanyService.likeAccompany(memberInfo.getId(), postId);
         return BaseResponse.okWithData(HttpStatus.OK, "좋아요", b);
     }
+
+    @DeleteMapping("/detail/{postId}")
+    public ResponseEntity<?> delete(@PathVariable String postId) {
+        accompanyService.deleteAccompany(postId);
+        return BaseResponse.ok(HttpStatus.OK, "삭제완료");
+    }
 }
