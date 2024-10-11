@@ -16,4 +16,7 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
     Page<Board> findAllByBoardMenu(@Param("boardName") String boardName, Pageable pageable);
 //    DB 역할 수행
 
+@Query("select b from Board b left join fetch b.boardComments where b.id = :id ")
+    Board findByIdWithComment(@Param("id") Integer id);
+
 }

@@ -55,7 +55,7 @@ public class MemberRestController {
         MemberInfo memberInfo = (MemberInfo) session.getAttribute("memberInfo");
         memberService.updateProfile(memberInfo.getId(), profile);
         memberInfo.setProfile(profile);
-        session.setAttribute("memberInfo",memberInfo);
+
         return BaseResponse.ok(HttpStatus.OK,"변경 완료");
     }
 }

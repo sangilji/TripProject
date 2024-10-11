@@ -223,6 +223,19 @@
 
 }
 
+.write-btn1-true {
+    all: unset;
+    width: 60px;
+    height: 25px;
+    font-size: 13px;
+    border-radius: 15px;
+    color: white;
+    background-color: #424C6E;
+    border-color: #424C6E;
+    text-align: center;
+}
+
+
 .line {
     border-top: 0.1em solid white;
     border-bottom: 20px;
@@ -697,4 +710,14 @@ a {
 
 li{
     list-style-type: none;
+}
+
+#comments{
+    overflow: scroll;
+    height:420px;
+    margin-top: 15px;
+}
+
+::-webkit-scrollbar{
+    display: none;
 }
