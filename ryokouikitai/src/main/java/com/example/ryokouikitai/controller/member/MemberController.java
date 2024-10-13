@@ -43,7 +43,7 @@ public class MemberController {
             return "members/login";
         }
 
-        return "redirect:/area/tokyo/main-proc";
+        return "redirect:/area/select";
     }
 
     @GetMapping("/join")

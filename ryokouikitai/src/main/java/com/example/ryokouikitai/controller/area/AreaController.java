@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Slf4j
 public class AreaController {
 
+    @GetMapping("/select")
+    public String login(Model model) {
+        return "area/selectMain";
+    }
+
 
     @GetMapping("/{area_name}/main-proc")
     public String login(Model model, @PathVariable("area_name") String area) {

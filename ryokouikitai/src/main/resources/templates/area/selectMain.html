@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<head>
+    <script>
+        function moveArea(param) {
+            window.location.href = `/area/${param}/main-proc`;
+        }
+    </script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            width: 77vw;
+            height: 100vh;
+            background-image: url('/img/bg.png');
+            background-size: cover;
+            background-position: center;
+            position: relative; /* 자식 요소들이 이 기준으로 배치됨 */
+        }
+
+        p {
+            position: absolute;
+            top: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2vw;
+            color: white;
+        }
+
+        button {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            position: absolute; /* 자유 위치 설정 */
+        }
+
+        /* 이미지 원본 크기 유지 */
+        button img {
+            display: block;
+            max-width: none;
+            height: auto;
+        }
+
+        /* 원하는 위치에 고정 (화면 크기와 무관) */
+        .btn1 {
+            top: 880px;
+            left: 0px;
+        }
+
+        .btn2 {
+            top: 275px;
+            left: 905px;
+        }
+
+        .btn3 {
+            top: 570px;
+            left: 440px;
+        }
+
+        .btn4 {
+            top: 50px;
+            left: 1090px;
+        }
+
+        .btn5 {
+            top: 750px;
+            left: 280px;
+        }
+
+        /* 툴팁 스타일 */
+        .tooltip {
+            position: absolute;
+            visibility: hidden;
+            background-color: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 18px; /* 텍스트 크기 증가 */
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: visibility 0.2s, opacity 0.2s;
+            opacity: 0;
+        }
+
+        /* 이미지 크기 조정 */
+        .tooltip img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        /* 버튼에 마우스 올렸을 때 툴팁 표시 */
+        button:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* 툴팁 위치 */
+        .tooltip {
+            top: -10px; /* 더 높은 위치로 조정 */
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+<p class="p-lg-5">지역을 선택하세요!</p>
+
+<button class="btn1" onclick="moveArea('okinawa')"><img src="/img/map1.png" alt="Map1"/>
+    <div class="tooltip">
+        <img src="/img/okinawa.png" alt="Okinawa Icon"/>
+        <span>오키나와</span>
+    </div>
+</button>
+<button class="btn2" onclick="moveArea('tokyo')">
+    <img src="/img/map2.png" alt="Map2"/>
+    <div class="tooltip">
+        <img src="/img/tokyo.png" alt="Tokyo Icon"/>
+        <span>도쿄</span>
+    </div>
+</button>
+
+<button class="btn3" onclick="moveArea('osaka')">
+    <img src="/img/map3.png" alt="Map3"/>
+    <div class="tooltip">
+        <img src="/img/osaka.png" alt="Osaka Icon"/>
+        <span>오사카</span>
+    </div>
+</button>
+
+<button class="btn4" onclick="moveArea('hokkaido')">
+    <img src="/img/map4.png" alt="Map4"/>
+    <div class="tooltip">
+        <img src="/img/hokkaido.png" alt="Hokkaido Icon"/>
+        <span>홋카이도</span>
+    </div>
+</button>
+
+<button class="btn5" onclick="moveArea('hukuoka')">
+    <img src="/img/map5.png" alt="Map5"/>
+    <div class="tooltip">
+        <img src="/img/hukuoka.png" alt="Fukuoka Icon"/>
+        <span>후쿠오카</span>
+    </div>
+</button>
+</body>
+</html>
