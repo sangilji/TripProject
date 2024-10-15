@@ -17,9 +17,11 @@ import com.example.ryokouikitai.repository.accompany.AccompanyRepository;
 import com.example.ryokouikitai.repository.area.AreaRepository;
 import com.example.ryokouikitai.repository.area.ThemeRepository;
 import com.example.ryokouikitai.repository.member.MemberRepository;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -73,19 +75,19 @@ public class AccompanyService {
     }
 
     @Transactional
-    public AccompanyDetailDto getById(MemberInfo memberInfo,String accompanyId) {
+    public AccompanyDetailDto getById(MemberInfo memberInfo, String accompanyId) {
         Member member = memberRepository.findById(memberInfo.getId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 멤버입니다."));
         Accompany accompany = accompanyRepository.findByIdWithComment(Integer.valueOf(accompanyId));
 
         accompany.updateViewCount();
-        boolean b= false;
+        boolean b = false;
         Optional<AccompanyLike> like = accompanyLikeRepository.findByMemberAndAccompany(member, accompany);
         if (like.isPresent()) {
             b = like.get()
                     .getFlag();
         }
-        return new AccompanyDetailDto(b,accompany);
+        return new AccompanyDetailDto(b, accompany);
     }
 
     @Transactional
@@ -104,7 +106,7 @@ public class AccompanyService {
 
     public List<CommentDto> getCommentAll(String postId) {
         return accompanyCommentRepository.findAllByAccompanyId(
-                Integer.parseInt(postId))
+                        Integer.parseInt(postId))
                 .stream()
                 .map(AccompanyComment::commentDto)
                 .collect(Collectors.toList());
@@ -124,7 +126,7 @@ public class AccompanyService {
             int count = accompanyLike.changeLike();
             accompany.updateLikeCount(count);
             return accompanyLike.getFlag();
-        }else{
+        } else {
             AccompanyLike accompanyLike = AccompanyLike.builder()
                     .accompany(accompany)
                     .member(member)
@@ -144,7 +146,7 @@ public class AccompanyService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지역"));
         Category category = themeRepository.findById(Integer.valueOf(writeForm.getTheme()))
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 테마"));
-        accompany.update(writeForm,area,category);
+        accompany.update(writeForm, area, category);
     }
 
     @Transactional
@@ -156,7 +158,18 @@ public class AccompanyService {
         accompanyRepository.delete(accompany);
     }
 
-//    public Page<AccompanyResponseDto> getByTheme(String theme,Pageable pageable) {
-//        accompanyRepository.getAccompanyByThemeWithMemberAndCommentCount(theme,pageable);
-//    }
+    public Page<AccompanyResponseDto> getByThemeOrMemberId(String theme, String memberId, Pageable pageable) {
+        if (memberId != null && !memberId.isEmpty()) {
+            log.info("{}",memberId);
+            return accompanyRepository.getAccompanyByMemberIdWithMemberAndCommentCount(Integer.parseInt(memberId), pageable);
+        }
+        if (theme == null || theme.isEmpty()) {
+            return accompanyRepository.getAccompanyWithMemberAndCommentCount(pageable);
+        }
+        return accompanyRepository.getAccompanyByThemeWithMemberAndCommentCount(theme, pageable);
+    }
+
+    public Page<AccompanyResponseDto> getByTitle(String title, Pageable pageable) {
+        return accompanyRepository.getAccompanyByTitleWithMemberAndCommentCount(title, pageable);
+    }
 }

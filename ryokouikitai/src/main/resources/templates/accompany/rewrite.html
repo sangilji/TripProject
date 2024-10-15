@@ -77,7 +77,7 @@
         <div th:style="'color: white; font-size:14px'">포인트 : 10pt</div>
         <div class="button-group">
             <button class="button-style">내동행</button>
-            <button class="button-style">동행찾기</button>
+            <button class="button-style" th:onclick="|location.href='@{/accompany}'|">동행찾기</button>
         </div>
         <!--        <div class="profile-textarea" th:style="'margin-top:20px; color: white'" th:text="${member.introduce}">안녕! 우리 친하게 지내자</div>-->
     </div>

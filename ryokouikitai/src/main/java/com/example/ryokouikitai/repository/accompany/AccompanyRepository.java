@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
 import org.springframework.data.repository.query.Param;
 
 public interface AccompanyRepository extends JpaRepository<Accompany, Integer> {
@@ -20,4 +19,19 @@ public interface AccompanyRepository extends JpaRepository<Accompany, Integer> {
     @Query("select a from Accompany a left join fetch a.accompanyComments where a.id = :id")
     Accompany findByIdWithComment(@Param("id") Integer id);
 
+
+    @Query("select new com.example.ryokouikitai.dto.accompany.AccompanyResponseDto(a, count(c)) " +
+            "from Accompany a left join AccompanyComment c on c.accompany = a where a.category.name= :theme " +
+            "group by a")
+    Page<AccompanyResponseDto> getAccompanyByThemeWithMemberAndCommentCount(@Param("theme") String theme, Pageable pageable);
+
+    @Query("select new com.example.ryokouikitai.dto.accompany.AccompanyResponseDto(a, count(c)) " +
+            "from Accompany a left join AccompanyComment c on c.accompany = a where a.member.id= :id " +
+            "group by a")
+    Page<AccompanyResponseDto> getAccompanyByMemberIdWithMemberAndCommentCount(@Param("id") int id, Pageable pageable);
+
+    @Query("select new com.example.ryokouikitai.dto.accompany.AccompanyResponseDto(a, count(c)) " +
+            "from Accompany a left join AccompanyComment c on c.accompany = a where a.title like %:title% " +
+            "group by a")
+    Page<AccompanyResponseDto> getAccompanyByTitleWithMemberAndCommentCount(@Param("title") String title, Pageable pageable);
 }
