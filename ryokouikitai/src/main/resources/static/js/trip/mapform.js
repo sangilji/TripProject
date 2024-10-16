@@ -2,16 +2,40 @@ let map;
 let markers = []; // 마커 저장 배열
 let savedComments = [];
 let commentLocations = []; // 각 코멘트와 관련된 위치 저장 배열
+var initialPosition;
+let geocoder;
 
-// 지도 생성 및 초기 위치 설정 (도쿄)
+$(document).ready(function (){
+    var params = new URLSearchParams(window.location.search);
+
+    // 'city'라는 파라미터 값 추출
+    var city = params.get('city');
+    if(city === 'tokyo'){
+        initialPosition ={lat: 35.68160, lng: 139.766687}
+    } else if (city === 'osaka'){
+        initialPosition = {lat: 34.70258, lng: 135.49614}
+    } else if (city === 'hukuoka'){
+        initialPosition = {lat: 33.58993, lng: 130.42077}
+    } else if (city === 'hokkaido'){
+        initialPosition = {lat: 43.06879, lng: 141.35115}
+    } else if (city === 'okinawa'){
+        initialPosition = {lat: 26.22323, lng : 127.69838}
+    }
+});
+
+
+// 지도 생성 및 초기 위치 설정
 function initMap() {
-    const initialPosition = { lat: 35.6897, lng: 139.692 };
+
 
     // 지도 표시
     map = new google.maps.Map(document.getElementById("map"), {
         center: initialPosition,
-        zoom: 15,
+        zoom: 10,
     });
+
+    // Geocoder 객체 생성
+    geocoder = new google.maps.Geocoder();
 
     // 검색 박스 (자동 완성)
     const input = document.getElementById("search-box");
@@ -23,6 +47,7 @@ function initMap() {
         if (!place.geometry || !place.geometry.location) return;
 
         const location = place.geometry.location;
+        const address = place.formatted_address; // 주소 정보 가져오기
 
         // 지도 중심을 검색한 위치로 이동
         map.setCenter(location);
@@ -30,14 +55,38 @@ function initMap() {
 
         // 마커 추가
         addMarker(location);
-        displayLatlng(location);
+        displayLatlng(location, address);
     });
 
     // 클릭 이벤트로 마커 추가
     map.addListener("click", function (event) {
         const clickedLocation = event.latLng;
-        addMarker(clickedLocation);
-        displayLatlng(clickedLocation);
+
+        /*
+        // 클릭 이벤트로 마커 추가
+        map.addListener("click", function (event) {
+            const clickedLocation = event.latLng;
+            addMarker(clickedLocation);
+            displayLatlng(clickedLocation, address);
+         */
+        geocodeLatLng(clickedLocation);
+        });
+}
+
+// 위도와 경도를 주소로 변환
+function geocodeLatLng(location) {
+    geocoder.geocode({ location: location }, function(results, status) {
+        if (status === 'OK') {
+            if (results[0]) {
+                const address = results[0].formatted_address;
+                displayLatlng(location, address);  // 변환된 주소 전달
+                addMarker(location);
+            } else {
+                console.log('주소를 찾을 수 없습니다.');
+            }
+        } else {
+            console.log('Geocoder 실패: ' + status);
+        }
     });
 }
 
@@ -70,19 +119,13 @@ function removeMarker(marker) {
     }
 }
 
-// 클릭한 위치의 위도와 경도를 화면에 표시
-function displayLatlng(location) {
-    const lat = location.lat();
-    const lng = location.lng();
-    document.getElementById("info").textContent = `위도: ${lat}, 경도: ${lng}`;
-}
-
 // URL에서 쿼리 스트링 값 가져오기
 function getQueryParams() {
     let params = {};
     window.location.search.substring(1).split("&").forEach(function(part) {
         let item = part.split("=");
         params[item[0]] = decodeURIComponent(item[1]);
+
     });
     return params;
 }
@@ -95,6 +138,13 @@ let endDate = new Date(params['endDate']);
 let timeDifference = endDate.getTime() - startDate.getTime();
 let dayCount = Math.ceil(timeDifference / (1000 * 3600 * 24)) + 1; // 출발일 포함
 
+//위도, 경도, 주소 표시
+function displayLatlng(location) {
+    console.log('위도:', location.lat(), '경도:', location.lng(), '주소:', address); // 디버깅용 로그 추가
+    document.getElementById('latitude').textContent = location.lat();
+    document.getElementById('longitude').textContent = location.lng();
+    document.getElementById('address').textContent = address;
+}
 // DB 연결
 
 
@@ -130,12 +180,13 @@ document.getElementById('save-btn').addEventListener('click', function() {
 });
 
 closeModal.onclick = function() {
+    console.log('닫기');
     modal.style.display = "none";
 }
 
 // 모달 외부 클릭 시 닫기
 window.onclick = function(event) {
-    if (event.target == modal) {
+    if (event.target === modal) {
         modal.style.display = "none";
     }
 }
@@ -154,7 +205,7 @@ document.getElementById('save-comment-btn').addEventListener('click', function()
 
 // 저장된 코멘트 리스트 업데이트
 function updateLocationList() {
-    const locationList = document.getElementById('location-list');
+    const locationList = document.getElementById('SaveLocation');
     const targetTable = document.getElementById('DaySchedule'); // 테이블 ID 수정
     locationList.innerHTML = '';
 
@@ -173,7 +224,7 @@ function updateLocationList() {
 
             // 삭제 버튼 생성
             const deleteButton = document.createElement('button');
-            deleteButton.textContent = '삭제';
+            deleteButton.textContent = '-';
             deleteButton.style.marginLeft = '10px';
             deleteButton.style.color = 'white';
             deleteButton.addEventListener('click', function() {
@@ -200,6 +251,28 @@ function updateLocationList() {
     });
 }
 
+/*
+saved-btn을 통해 title을 지정하는 모달창이 나오고
+내용을 입력하고 저장 버튼 클릭시 ajax 실행 저장 쫘자작
+*/
+// POST 요청을 통해 DB에 일정 저장 요청
+// $.ajax({
+//     type: "POST",
+//     url: "/api/trip/saveSchedule",  // 서버의 API 엔드포인트
+//     contentType: "application/json",
+//     data: JSON.stringify({
+//         startAt: startDate,  // CourseRequestDTO의 startAt에 매핑
+//         endAt: endDate       // CourseRequestDTO의 endAt에 매핑
+//     }),
+//     success: function(response) {
+//         // 성공적으로 저장되면 tokyoSchedule 페이지로 이동
+//
+//     },
+//     error: function(xhr, status, error) {
+//         alert("일정을 저장하는 중 오류가 발생했습니다.");
+//         console.log(error);
+//     }
+// });
 
 
 

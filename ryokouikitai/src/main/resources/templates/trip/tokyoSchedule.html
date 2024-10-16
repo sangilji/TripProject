@@ -6,46 +6,106 @@
 </head>
 <head>
     <link rel="stylesheet" href="/css/trip/TokyoCSS.css"/>
+    <script th:inline="javascript">
+        $(document).ready(function (){
+            var params = new URLSearchParams(window.location.search);
+
+            // 'city'라는 파라미터 값 추출
+            var city = params.get('city');
+            document.getElementById("city123").textContent = city.toUpperCase();
+        });
+
+    </script>
+    <style>
+        .nav-underline1 {
+            font-size: 15px;
+            margin: 10px;
+        }
+
+
+        a.nav-link1 {
+            color: white;
+            padding-left: 10px;
+            border: none;
+        }
+
+        a.nav-link1:hover {
+            color: #355F83;
+        }
+
+        .nav {
+            --bs-link-color: #fff;
+            --bs-link-hover-color: #fff;
+            display: flex;
+        }
+    </style>
 </head>
 <body th:style="'background-image: url(/img/bg.png);background-size: cover;overflow:hidden;'">
 <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
 <div class = "box">
     <div class = "table schedule"> <!--전체, n일차 -->
+        <h3>일정 목록</h3>
         <div id ="sidebar">
-            <h3>일정 목록</h3>
             <div id="dayTabs"></div>
         </div>
         <div id="savedcancel" style="text-align: center">
-            <button id ="saved-btn">저장</button>
-            <button id ="cancel-btn">취소</button>
+            <button id ="saved-btn">저장</button> <!--저장되면 컨트롤러로 가서 데이터 저장 진행-->
+            <button id ="cancel-btn">취소</button> <!--취소되면 현재 페이지 리셋?-->
         </div>
     </div>
-
     <div class = "table location"> <!--장소 검색 찜 목록 -->
         <div id = "location2">
             <h3>장소검색</h3>
-            <button id ="save-btn">장소저장</button><br>
+            <div>
+                <ul class="nav nav-underline1">
+                    <li> <a class="nav-link1" id ="SuggestLocation" href="#">추천 장소</a></li>
+                    <li> <a class="nav-link1" id ="SaveLocation" href="#">저장된 장소</a></li>
+                </ul>
+            </div>
 	        <div id="commentModal" class="modal" style="display: none;">
                 <div class="modal-content">
                 <span class="close">&times;</span>
-                    <h2>내용 입력</h2>
-                    <textarea id="comment-input" rows="4" cols="50" placeholder="일정 내용을 입력하세요"></textarea>
-                <button id="save-comment-btn">저장</button>
+                    <div class="ModalBox">
+                        <h2 id = "tagH2">내용 입력</h2>
+                        <div id = "TitleName">
+                        장소이름 : <input type="text">
+                        </div>
+                        <div id ="InfoLocation">
+                            <p>위도 : <span id="latitude"></span> </p>
+                            <p>경도 : <span id="longitude"></span></p>
+                            <p>주소 : <span id="address"></span></p>
+                        </div>
+                        <div>
+                            테마선택 :
+                            <select name = "Category" id="CategorySelect">
+                                <option value="">--선택해주세요--</option>
+                                <option value="food">--식도락--</option>
+                                <option value="feel">--감성--</option>
+                                <option value="shoping">--쇼핑--</option>
+                                <option value="activity">--액티비티--</option>
+                                <option value="sightseeing">--관광--</option>
+                            </select>
+                        </div>
+                        <div>
+                            <textarea id="comment-input" rows="4" cols="40" placeholder="일정 내용을 입력하세요"></textarea>
+                        </div>
+                        <div>
+                            <button id="save-comment-btn">저장</button>
+                            <button id="cancle-mmooddaall">취소</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <input id="search-box" type="text" placeholder="위치 검색">
-            <!-- 도쿄 유명한 장소들 리스트 -->
+            <input id="search-box" type="text" placeholder="위치 검색"><button id ="save-btn">+</button>
             <div id="saved-locations">
                 <ul id = "location-list"></ul>
             </div>
         </div>
     </div>
-
-    <div class = "table ddaySchedule"id = "DaySchedule"> <!--n일차 일정-->
-        <h2>도쿄</h2> ${n}일차
-        <p>${days}</p>
+    <div class = "table ddaySchedule" id = "DaySchedule"> <!--n일차 일정-->
+        <h2 id="city123"></h2>
+        <p id="currentDay"></p>
     </div>
-
 
     <div class = "table maps">
         <div id = "map"></div>
@@ -54,6 +114,7 @@
 
 <script src = "/js/trip/mapform.js"></script>
 <script async src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyCv7v_klpbd7n2jtI3Ab6Y25WgeVPP_qK4&libraries=places"></script>
+
 
 </body>
 </html>

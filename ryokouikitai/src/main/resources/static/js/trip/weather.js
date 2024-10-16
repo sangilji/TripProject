@@ -1,10 +1,17 @@
 // OpenWeatherMap API 사용
 const weatherBox = document.getElementById('weatherBox');
 const apiKey = '6b70384c796149a5476daf005444d347'; // 여기에 OpenWeatherMap API 키 입력
-const city = 'tokyo';// 원하는 도시 설정
+var locationURL = window.location.href; // 현재 페이지의 전체 URL 가져옴
+var CityName = locationURL.split("/").pop();
+// "/"로 배열을 만듦 .pop() = 배열의 마지막 요소
+var city = CityName;// 원하는 도시 설정
+
 
 
 async function fetchWeather() {
+    if (city==='hukuoka'){
+        city='fukuoka';
+    }
     const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`);
     const data = await response.json();
 
@@ -32,7 +39,7 @@ async function fetchWeather() {
             ">
                 <p style="margin: 0;">${today}</p>
                 <img src="${iconUrl}" alt="날씨 아이콘">
-                <p style="margin: 0;">온도: ${temperature}°C</p>
+                <p style="margin: 0;"> ${temperature}°C</p>
             </div>
         `;
 

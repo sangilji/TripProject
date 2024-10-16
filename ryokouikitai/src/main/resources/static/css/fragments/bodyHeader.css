@@ -87,3 +87,48 @@ a.nav-link-small:hover {
     height: 15px;
     align-self: center;
 }
+
+/* 모달 스타일 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px; /* 정사각형 모달 */
+    height: 700px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.date-picker-container {
+    display: flex;
+    justify-content: space-between;
+    flex-display: row;
+}
+
+.date-picker {
+    position: relative;
+    width: 25%; /* 입력 필드 크기 조정 */
+}
+
+.flatpickr-calendar {
+    z-index: 10000; /* 모달 위에 나타나도록 설정 */
+}
+
+/* Flatpickr 캘린더가 입력 필드 옆에 나타나도록 조정 */
+.flatpickr-calendar.left {
+    position: absolute;
+    top: 10px;
+    left: 100%; /* 입력 필드 바로 옆에 배치 */
+}
