@@ -1,5 +1,7 @@
 package com.example.ryokouikitai.Trip;
 
+import com.example.ryokouikitai.Trip.Repository.AttractionRepository;
+import com.example.ryokouikitai.domain.area.Attraction;
 import com.example.ryokouikitai.domain.area.Course;
 import com.example.ryokouikitai.domain.area.CourseAttraction;
 import com.example.ryokouikitai.domain.member.Member;
@@ -8,22 +10,24 @@ import com.example.ryokouikitai.Trip.DTO.CourseAttractionDTO;
 import com.example.ryokouikitai.Trip.DTO.CourseRequestDTO;
 import com.example.ryokouikitai.Trip.Repository.CourseAttractionRepository;
 import com.example.ryokouikitai.Trip.Repository.CourseRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 @Service
+@RequiredArgsConstructor
 public class CourseService {
 
-    @Autowired
-    private CourseRepository courseRepository;
+    private final CourseRepository courseRepository;
 
-    @Autowired
-    private CourseAttractionRepository courseAttractionRepository;
+    private final CourseAttractionRepository courseAttractionRepository;
 
-    @Autowired
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
+    private final AttractionRepository attractionRepository;
 
     // 코스 및 장소 저장 메서드
     @Transactional
@@ -73,4 +77,9 @@ public class CourseService {
 
         course.update(requestDTO);
     }
+
+    public List<Attraction> getAttraction() {
+        return attractionRepository.findAll();
+    }
+
 }

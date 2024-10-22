@@ -193,3 +193,7 @@ html, body {
 #tagH2 {
     margin-top: 5px;
 }
+
+.recommend{
+    list-style-type: none;
+}
