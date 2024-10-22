@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" href="/css/fragments/bodyHeader.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <div class="headerTop" th:fragment="bodyHeader">
     <nav class="navbar border-body">
@@ -33,7 +34,26 @@
                 <div>
                     <ul class="nav nav-underline">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">일정짜기</a>
+                            <a class="nav-link" href="#" id="scheduleBtn">일정짜기</a>
+                            <!-- 모달 -->
+                            <div id="calendarModal" class="modal">
+                                <div class="modal-content">
+                                    <span class="close">&times;</span>
+                                    <h2 th:align="center">여행 날짜 선택</h2>
+                                    <br>
+                                    <br>
+                                    <div class="date-picker-container">
+                                        <div class="date-picker">
+                                            <label for="startDate">출발하는 날</label>
+                                            <input type="text" id="startDate" class="flatpickr" placeholder="출발하는 날">
+                                            <br>
+                                            <label for="endDate">돌아오는 날</label>
+                                            <input type="text" id="endDate" class="flatpickr" placeholder="돌아오는 날">
+                                        </div>
+                                    </div>
+                                    <button id="saveScheduleBtn">일정 저장</button>
+                                </div>
+                            </div>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/board/tip">여행꿀팁</a>
