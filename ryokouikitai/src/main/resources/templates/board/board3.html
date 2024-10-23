@@ -165,11 +165,11 @@
     <button class="selected-btn3 btn btn-primary selected-btn-color">
         영역다툼
     </button>
-    <div class="left-box">
-        <div class="theme"><p th:style="'margin-top:2px'">감성</p></div>
+    <div class="left-box" th:style="'position:fixed;'">
+        <div class="theme"><p th:style="'margin-top:2px'" th:text="${session.memberInfo.theme}">감성</p></div>
         <div><img src="/img/profile.jpg" class="profile"></div>
-        <div th:style="'color: white; margin-top:20px; font-size: 16px'">수콩님</div>
-        <div th:style="'color: white; font-size:14px'">포인트 : 10pt</div>
+        <div th:style="'color: white; margin-top:20px; font-size: 16px'" th:text="${session.memberInfo.nickname} + '님'">수콩님</div>
+        <div th:style="'color: white; font-size:14px'" th:text="'포인트 : ' + ${session.memberInfo.point} + 'pt'">포인트 : 10pt</div>
     </div>
 
 

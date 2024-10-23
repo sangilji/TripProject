@@ -8,23 +8,131 @@
 <head>
     <link rel="stylesheet" href="/css/board/board.css">
     <title>자유게시판</title>
+    <script th:inline="javascript">
+
+        function deleteBoard() {
+            const bool = confirm("삭제 하시겠습니까?");
+            if (!bool) {
+                return;
+            }
+            $.ajax({
+                    type: "delete",
+                    url: `/api${location.pathname}`,
+                    data: null,
+                    dataType: "JSON",
+                    success: function (response) {
+                        alert("글이 삭제 되었습니다. ");
+                        window.location.href = '/board/plan';
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+        }
+
+        function selectLike() {
+            var likeCount = 0;
+            const postId = [[${boardDto.board.id}]];
+            console.log(postId);
+            $.ajax({
+                type: "post",
+                url: `/api/board/${postId}/like`,
+                data: null,
+                dataType: "JSON",
+                success: function (response) {
+                    const isLiked = response.data;
+                    let likeCount = parseInt($('#likeCountDisplay').text().split(" / ")[1].split(" ")[1]);
+                    const likeButton = document.querySelector('#like-button');
+
+                    if (isLiked) {
+                        likeButton.classList.add("write-btn1-true");
+                        likeButton.classList.remove("write-btn1");
+                        likeCount += 1;
+                    } else {
+                        likeButton.classList.remove("write-btn1-true");
+                        likeButton.classList.add("write-btn1");
+                        likeCount -= 1;
+                    }
+                    $('#likeCountDisplay').text($('#likeCountDisplay').text().replace(/(좋아요 \d+)/, '좋아요 ' + likeCount));
+                },
+                error: function (error) {
+                    ``
+                    alert(error);
+                },
+            });
+        }
+
+        function addComment() {
+            const comment = $("#comment").val();
+            console.log(comment);
+            const postId = [[${boardDto.board.id}]];
+            console.log(postId);
+            $.ajax({
+                type: "post",
+                url: `/api/board/${postId}/createComment`,
+                data: {"comment": comment},
+                dataType: "JSON",
+                success: function (response) {
+                    console.log(response);
+                    let commentCount = parseInt($('#likeCountDisplay').text().split(" / ")[2].split(" ")[1]) + 1;
+                    var time = response.data.createdAt.substring(0, 10) + " " + response.data.createdAt.substring(11, 19);
+                    console.log(time);
+                    $("#comment").val("");
+                    const newComment = `
+                     <div class="square3" >
+                                <div class="profile-box-group-comment">
+                                    <div>
+                                        <img src="/img/profile.jpg" class="profile-s-comment">
+                                    </div>
+                                    <div class="comment">
+                                        <div style="color: white; margin-top:10px; font-size: 15px" th:text="${response.data.nickname}">소이치</div>
+                                        <p style="font-size:14px;">${response.data.content}</p>
+                                        <p class="time" >${time}</p>
+                                    </div>
+                                </div>
+                            </div>
+                    `;
+                    $('#comments').prepend(newComment);
+                    $('#comments').scrollTop(0);
+                    $('#likeCountDisplay').text($('#likeCountDisplay').text().replace(/(댓글 \d+)/, '댓글 ' + commentCount));
+                },
+                error: function (error) {
+                    ``
+                    console.error("Error fetching chat data:", error);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $("#comment").on("keyup", function (e) {
+                if (e.key === 'Enter') {
+                    addComment();
+                }
+            });
+        });
+    </script>
 </head>
 <body th:style="'background-image: url(/img/bg.png);background-size: cover;'">
 <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
 <div class="box">
-    <button class="selected-btn1 btn btn-primary unselected-btn-color" th:onclick="|location.href='@{/board/tip}'|">자유게시판
+    <button class="selected-btn1 btn btn-primary unselected-btn-color"
+            th:onclick="|location.href='@{/board/tip}'|">자유게시판
     </button>
     <button class="selected-btn2 btn btn-primary selected-btn-color"
-            >일정공유
+            th:onclick="|location.href='@{/board/plan}'|">일정공유
     </button>
     <button class="selected-btn3 btn btn-primary unselected-btn-color" th:onclick="|location.href='@{/board/rank}'|">
         영역다툼
     </button>
-    <div class="left-box">
-        <div class="theme"><p th:style="'margin-top:2px'">감성</p></div>
+    <div class="left-box" th:style="'position:fixed;'">
+        <div class="theme"><p th:style="'margin-top:2px'" th:text="${session.memberInfo.theme}">감성</p></div>
         <div><img src="/img/profile.jpg" class="profile"></div>
-        <div th:style="'color: white; margin-top:20px; font-size: 16px'">수콩님</div>
-        <div th:style="'color: white; font-size:14px'">포인트 : 10pt</div>
+        <div th:style="'color: white; margin-top:20px; font-size: 16px;'"
+             th:text="${session.memberInfo.nickname} + '님'">수콩님
+        </div>
+        <div th:style="'color: white; font-size:14px'" th:text="'포인트 : ' + ${session.memberInfo.point} + 'pt'">포인트 :
+            10pt
+        </div>
     </div>
 
 
@@ -32,65 +140,85 @@
         <div class="join-form">
             <div class="form-group">
                 <div class="board">
-                    <div class="archive">일정공유&nbsp;&nbsp;&nbsp;
-                        <button class="write-btn">글 작성</button>
-                        <div class="line"></div>
-                        <div class="btn-group">
-                            <button class="theme-btn">전체</button>
-                            <button class="theme-btn">식도락</button>
-                            <button class="theme-btn">감성</button>
-                            <button class="theme-btn">쇼핑</button>
-                            <button class="theme-btn">액티비티</button>
-                            <button class="theme-btn">관광</button>
-                        </div>
-                        <div class="square">
-                            <div th:style="'width:400px;'">
-                                <div class="title">8월 도쿄 날씨</div>
-                                <div class="content">8월에 가족 여행 가려고 하는데
-                                    날씨 어떤지 궁금합니다! 많이 더울까요?
-                                </div>
-                                <div class="time">3시간 전</div>
+                    <div class="archive">일정공유
+
+                        <div class="square2">
+                            <div class="button-group">
+                                <button class="write-btn-detail"
+                                        th:if="${session.memberInfo.id}==${boardDto.board.member.id}"
+                                        th:onclick="|location.href='/board/rewrite/'+${boardDto.board.id}|">글 수정
+                                </button>
+                                <button class="write-btn-detail"
+                                        th:if="${session.memberInfo.id}==${boardDto.board.member.id}"
+                                        onclick="deleteBoard()">글 삭제
+                                </button>
                             </div>
-                            <div class="profile-box" th:style="'width:150px; display:flex;'">
-                                <div class="profile-box-in">
+                            <div class="mid-group">
+                                <div class="title-detail">
+                                    <p th:text="${boardDto.board.title}">도쿄 2박 3일 일정 추천</p>
+                                    <p class="time" th:style="'margin-top:10px;'"
+                                       th:text="${boardDto.board.createdAt.toLocalDate()}">3시간 전</p>
+                                </div>
+
+                                <div class="profile-box-in-detail">
+                                    <div class="profile-box-group">
+                                        <div>
+                                            <img src="/img/profile.jpg" class="profile-s-detail">
+                                        </div>
+                                        <div th:style="'margin-left:10px;'">
+                                            <div class="theme-s"><p th:style="'margin-top:2px'"
+                                                                    th:text="${boardDto.board.member.theme}">감성</p>
+                                            </div>
+                                            <div th:style="'color: white; margin-top:10px; font-size: 15px; text-align:center;'"
+                                                 th:text="${boardDto.board.member.nickname}">
+                                                수콩님
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="content-detail">
+                                <p th:utext="${boardDto.board.content}">
+                                    혼자가는 놀이공원은 처음이었지만 <br>
+                                    도파민 보이의 일정 공유합니다!!
+                                    너무 재밌었어요! 다들 즐거운 여행 하세요 :)
+                                </p>
+                            </div>
+                            <div class="last">
+                                <div id="likeCountDisplay" th:style="'color: white; font-size:12px;'"
+                                     th:text="'조회수 '+${boardDto.board.getViewCount()}+' / 좋아요 '+${boardDto.board.getLikeCount()}+' / 댓글 '+${boardDto.getComments().size()}">
+                                    조회수 3 / 좋아요 100 / 댓글 2
+                                </div>
+                                <button id="like-button" class="write-btn1" onclick="selectLike()"
+                                        th:classappend="${boardDto.flag==true}?'write-btn1-true ': 'write-btn1'">좋아요
+                                </button>
+                            </div>
+                        </div>
+                        <div id="comments">
+                            <div class="square3" th:each="comment:${boardDto.comments}">
+                                <div class="profile-box-group-comment">
                                     <div>
-                                        <img src="/img/profile.jpg" class="profile-s">
+                                        <img src="/img/profile.jpg" class="profile-s-comment">
                                     </div>
-                                    <div th:style="'margin-left:5px;'">
-                                        <div class="theme-s"><p th:style="'margin-top:2px'">감성</p></div>
-                                        <div th:style="'color: white; margin-top:10px; font-size: 15px'">수콩님</div>
+                                    <div class="comment">
+                                        <div th:style="'color: white; margin-top:10px; font-size: 15px'"
+                                             th:text="${comment.member.nickname}">소이치
+                                        </div>
+                                        <p th:style="'font-size:14px;'" th:text="${comment.content}">너무 더웠어요! 무조건 반팔
+                                            챙기세요!!</p>
+                                        <p class="time"
+                                           th:text="${comment.createdAt.toLocalDate()}+' '+${comment.createdAt.toLocalTime()}">
+                                            3시간 전&nbsp;&nbsp;&nbsp;댓글쓰기</p>
                                     </div>
-
                                 </div>
-                                <div th:style="'color: white; font-size:12px'">조회수 / 좋아요 / 댓글</div>
                             </div>
                         </div>
-
-                        <div class="square">
-                            <div th:style="'width:400px;'">
-                                <div class="title">8월 도쿄 날씨</div>
-                                <div class="content">8월에 가족 여행 가려고 하는데
-                                    날씨 어떤지 궁금합니다! 많이 더울까요?
-                                </div>
-                                <div class="time">3시간 전</div>
-                            </div>
-                            <div class="profile-box" th:style="'width:150px; display:flex;'">
-                                <div class="profile-box-in">
-                                    <div>
-                                        <img src="/img/profile.jpg" class="profile-s">
-                                    </div>
-                                    <div th:style="'margin-left:5px;'">
-                                        <div class="theme-s"><p th:style="'margin-top:2px'">감성</p></div>
-                                        <div th:style="'color: white; margin-top:10px; font-size: 15px'">수콩님</div>
-                                    </div>
-
-                                </div>
-                                <div th:style="'color: white; font-size:12px'">조회수 / 좋아요 / 댓글</div>
-                            </div>
-                        </div>
-                        <div class="search-bar-s">
-                            <input type="text" class="search-input-s" placeholder="검색어를 입력하세요">
-                            <button class="search-btn-s"><img src="/img/search.png" class="search-img"></button>
+                        <div class="comment-box">
+                            <input id="comment" class="comment-text" type="text" placeholder="댓글을 작성해주세요 :)">
+                            <button class="comment-btn" onclick="addComment()"><img src="/img/chat.png"
+                                                                                    th:style="'width:35px; height:35px;'">
+                            </button>
                         </div>
                     </div>
                 </div>

@@ -27,4 +27,9 @@ public class BoardLike {
     @Column(name = "flag", nullable = false, columnDefinition = "TINYINT(1)")
     @NonNull
     private Boolean flag;
+
+    public int changeLike() {
+        flag = !flag;
+        return flag? 1:-1;
+    }
 }

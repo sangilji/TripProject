@@ -1,20 +1,26 @@
 package com.example.ryokouikitai.controller.member;
 
+import com.example.ryokouikitai.domain.accompany.Accompany;
+import com.example.ryokouikitai.domain.area.Course;
+import com.example.ryokouikitai.domain.board.Board;
 import com.example.ryokouikitai.domain.member.Member;
 import com.example.ryokouikitai.domain.member.MemberInfo;
 import com.example.ryokouikitai.dto.member.JoinForm;
 import com.example.ryokouikitai.dto.member.LoginForm;
+import com.example.ryokouikitai.dto.member.UpdateForm;
+import com.example.ryokouikitai.dto.member.MemberResponseDto;
+import com.example.ryokouikitai.service.board.BoardService;
+import com.example.ryokouikitai.service.course.CourseService;
 import com.example.ryokouikitai.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -25,6 +31,9 @@ import javax.validation.Valid;
 public class MemberController {
 
     private final MemberService memberService;
+    private final BoardService boardService;
+    //    private final AccompanyService accompanyService;
+    private final CourseService courseService;
 
     @GetMapping("/login")
     public String login(Model model) {
@@ -69,12 +78,24 @@ public class MemberController {
     }
 
     @GetMapping("/mypage")
-    public String mypage(){
+    public String mypage() {
+        return "members/mypage";
+    }
 
+    @PostMapping("/mypage")
+    public String updateInfo(HttpSession session, UpdateForm updateForm) {
+        MemberInfo memberInfo = (MemberInfo) session.getAttribute("memberInfo");
+        memberInfo = memberService.updateInfo(memberInfo.getId(), updateForm);
+        session.setAttribute("memberInfo", memberInfo);
         return "members/mypage";
     }
     @GetMapping("/mypage2")
-    public String mypage2(){
+    public String mypage2(Model model, @PageableDefault(size = 7) Pageable pageable, HttpSession session){
+
+        MemberInfo memberInfo = (MemberInfo) session.getAttribute("memberInfo");
+        Page<Course> memberResponseDto = courseService.getByMemberId(memberInfo.getId(),pageable);
+        model.addAttribute("post", memberResponseDto.getContent());
+        model.addAttribute("page", memberResponseDto);
 
         return "members/mypage2";
     }
@@ -89,8 +110,43 @@ public class MemberController {
         return "members/mypage4";
     }
     @GetMapping("/mypage5")
-    public String mypage5(){
+    public String mypage5(Model model, @PageableDefault(size=7) Pageable pageable, HttpSession session){
+        MemberInfo memberInfo = (MemberInfo) session.getAttribute("memberInfo");
+        Page<Board> memberLikeDto = boardService.findLike(memberInfo.getId(),pageable);
+        model.addAttribute("post", memberLikeDto.getContent());
+        model.addAttribute("page", memberLikeDto);
 
         return "members/mypage5";
+    }
+
+    // 필터기능
+    @GetMapping("/searchTrip")
+    public String searchTrip(Model model, @PageableDefault(size = 7) Pageable pageable, HttpSession session) {
+        MemberInfo memberInfo = (MemberInfo) session.getAttribute("memberInfo");
+        Page<Course> memberResponseDto = courseService.getByMemberId(memberInfo.getId(),pageable);
+        model.addAttribute("post", memberResponseDto.getContent());
+        model.addAttribute("page", memberResponseDto);
+        // 상위 데이터에 데이터 잡아서 지금 받은 걸로 수정
+        return "members/mypage2 :: #post-table";
+    }
+
+    @GetMapping("/searchAccompany")
+    public String searchAccompany(Model model, @PageableDefault(size = 7) Pageable pageable, HttpSession session) {
+        MemberInfo memberInfo = (MemberInfo) session.getAttribute("memberInfo");
+//        Page<Accompany> memberResponseDto = accompanyService.getByMemberId(memberInfo.getId(),pageable);
+//        model.addAttribute("post", memberResponseDto.getContent());
+//        model.addAttribute("page", memberResponseDto);
+        // 상위 데이터에 데이터 잡아서 지금 받은 걸로 수정
+        return "members/mypage2 :: #post-table";
+    }
+
+    @GetMapping("/searchBoard")
+    public String searchBoard(Model model, @PageableDefault(size = 7) Pageable pageable, HttpSession session) {
+        MemberInfo memberInfo = (MemberInfo) session.getAttribute("memberInfo");
+        Page<Board> memberResponseDto = boardService.getByMemberId(memberInfo.getId(),pageable);
+        model.addAttribute("post", memberResponseDto.getContent());
+        model.addAttribute("page", memberResponseDto);
+        // 상위 데이터에 데이터 잡아서 지금 받은 걸로 수정
+        return "members/mypage2 :: #post-table";
     }
 }

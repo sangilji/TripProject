@@ -16,7 +16,10 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private String boardBar;
+
     private String userId;
+
     @NonNull
     private String nickname;
     @NonNull
@@ -31,12 +34,30 @@ public class Member {
 
     private String theme;
 
+    @Builder.Default
+    private Integer point=0;
+
+    private String profile;
+
     public MemberInfo toMemberInfo() {
         return MemberInfo.builder()
                 .id(id)
                 .userId(userId)
                 .nickname(nickname)
                 .theme(theme)
+                .point(point)
+                .profile(profile)
                 .build();
+    }
+
+    public void updateProfile(String profile) {
+//        DB 저장
+        this.profile=profile;
+    }
+
+    public void updateInfo(String nickname, String password, String theme) {
+        this.nickname = nickname;
+        this.password = password;
+        this.theme=theme;
     }
 }

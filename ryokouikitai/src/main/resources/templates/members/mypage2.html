@@ -8,6 +8,22 @@
 <head>
     <link rel="stylesheet" href="/css/members/mypage.css">
     <title>마이페이지</title>
+    <script th:inline="javascript">
+        function searchBoardBar(param) {
+            console.log(param);
+
+            $.ajax({
+                type: "get",
+                url: `/members/search${param}`,
+                success: function (response) {
+                    $('#post-table').replaceWith(response);
+                },
+                error: function (error) {
+                    alert(error);
+                }
+            });
+        }
+    </script>
 </head>
 <body th:style="'background-image: url(/img/bg.png);background-size: cover;overflow:hidden'">
 <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
@@ -23,14 +39,19 @@
             th:onclick="|location.href='@{/members/mypage4}'|">포인트
     </button>
     <button class="selected-btn5 btn btn-primary unselected-btn-color"
-            th:onclick="|location.href='@{/members/mypage5}'|">저장된 내역
+            th:onclick="|location.href='@{/members/mypage5}'|">좋아요
     </button>
     <div class="left-box">
-        <div class="theme"><p th:style="'margin-top:2px'">감성</p></div>
+        <div class="theme"><p th:style="'margin-top:2px'" th:text="${session.memberInfo.theme}">감성</p></div>
         <div><img src="/img/profile.jpg" class="profile"></div>
-        <div th:style="'color: white; margin-top:20px; font-size: 16px'">수콩님</div>
-        <div th:style="'color: white; font-size:14px'">포인트 : 10pt</div>
-        <div class="profile-textarea">
+        <div th:style="'color: white; margin-top:20px; font-size: 16px'" th:text="${session.memberInfo.nickname} + '님'">
+            수콩님
+        </div>
+        <div th:style="'color: white; font-size:14px'" th:text="'포인트 : ' + ${session.memberInfo.point} + 'pt'">포인트 :
+            10pt
+        </div>
+        <div class="profile-textarea"
+             th:text="${session.memberInfo.profile}==null?'아직 자기소개가 없습니다.':${session.memberInfo.profile}">
             <p>안녕! 만나서 반가워 친하게 지내자 :)</p>
         </div>
         <!--        <div class="profile-textarea" th:style="'margin-top:20px; color: white'" th:text="${member.introduce}">안녕! 우리 친하게 지내자</div>-->
@@ -39,46 +60,40 @@
 
     <div class="right-box">
         <div class="join-form">
-            <div class="form-group">
-                <div class="archive" >일정짜기</div>
+            <div class="form-group" id="post-table">
+                <div class="archive">일정짜기</div>
+                <div class="btn-group">
+                    <button class="theme-btn" onclick="searchBoardBar('Trip')">일정짜기</button>
+                    <button class="theme-btn" onclick="searchBoardBar('Board')" th:style="'margin-left:10px;'">여행꿀팁
+                    </button>
+                    <button class="theme-btn" onclick="searchBoardBar('Accompany')" th:style="'margin-left:10px;'">
+                        동행찾기
+                    </button>
+                </div>
                 <table class="table line">
-                    <tr class="table-header">
-                        <td class="num">01</td>
-                        <td class="title">도쿄</td>
-                        <td class="calendar">2024.09.17</td>
+                    <tr class="table-header" th:each=" val, i : ${post}"
+                        th:onclick="|location.href='/board/tip/'+${val.id}|">
+                        <td class="num" th:text="${i.index+1 }">01</td>
+                        <td class="title" th:text="${val.title}">도쿄</td>
+                        <td class="calendar" th:text="${val.createdAt.toLocalDate()}">2024.09.17</td>
                     </tr>
-                    <tr class="table-header" >
-                        <td class="num">02</td>
-                        <td class="title">삿포로</td>
-                        <td>2024.10.09</td>
-                    </tr>
+
                 </table>
-                <div class="archive" th:style="'margin-top:30px'">동행찾기</div>
-                <table class="table line">
-                    <tr class="table-header">
-                        <td class="num">01</td>
-                        <td class="title">사쿠라 보러 일본 갈 사람</td>
-                        <td>2024.09.17</td>
-                    </tr>
-                    <tr class="table-header" >
-                        <td class="num">02</td>
-                        <td class="title">저녁 번개 모임</td>
-                        <td>2024.10.09</td>
-                    </tr>
-                </table>
-                <div class="archive" th:style="'margin-top:30px'">여행꿀팁</div>
-                <table class="table line">
-                    <tr class="table-header">
-                        <td class="num">01</td>
-                        <td class="title">나리타 공항 vs 하네다 공항</td>
-                        <td>2024.09.17</td>
-                    </tr>
-                    <tr class="table-header" >
-                        <td class="num">02</td>
-                        <td class="title">8월 도쿄 날씨</td>
-                        <td>2024.10.09</td>
-                    </tr>
-                </table>
+
+                <div class="pagination">
+                    <ul>
+                        <li th:if="${page.hasPrevious()}">
+                            <a th:href="@{mypage2(page=${page.number - 1})}">&laquo;이전</a>
+                        </li>
+                        <li th:each="i : ${#numbers.sequence(0,(page.totalPages - 1==-1? 0: page.totalPages - 1))}"
+                            th:classappend="${page.number == i}?'active'">
+                            <a th:href="@{mypage2(page=${i})}" th:text="${i + 1}">1</a>
+                        </li>
+                        <li th:if="${page.hasNext()}">
+                            <a th:href="@{mypage2(page=${page.number + 1})}">다음&raquo;</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

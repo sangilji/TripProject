@@ -407,8 +407,22 @@ a {
     position: relative;
     margin-bottom: 5px;
     left: 3px;
+}
 
+.write-btn:hover {
+    all: unset;
+    width: 60px;
+    height: 25px;
+    font-size: 13px;
+    border-radius: 15px;
+    color: #ffffff;
+    background-color: #424C6E;
+    border-color: #424C6E;
+    text-align: center;
 
+    position: relative;
+    margin-bottom: 5px;
+    left: 3px;
 }
 
 .note-statusbar {
@@ -516,4 +530,10 @@ a {
 
 li {
     list-style-type: none;
+}
+
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    width:30px;
+    height:30px;
 }

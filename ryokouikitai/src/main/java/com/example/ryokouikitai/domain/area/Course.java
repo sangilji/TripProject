@@ -5,8 +5,9 @@ import com.example.ryokouikitai.domain.member.Member;
 import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.time.LocalDate;
-
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -17,7 +18,7 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -25,6 +26,7 @@ public class Course {
     private String content;
     private LocalDate startAt;
     private LocalDate endAt;
+    private LocalDateTime createdAt;
     @Column(name = "flag", nullable = false, columnDefinition = "TINYINT(1)")
     @NonNull
     private Boolean flag;
