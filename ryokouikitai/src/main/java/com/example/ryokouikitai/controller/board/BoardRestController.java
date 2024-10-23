@@ -61,4 +61,9 @@ public class BoardRestController {
         boardService.deleteBoard(postId);
         return BaseResponse.ok(HttpStatus.OK,"좋아요");
     }
+    @DeleteMapping("/plan/{postId}")
+    public ResponseEntity<?> delete2(@PathVariable String postId) {
+        boardService.deleteBoard(postId);
+        return BaseResponse.ok(HttpStatus.OK,"좋아요");
+    }
 }

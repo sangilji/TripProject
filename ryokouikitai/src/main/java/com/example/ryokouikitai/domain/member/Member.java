@@ -16,6 +16,8 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private String boardBar;
+
     private String userId;
 
     @NonNull

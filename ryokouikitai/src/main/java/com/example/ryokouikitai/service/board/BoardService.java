@@ -7,6 +7,7 @@ import com.example.ryokouikitai.domain.board.BoardLike;
 import com.example.ryokouikitai.domain.member.Member;
 import com.example.ryokouikitai.domain.member.MemberInfo;
 import com.example.ryokouikitai.dto.board.BoardDetailDto;
+import com.example.ryokouikitai.dto.board.BoardResponseDto;
 import com.example.ryokouikitai.dto.board.CommentDto;
 import com.example.ryokouikitai.dto.board.WriteForm;
 import com.example.ryokouikitai.repository.area.ThemeRepository;
@@ -15,7 +16,6 @@ import com.example.ryokouikitai.repository.board.BoardLikeRepository;
 import com.example.ryokouikitai.repository.board.BoardRepository;
 import com.example.ryokouikitai.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.jni.Local;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -55,7 +55,7 @@ public class BoardService {
         return board;
     }
 
-    public Page<Board> getAllByBoardName(Pageable pageable, String boardName) {
+    public Page<BoardResponseDto> getAllByBoardName(Pageable pageable, String boardName) {
         return boardRepository.findAllByBoardMenu(boardName, pageable);
     }
 
@@ -132,7 +132,27 @@ public class BoardService {
         boardRepository.delete(board);
     }
 
-//    public Page<Board> getByTheme(String theme, Pageable pageable) {
-//        return boardRepository.findAllByBoardMenuAndTheme("plan", pageable, theme);
-//    }
+    // 테마별로 정렬
+    public Page<BoardResponseDto> getByTheme(String theme, Pageable pageable) {
+        if(theme == null || theme.isEmpty()){
+            return boardRepository.findAllByBoardMenu("plan", pageable);
+        }
+        return boardRepository.findAllByBoardMenuAndTheme("plan", pageable, theme);
+    }
+
+    public Page<BoardResponseDto> getByTitle(String title, String boardName, Pageable pageable) {
+        return boardRepository.findAllByBoardMenuAndTitle(boardName, pageable, title);
+    }
+
+    public Page<Board> getByMemberId(Integer id, Pageable pageable) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 멤버입니다. "));
+
+        return boardRepository.findByMemberOrderByIdAsc(member, pageable);
+    }
+
+    public Page<Board> findLike(Integer id, Pageable pageable) {
+        return boardRepository.findByLike(id, pageable);
+
+    }
 }

@@ -274,7 +274,7 @@ a {
 .square {
     border: 1px solid #FFFFFF;
     width: 600px;
-    height: 270px;
+    height: 340px;
     padding: 10px 30px;
     display: flex;
     flex-direction: column;
@@ -308,6 +308,14 @@ a {
 }
 
 .title {
+    display: flex;
+    flex-direction: column;
+    margin: 0 32px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.myPlan {
     display: flex;
     flex-direction: column;
     margin: 0 32px;

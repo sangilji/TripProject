@@ -8,6 +8,33 @@
 <head>
     <link rel="stylesheet" href="/css/board/board.css">
     <title>자유게시판</title>
+    <script th:inline="javascript">
+        function searchByContent(){
+            const content=$('#searchContent').val();
+            console.log(content);
+
+            $.ajax({
+                type: "get",
+                url: `/board/searchContent?title=${content}&boardName=tip`,
+                success: function (response) {
+                    console.log(response)
+                    $('#board').replaceWith(response);
+                },
+                error: function (error) {
+                    alert(error);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $("#searchContent").on("keyup", function (e) {
+                if (e.key === 'Enter') {
+                    searchByContent();
+                }
+            });
+        });
+
+    </script>
 </head>
 <body th:style="'background-image: url(/img/bg.png);background-size: cover;'">
 <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
@@ -31,7 +58,7 @@
     <div class="right-box">
         <div class="board-form">
             <div class="form-group">
-                <div class="board">
+                <div id="board" class="board">
                     <div class="archive">자유게시판
                         <button class="write-btn" th:onclick="|location.href='@{/board/write}'|">글 작성</button>
                         <div class="line"></div>
@@ -75,8 +102,8 @@
                             </ul>
                         </div>
                         <div class="search-bar-s">
-                            <input type="text" class="search-input-s" placeholder="검색어를 입력하세요">
-                            <button class="search-btn-s"><img src="/img/search.png" class="search-img"></button>
+                            <input id="searchContent" type="text" class="search-input-s" placeholder="검색어를 입력하세요">
+                            <button class="search-btn-s" onclick="searchByContent()"><img src="/img/search.png" class="search-img"></button>
                         </div>
                     </div>
                 </div>

@@ -104,10 +104,15 @@
                                 <option value="관광">관광</option>
                             </select>
                         </div>
+                        <div class="myPlan">
+                            <label th:for="myPlan">내글</label>
+                            <select name="myPlan" id="myPlan" class="form-select select-style">
+                                <option value="default">내글을 선택해주세요</option>
+                            </select>
+                        </div>
                         <div class="title">
                             <label th:for="title">제목</label>
                             <input type="text" name="title" id="title" placeholder="제목을 입력하세요.">
-
                         </div>
                     </div>
                     <div>
@@ -116,7 +121,7 @@
                             $('#summernote').summernote({
                                 placeholder: '글을 작성해주세요.',
                                 tabsize: 2,
-                                height: 500
+                                height: 420
                             });
                         </script>
                     </div>

@@ -8,6 +8,22 @@
 <head>
     <link rel="stylesheet" href="/css/board/board.css">
     <title>자유게시판</title>
+    <script th:inline="javascript">
+        function searchBoardMenu(param){
+            console.log(param);
+
+            $.ajax({
+                type: "get",
+                url: `board/search?theme=${param}`,
+                success: function (response){
+                    $('#board').replaceWith(response);
+                },
+                error: function (error){
+                    alert(error);
+                }
+            });
+        }
+    </script>
 </head>
 <body th:style="'background-image: url(/img/bg.png);background-size: cover;'">
 <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
@@ -37,12 +53,12 @@
                         <button class="write-btn-none">.</button>
                         <div class="line"></div>
                         <div class="btn-group">
-                            <button class="theme-btn">전체</button>
-                            <button class="theme-btn">식도락</button>
-                            <button class="theme-btn">감성</button>
-                            <button class="theme-btn">쇼핑</button>
-                            <button class="theme-btn">액티비티</button>
-                            <button class="theme-btn">관광</button>
+                            <button class="theme-btn" onclick="searchBoardMenu('')">전체</button>
+                            <button class="theme-btn" onclick="searchBoardMenu('식도락')">식도락</button>
+                            <button class="theme-btn" onclick="searchBoardMenu('감성')">감성</button>
+                            <button class="theme-btn" onclick="searchBoardMenu('쇼핑')">쇼핑</button>
+                            <button class="theme-btn" onclick="searchBoardMenu('액티비티')">액티비티</button>
+                            <button class="theme-btn" onclick="searchBoardMenu('관광')">관광</button>
                         </div>
                         <div class="square" th:style="'height:350px;'">
                             지도에서 테마별로 영역 보여주는 창

@@ -17,7 +17,7 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -25,6 +25,7 @@ public class Course {
     private String content;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
+    private LocalDateTime createdAt;
     @Column(name = "flag", nullable = false, columnDefinition = "TINYINT(1)")
     @NonNull
     private Boolean flag;
