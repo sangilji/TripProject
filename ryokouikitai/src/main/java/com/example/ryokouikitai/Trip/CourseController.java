@@ -3,6 +3,7 @@ package com.example.ryokouikitai.Trip;
 
 import com.example.ryokouikitai.Trip.DTO.CourseRequestDTO;
 import com.example.ryokouikitai.domain.member.MemberInfo;
+import com.example.ryokouikitai.service.course.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

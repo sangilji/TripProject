@@ -1,8 +1,8 @@
 package com.example.ryokouikitai.controller.trip;
 
 
-import com.example.ryokouikitai.Trip.CourseService;
 import com.example.ryokouikitai.domain.area.Attraction;
+import com.example.ryokouikitai.service.course.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
