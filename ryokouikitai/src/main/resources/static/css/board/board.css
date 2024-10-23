@@ -456,6 +456,32 @@ a {
     margin-bottom: 10px;
 }
 
+.btn1:hover {
+    color: #ffffff;
+    background-color: rgba(255, 99, 132, 1);
+    border-color: rgba(255, 99, 132, 1);
+}
+.btn2:hover {
+    color: #ffffff;
+    background-color: rgba(54, 162, 235, 1);
+    border-color: rgba(54, 162, 235, 1);
+}
+.btn3:hover {
+    color: #ffffff;
+    background-color: rgba(75, 192, 192, 1);
+    border-color: rgba(75, 192, 192, 1);
+}
+.btn4:hover {
+    color: #ffffff;
+    background-color: rgba(255, 206, 86, 1);
+    border-color: rgba(255, 206, 86, 1);
+}
+.btn5:hover {
+    color: #ffffff;
+    background-color: rgba(153, 102, 255, 1);
+    border-color: rgba(153, 102, 255, 1);
+}
+
 .write-btn-none {
     all: unset;
     width: 60px;

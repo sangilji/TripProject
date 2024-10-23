@@ -8,7 +8,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @RequiredArgsConstructor
-@ToString
 public class JoinForm {
     private String id;
     private String password;

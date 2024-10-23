@@ -21,6 +21,7 @@ $(document).ready(function (){
     } else if (city === 'okinawa'){
         initialPosition = {lat: 26.22323, lng : 127.69838}
     }
+
 });
 
 
@@ -150,23 +151,7 @@ function displayLatlng(location) {
 
 
 // 탭 생성
-let dayTabs = document.getElementById('dayTabs');
-for (let i = 0; i < dayCount; i++) {
-    let dayTab = document.createElement('div');
-    dayTab.classList.add('tab');
-    if (i === 0) {
-        dayTab.textContent = '전체 일정';
-    } else {
-        dayTab.textContent = `${i}일차`;
-    }
-    dayTabs.appendChild(dayTab);
 
-    // 탭 클릭 시 해당 일차 표시
-    dayTab.onclick = function() {
-        document.getElementById('currentDay').textContent = dayTab.textContent;
-        document.getElementById('scheduleContent').textContent = `${dayTab.textContent}`;
-    }
-}
 
 // 모달 열기
 const modal = document.getElementById("commentModal");

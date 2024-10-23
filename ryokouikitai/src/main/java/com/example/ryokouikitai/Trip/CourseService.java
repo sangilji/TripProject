@@ -1,6 +1,5 @@
 package com.example.ryokouikitai.Trip;
 
-import com.example.ryokouikitai.Trip.Repository.AttractionRepository;
 import com.example.ryokouikitai.domain.area.Attraction;
 import com.example.ryokouikitai.domain.area.Course;
 import com.example.ryokouikitai.domain.area.CourseAttraction;
@@ -10,8 +9,8 @@ import com.example.ryokouikitai.Trip.DTO.CourseAttractionDTO;
 import com.example.ryokouikitai.Trip.DTO.CourseRequestDTO;
 import com.example.ryokouikitai.Trip.Repository.CourseAttractionRepository;
 import com.example.ryokouikitai.Trip.Repository.CourseRepository;
+import com.example.ryokouikitai.repository.trip.AttractionRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

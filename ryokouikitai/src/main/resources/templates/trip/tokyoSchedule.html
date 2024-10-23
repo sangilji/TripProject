@@ -5,16 +5,380 @@
     <title>Title</title>
 </head>
 <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"
+            integrity="sha512-zYXldzJsDrNKV+odAwFYiDXV2Cy37cwizT+NkuiPGsa9X1dOz04eHvUWVuxaJ299GvcJT31ug2zO4itXBjFx4w=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="/css/trip/TokyoCSS.css"/>
     <script th:inline="javascript">
-        $(document).ready(function (){
-            var params = new URLSearchParams(window.location.search);
+        var initialPosition = {lat: 35.68160, lng: 139.766687};
 
+        let markers = []; // 마커 저장 배열
+        let savedComments = [];
+        let commentLocations = []; // 각 코멘트와 관련된 위치 저장 배열
+        let geocoder;
+        var colorList = ["m", "red-dot.png", "blue-dot.png", "green-dot.png", "yellow-dot.png", "purple-dot.png"]
+        const attractionCopy=[[${attraction}]];
+        $(document).ready(function (e) {
+            let map;
+            const dayScheduleColumn = document.querySelector('#DaySchedule .column1');
+
+            new Sortable(dayScheduleColumn, {
+                group: 'shared',
+                animation: 150,
+                ghostClass: 'blue-background-class',
+                // 드래그 항목이 들어올 때 발생
+                onAdd: function (evt) {
+                    console.log('항목이 DaySchedule에 추가됨:', evt.item);
+                    const i = $(evt.item).data('index')
+                    const attraction = attractionCopy[i];
+                    console.log(attraction);
+                    console.log($('#currentDay').text().split(" ")[0]);
+                    const day = $('#currentDay').text().split(" ")[0];
+                    const newIndex = evt.newIndex; // 새로운 위치 인덱스
+
+                    // 해당 날에 새로 드롭된 위치에 추가
+                    savedDataByDays[day - 1].attraction.splice(newIndex, 0, attraction);
+                    // 결과 확인
+                    console.log(`Day ${day}의 남은 데이터:`, savedDataByDays[day - 1].attraction);
+                },
+
+                // 드래그 항목이 나갈 때 발생
+                onRemove: function (evt) {
+                    console.log('항목이 DaySchedule에서 나감:', evt.item);
+                    const i = evt.oldIndex;
+                    const day = parseInt($('#currentDay').text().split(" ")[0]); // 현재 일차 추출
+                    // const attractionId = [[${attraction}]][i].id; // 삭제할 id 추출
+
+                    savedDataByDays[day - 1].attraction.splice(i, 1);
+
+                    // 결과 확인
+                    console.log(`Day ${day}의 남은 데이터:`, savedDataByDays[day - 1].attraction);
+                },
+
+                // 드래그 도중 항목이 이동할 때 발생
+                onUpdate: function (evt) {
+                    console.log('DaySchedule 내에서 항목이 이동함:', evt.item);
+
+                    const day = parseInt($('#currentDay').text().split(" ")[0]); // 현재 일차 추출
+                    const attractions = savedDataByDays[day - 1].attraction; // 해당 일차의 배열 가져오기
+
+                    const oldIndex = evt.oldIndex; // 이동 전 인덱스
+                    const newIndex = evt.newIndex; // 이동 후 인덱스
+
+                    // 배열의 요소 순서 변경
+                    if (oldIndex !== newIndex) {
+                        const movedItem = attractions.splice(oldIndex, 1)[0]; // 이동된 항목 제거
+                        attractions.splice(newIndex, 0, movedItem); // 새로운 위치에 삽입
+                    }
+
+                    // 변경된 배열 출력
+                    console.log(`Day ${day}의 변경된 데이터:`, attractions);
+                }
+            });
+
+
+            const otherColumns = document.querySelectorAll('.column1:not(#DaySchedule .column1)');
+            otherColumns.forEach(column => {
+                new Sortable(column, {
+                    group: 'shared',
+                    animation: 150,
+                    ghostClass: 'blue-background-class'
+                });
+            });
+
+            function getQueryParams() {
+                let params = {};
+                window.location.search.substring(1).split("&").forEach(function (part) {
+                    let item = part.split("=");
+                    params[item[0]] = decodeURIComponent(item[1]);
+
+                });
+                return params;
+            }
+
+            let params = getQueryParams();
+            let startDate = new Date(params['startDate']);
+            let endDate = new Date(params['endDate']);
             // 'city'라는 파라미터 값 추출
-            var city = params.get('city');
+            var city = params['city'];
             document.getElementById("city123").textContent = city.toUpperCase();
+
+            // 날짜 차이 계산
+            let timeDifference = endDate.getTime() - startDate.getTime();
+            let dayCount = Math.ceil(timeDifference / (1000 * 3600 * 24)) + 1; // 출발일 포함
+
+            let dayTabs = document.getElementById('dayTabs');
+            const savedDataByDays = [];
+            for (let i = 0; i <= dayCount; i++) {
+                let dayTab = document.createElement('div');
+                dayTab.classList.add('tab');
+                if (i === 0) {
+                    dayTab.textContent = '전체 일정';
+                } else {
+                    dayTab.textContent = `${i} 일차`;
+                    savedDataByDays.push({
+                        day: i,
+                        attraction: []
+                    });
+                }
+                dayTabs.appendChild(dayTab);
+
+                // 탭 클릭 시 해당 일차 표시
+                dayTab.onclick = function () {
+                    const day = parseInt($(this).text().split(' ')[0]); // "1 일차"에서 숫자 추출
+                    $('#currentDay').text($(this).text());
+
+                    // 기존 내용 초기화
+                    const $scheduleContent = $('#DaySchedule .column1');
+                    $scheduleContent.empty();
+
+                    // 해당 일차의 attraction 데이터를 화면에 추가
+                    savedDataByDays[day - 1].attraction.forEach(attraction => {
+                        const $item = $('<div>', {
+                            class: 'list-group-item',
+                            text: attraction.name
+                        });
+                        $scheduleContent.append($item);
+                    });
+
+                }
+            }
+
+            if (city === 'tokyo') {
+                initialPosition = {lat: 35.68160, lng: 139.766687}
+            } else if (city === 'osaka') {
+                initialPosition = {lat: 34.70258, lng: 135.49614}
+            } else if (city === 'hukuoka') {
+                initialPosition = {lat: 33.58993, lng: 130.42077}
+            } else if (city === 'hokkaido') {
+                initialPosition = {lat: 43.06879, lng: 141.35115}
+            } else if (city === 'okinawa') {
+                initialPosition = {lat: 26.22323, lng: 127.69838}
+            }
+
+
+            document.getElementById('save-btn').addEventListener('click', function () {
+                if (markers.length > 0) {
+                    // 모달 열기
+                    modal.style.display = "block";
+                }
+            });
+
+            document.getElementById('save-comment-btn').addEventListener('click', function () {
+                const comment = document.getElementById('comment-input').value;
+
+                if (comment) {
+                    savedComments.push(comment);
+                    updateLocationList();
+                    document.getElementById('comment-input').value = ''; // 입력창 초기화
+                    modal.style.display = "none"; // 모달 닫기
+                }
+            });
+
+
+            const modal = document.getElementById("commentModal");
+            const closeModal = document.querySelector(".close");
+
+
+            closeModal.onclick = function () {
+                console.log('닫기');
+                modal.style.display = "none";
+            }
+
+            if (e.target === modal) {
+                modal.style.display = "none";
+            }
+
         });
 
+        function initMap() {
+
+
+            // 지도 표시
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: initialPosition,
+                zoom: 10,
+            });
+
+            // Geocoder 객체 생성
+            geocoder = new google.maps.Geocoder();
+
+            // 검색 박스 (자동 완성)
+            const input = document.getElementById("search-box");
+            const searchBox = new google.maps.places.Autocomplete(input);
+
+            // 장소가 선택될 때 이벤트
+            searchBox.addListener("place_changed", function () {
+                const place = searchBox.getPlace();
+                if (!place.geometry || !place.geometry.location) return;
+
+                const location = place.geometry.location;
+                console.log(place.formatted_address);
+                const address = place.formatted_address; // 주소 정보 가져오기
+                const name = place.name; // 주소 정보 가져오기
+
+                // 지도 중심을 검색한 위치로 이동
+                map.setCenter(location);
+                map.setZoom(15);
+
+                // 마커 추가
+                addMarker(location);
+                displayLatlng(location, address, name);
+            });
+
+            // 클릭 이벤트로 마커 추가
+            map.addListener("click", function (event) {
+                const clickedLocation = event.latLng;
+
+                /*
+                // 클릭 이벤트로 마커 추가
+                map.addListener("click", function (event) {
+                    const clickedLocation = event.latLng;
+                    addMarker(clickedLocation);
+                    displayLatlng(clickedLocation, address);
+                 */
+                geocodeLatLng(clickedLocation);
+            });
+        }
+
+        function geocodeLatLng(location) {
+            geocoder.geocode({location: location}, function (results, status) {
+                if (status === 'OK') {
+                    if (results[0]) {
+                        const address = results[0].formatted_address;
+                        displayLatlng(location, address);  // 변환된 주소 전달
+                        addMarker(location);
+                    } else {
+                        console.log('주소를 찾을 수 없습니다.');
+                    }
+                } else {
+                    console.log('Geocoder 실패: ' + status);
+                }
+            });
+        }
+
+        function addMarker(location) {
+            const marker = new google.maps.Marker({
+                position: location,
+                map: map,
+            });
+
+            // 마커를 배열에 저장
+            markers.push(marker);
+
+            // 마커 클릭 시 삭제 이벤트
+            marker.addListener("click", function () {
+                marker.setMap(null); // 마커를 지도에서 제거
+                removeMarker(marker); // 배열에서 마커 삭제
+            });
+
+            // 마커의 위치를 commentLocations 배열에 저장 (마커와 코멘트 연결)
+            commentLocations.push(location);
+        }
+
+        function removeMarker(marker) {
+            const index = markers.indexOf(marker);
+            if (index > -1) {
+                markers.splice(index, 1);
+                commentLocations.splice(index, 1); // 관련된 위치 정보도 삭제
+            }
+        }
+
+        function displayLatlng(location, address, name) {
+            console.log('위도:', location.lat(), '경도:', location.lng(), '주소:', address); // 디버깅용 로그 추가
+            $('#latitude').text(location.lat());
+            $('#longitude').text(location.lng());
+            $('#address').text(address);
+            $('#attractionName').val(name);
+
+        }
+
+        // 저장된 코멘트 리스트 업데이트
+        function updateLocationList() {
+            const savedLocations = document.getElementById('saved-locations'); // saved-locations 요소 가져오기
+            if (!savedLocations) {
+                console.error('saved-locations 요소를 찾을 수 없습니다.');
+                return; // 요소가 없으면 함수 중단
+            }
+
+            savedComments.forEach((comment, index) => {
+                // 이미 같은 이름의 항목이 있는지 확인 (중복 방지)
+                const existingItem = Array.from(savedLocations.children).find(
+                    (item) => item.querySelector('div').textContent === comment
+                );
+
+                if (existingItem) return; // 중복된 항목이면 추가하지 않음
+
+                const attractionDto = {
+                    address: $('#address').text(),
+                    area: $('#city123').text().toLowerCase(),
+                    category:$('#CategorySelect').val(),
+                    latitude:$('#latitude').text(),
+                    longitude:$('#longitude').text(),
+                    content:$('#comment-input').val(),
+                    name:$('#attractionName').val()
+                }
+                console.log(attractionDto);
+                $.ajax({
+                    type: "post",
+                    url: `/api/trip/attraction`,
+                    data: attractionDto,
+                    dataType: "JSON",
+                    success: function (response) {
+                        console.log(response);
+                        console.log(attractionCopy);
+                        attractionCopy.push(response.data);
+                        console.log(attractionCopy);
+                    },
+                    error: function (request, status, error) {
+                        alert(error);
+                    }
+                });
+
+                // list-group-item 요소 생성
+                const listItem = document.createElement('div');
+                listItem.classList.add('list-group-item');
+                listItem.setAttribute('draggable', 'true');
+                listItem.dataset.index = index; // data-index 속성 추가
+
+                // 장소 이름을 담을 내부 div 생성
+                const nameDiv = document.createElement('div');
+                nameDiv.textContent = comment;
+
+                // // + 버튼 생성
+                // const addButton = document.createElement('button');
+                // addButton.textContent = '+';
+                // addButton.style.marginLeft = '10px';
+                //
+                // // + 버튼 이벤트 설정
+                // addButton.addEventListener('click', function () {
+                //     const row = document.createElement('tr');
+                //     const cell = document.createElement('td');
+                //     cell.textContent = comment;
+                //
+                //     // - 버튼 생성
+                //     const deleteButton = document.createElement('button');
+                //     deleteButton.textContent = '-';
+                //     deleteButton.style.marginLeft = '10px';
+                //
+                //     // - 버튼 클릭 이벤트 설정
+                //     deleteButton.addEventListener('click', function () {
+                //         row.remove(); // 테이블에서 해당 행 삭제
+                //     });
+
+                // cell.appendChild(deleteButton);
+                // row.appendChild(cell);
+                // document.getElementById('DaySchedule').appendChild(row); // 테이블에 추가
+                // });
+
+                // 생성한 요소들을 계층적으로 조립
+                listItem.appendChild(nameDiv);
+                savedLocations.appendChild(listItem); // saved-locations에 추가
+            });
+        }
+
+
+        window.onload = initMap;
     </script>
     <style>
         .nav-underline1 {
@@ -42,48 +406,52 @@
 </head>
 <body th:style="'background-image: url(/img/bg.png);background-size: cover;overflow:hidden;'">
 <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
-<div class = "box">
-    <div class = "table schedule"> <!--전체, n일차 -->
+<div class="box">
+    <div class="table schedule"> <!--전체, n일차 -->
         <h3>일정 목록</h3>
-        <div id ="sidebar">
+        <div id="sidebar">
             <div id="dayTabs"></div>
         </div>
         <div id="savedcancel" style="text-align: center">
-            <button id ="saved-btn">저장</button> <!--저장되면 컨트롤러로 가서 데이터 저장 진행-->
-            <button id ="cancel-btn">취소</button> <!--취소되면 현재 페이지 리셋?-->
+            <button id="saved-btn">저장</button> <!--저장되면 컨트롤러로 가서 데이터 저장 진행-->
+            <button id="cancel-btn">취소</button> <!--취소되면 현재 페이지 리셋?-->
         </div>
     </div>
-    <div class = "table location"> <!--장소 검색 찜 목록 -->
-        <div id = "location2">
-            <h3>장소검색</h3>
-            <div>
-                <ul class="nav nav-underline1">
-                    <li> <a class="nav-link1" id ="SuggestLocation" href="#">추천 장소</a></li>
-                    <li> <a class="nav-link1" id ="SaveLocation" href="#">저장된 장소</a></li>
-                </ul>
+    <div class="location"> <!--장소 검색 찜 목록 -->
+        <div id="location2">
+            <h3 th:style="'margin-top:10px;'">장소검색</h3>
+            <div class="text-style">
+                <select name="theme" id="theme" class="form-select select-style">
+                    <option value="default">테마를 선택해주세요</option>
+                    <option value="식도락">식도락</option>
+                    <option value="감성">감성</option>
+                    <option value="쇼핑">쇼핑</option>
+                    <option value="액티비티">액티비티</option>
+                    <option value="관광">관광</option>
+                </select>
             </div>
-	        <div id="commentModal" class="modal" style="display: none;">
+            <div id="commentModal" class="modal" style="display: none;">
                 <div class="modal-content">
-                <span class="close">&times;</span>
+                    <span class="close">&times;</span>
                     <div class="ModalBox">
-                        <h2 id = "tagH2">내용 입력</h2>
-                        <div id = "TitleName">
-                        장소이름 : <input type="text">
+                        <h2 id="tagH2">내용 입력</h2>
+                        <div id="TitleName">
+                            장소이름 : <input id="attractionName" type="text">
                         </div>
-                        <div id ="InfoLocation">
-                            <p>위도 : <span id="latitude"></span> </p>
+                        <div id="InfoLocation">
+                            <p>위도 : <span id="latitude"></span></p>
                             <p>경도 : <span id="longitude"></span></p>
                             <p>주소 : <span id="address"></span></p>
                         </div>
                         <div>
                             테마선택 :
-                            <select name = "Category" id="CategorySelect">
-                                <option value="">--선택해주세요--</option>
-                                <option value="식도락">--식도락--</option>
-                                <option value="감성">--감성--</option>
-                                <option value="쇼핑">--쇼핑--</option>
-                                <option value="액티비티">--액티비티--</option>
-                                <option value="관광">--관광--</option>
+                            <select name="Category" id="CategorySelect">
+                                <option value="">선택해주세요</option>
+                                <option value="식도락">식도락</option>
+                                <option value="감성">감성</option>
+                                <option value="쇼핑">쇼핑</option>
+                                <option value="액티비티">액티비티</option>
+                                <option value="관광">관광</option>
                             </select>
                         </div>
                         <div>
@@ -96,32 +464,37 @@
                     </div>
                 </div>
             </div>
-            <input id="search-box" type="text" placeholder="위치 검색"><button id ="save-btn">+</button>
-            <div id="saved-locations">
-                <ul id = "location-list">
-                    <th:block>
-
-                    </th:block>
-                    <li class="recommend">
-                        asd
-                    </li>
-                </ul>
+            <div th:style="'display:flex;'">
+                <div>
+                    <input id="search-box" type="text" placeholder="위치 검색">
+                    <button id="save-btn">+</button>
+                </div>
+            </div>
+            <div id="saved-locations" class="column1">
+                <div class="list-group-item" draggable="true" th:each="item,i : ${attraction}"
+                     th:data-index="${i.index}">
+                    <div th:text="${item.name}"></div>
+                </div>
             </div>
 
         </div>
     </div>
-    <div class = "table ddaySchedule" id = "DaySchedule"> <!--n일차 일정-->
+    <div class="table ddaySchedule" id="DaySchedule"> <!--n일차 일정-->
         <h2 id="city123"></h2>
-        <p id="currentDay"></p>
+        <p id="currentDay">1 일차</p>
+        <div class="column1" th:style="'width:100%;height:100%;'">
+
+        </div>
     </div>
 
-    <div class = "table maps">
-        <div id = "map"></div>
+    <div class="table maps">
+        <div id="map"></div>
     </div>
 </div>
 
-<script src = "/js/trip/mapform.js"></script>
-<script async src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyCv7v_klpbd7n2jtI3Ab6Y25WgeVPP_qK4&libraries=places"></script>
+<!--<script src="/js/trip/mapform.js"></script>-->
+<script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCv7v_klpbd7n2jtI3Ab6Y25WgeVPP_qK4&libraries=places"></script>
 
 
 </body>

@@ -1,4 +1,5 @@
-package com.example.ryokouikitai.Trip.Repository;
+package com.example.ryokouikitai.repository.trip;
+
 
 import com.example.ryokouikitai.domain.area.Attraction;
 import org.springframework.data.jpa.repository.JpaRepository;
