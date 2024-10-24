@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -33,6 +34,13 @@ public class TripController {
 
     public static void API() {
         System.out.println("https://maps.googleapis.com/maps/api/js?key="+MapApiKey+"&libraries=places");
+    }
+
+    @GetMapping("/search")
+    public String searchByTheme(@RequestParam String theme, Model model) {
+        List<Attraction> attraction = courseService.getByTheme(theme);
+        model.addAttribute("attraction", attraction);
+        return "trip/tokyoSchedule :: #saved-locations";
     }
 
 

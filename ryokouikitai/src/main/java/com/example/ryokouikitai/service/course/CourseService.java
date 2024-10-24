@@ -4,9 +4,11 @@ import com.example.ryokouikitai.Trip.DTO.CourseAttractionDTO;
 import com.example.ryokouikitai.Trip.DTO.CourseRequestDTO;
 import com.example.ryokouikitai.Trip.Repository.CourseAttractionRepository;
 import com.example.ryokouikitai.domain.area.Attraction;
+import com.example.ryokouikitai.domain.area.Category;
 import com.example.ryokouikitai.domain.area.Course;
 import com.example.ryokouikitai.domain.area.CourseAttraction;
 import com.example.ryokouikitai.domain.member.Member;
+import com.example.ryokouikitai.repository.area.ThemeRepository;
 import com.example.ryokouikitai.repository.course.CourseRepository;
 import com.example.ryokouikitai.repository.member.MemberRepository;
 import com.example.ryokouikitai.repository.trip.AttractionRepository;
@@ -25,7 +27,7 @@ public class CourseService {
     private final CourseRepository courseRepository;
     private final CourseAttractionRepository courseAttractionRepository;
     private final AttractionRepository attractionRepository;
-
+    private final ThemeRepository categoryRepository;
 
     public Page<Course> getByMemberId(Integer id, Pageable pageable) {
         Member member = memberRepository.findById(id)
@@ -59,15 +61,15 @@ public class CourseService {
         courseRepository.save(course);
 
         // 일차별로 장소 저장
-        for (CourseAttractionDTO attractionDTO : requestDTO.getAttractions()) {
-            CourseAttraction courseAttraction = CourseAttraction.builder()
-                    .course(course)
-                    .attraction(attractionDTO.getAttraction())
-                    .day(attractionDTO.getDay())
-                    .orders(attractionDTO.getOrders())
-                    .build();
-            courseAttractionRepository.save(courseAttraction);
-        }
+//        for (CourseAttractionDTO attractionDTO : requestDTO.getAttractions()) {
+//            CourseAttraction courseAttraction = CourseAttraction.builder()
+//                    .course(course)
+//                    .attraction(attractionDTO.getAttraction())
+//                    .day(attractionDTO.getDay())
+//                    .orders(attractionDTO.getOrders())
+//                    .build();
+//            courseAttractionRepository.save(courseAttraction);
+//        }
     }
 
     // 코스 삭제 메서드
@@ -87,5 +89,14 @@ public class CourseService {
 
     public List<Attraction> getAttraction() {
         return attractionRepository.findAll();
+    }
+
+    public List<Attraction> getByTheme(String theme) {
+        if (theme == null || theme.isEmpty()) {
+            return attractionRepository.findAll();
+        }
+        Category category = categoryRepository.findByName(theme)
+                .orElseThrow(() -> new IllegalArgumentException("카테고리 에러"));
+        return attractionRepository.findByCategory(category);
     }
 }

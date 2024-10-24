@@ -16,6 +16,8 @@
         let savedComments = [];
         let commentLocations = []; // 각 코멘트와 관련된 위치 저장 배열
         let geocoder;
+        let startDate;
+        let endDate;
         var colorList = ["m", "red-dot.png", "blue-dot.png", "green-dot.png", "yellow-dot.png", "purple-dot.png"]
         const attractionCopy=[[${attraction}]];
         const savedDataByDays = [];
@@ -98,8 +100,8 @@
             }
 
             let params = getQueryParams();
-            let startDate = new Date(params['startDate']);
-            let endDate = new Date(params['endDate']);
+            startDate = new Date(params['startDate']);
+            endDate = new Date(params['endDate']);
             // 'city'라는 파라미터 값 추출
             var city = params['city'];
             document.getElementById("city123").textContent = city.toUpperCase();
@@ -379,35 +381,80 @@
         }
 
         function savedCourse(){
-
+            for (let day of savedDataByDays) {
+                if (day.attraction.length === 0) {
+                    alert("일정을 1개 이상 채워야 합니다.");
+                    return;  // 함수 전체를 종료
+                }
+            }
             savedDataByDays.forEach(day => {
                 day.attraction.forEach((value,index) => {
                     value.order = index+1;
                 })
             })
             console.log(savedDataByDays);
+            console.log(startDate);
             const courseRequestDto ={
-                title : $('#city123').text().toLowerCase()+":" +startDate+"~"+endDate,
-                courseAttractionDto : savedDataByDays,
-                startAt:startDate,
-                endAt:endDate,
+                title : $('#city123').text().toLowerCase()+" : " +startDate.getMonth()+"月 "+startDate.getDate()+"日~"+endDate.getMonth()+"月 "+endDate.getDate()+"日",
+                attractions: savedDataByDays,
+                startAt:formatDate(startDate),
+                endAt:formatDate(endDate),
+                flag:false,
+                content: "",
             }
             console.log(courseRequestDto);
 
             $.ajax({
                 type: "POST",
                 url: "/api/trip/saveSchedule",  // 서버의 API 엔드포인트
+                data: JSON.stringify(courseRequestDto),  // JSON으로 변환
                 contentType: "application/json",
-                data: courseRequestDto,
-                dataType: "JSON",
+                dataType: "json",
                 success: function (response) {
                     // 성공적으로 저장되면 tokyoSchedule 페이지로 이동
-
+                    console.log(response);
                 },
                 error: function (xhr, status, error) {
                     alert("일정을 저장하는 중 오류가 발생했습니다.");
                     console.log(error);
+                    console.log(status);
+                    console.log(xhr);
                 }
+            });
+
+            function formatDate(date) {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하니까 +1
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`; // "yyyy-MM-dd" 형식
+            }
+        }
+
+        function searchByTheme(){
+            const param = document.getElementById('theme').options[document.getElementById('theme').selectedIndex].value;
+            console.log(param);
+            $.ajax({
+                type: "get",
+                url: `/trip/search?theme=${param}`,
+                success: function (response) {
+                    console.log(response)
+                    $('#saved-locations').replaceWith(response);
+                    initializeDraggable(); // 새로 렌더된 요소에 드래그 기능 적용
+                },
+                error: function (request, status, error) {
+                    alert(error);
+                }
+            });
+        }
+
+        function initializeDraggable() {
+            const otherColumns = document.querySelectorAll('.column1:not(#DaySchedule .column1)');
+            otherColumns.forEach(column => {
+                new Sortable(column, {
+                    group: 'shared',         // 여러 컬럼 간 드래그 허용
+                    animation: 150,          // 애니메이션 속도 설정
+                    ghostClass: 'blue-background-class' // 드래그 시 배경 색 변경
+                });
             });
         }
 
@@ -455,13 +502,13 @@
         <div id="location2">
             <h3 th:style="'margin-top:10px;'">장소검색</h3>
             <div class="text-style">
-                <select name="theme" id="theme" class="form-select select-style">
-                    <option value="default">테마를 선택해주세요</option>
-                    <option value="식도락">식도락</option>
+                <select name="theme" id="theme" class="form-select select-style"  onchange="searchByTheme()">
+                    <option value="">테마를 선택해주세요</option>
+                    <option value="식도락" >식도락</option>
                     <option value="감성">감성</option>
-                    <option value="쇼핑">쇼핑</option>
-                    <option value="액티비티">액티비티</option>
-                    <option value="관광">관광</option>
+                    <option value="쇼핑" >쇼핑</option>
+                    <option value="액티비티" >액티비티</option>
+                    <option value="관광" >관광</option>
                 </select>
             </div>
             <div id="commentModal" class="modal" style="display: none;">

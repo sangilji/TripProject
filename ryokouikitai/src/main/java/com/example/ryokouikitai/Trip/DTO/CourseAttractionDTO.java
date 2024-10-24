@@ -2,33 +2,18 @@ package com.example.ryokouikitai.Trip.DTO;
 
 
 import com.example.ryokouikitai.domain.area.Attraction;
+import com.example.ryokouikitai.dto.trip.AttractionCourseDto;
+import com.example.ryokouikitai.dto.trip.AttractionDto;
+import lombok.*;
 
+import java.util.List;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class CourseAttractionDTO {
     private Integer day;
-    private Integer orders;
-    private Attraction attraction;
+    private List<AttractionCourseDto> attraction;
 
-    public Integer getDay() {
-        return day;
-    }
-
-    public void setDay(Integer day) {
-        this.day = day;
-    }
-
-    public Integer getOrders() {
-        return orders;
-    }
-
-    public void setOrders(Integer orders) {
-        this.orders = orders;
-    }
-
-    public Attraction getAttraction() {
-        return attraction;
-    }
-
-    public void setAttraction(Attraction attraction) {
-        this.attraction = attraction;
-    }
 }
