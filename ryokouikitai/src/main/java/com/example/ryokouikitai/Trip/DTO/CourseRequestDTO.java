@@ -19,14 +19,5 @@ public class CourseRequestDTO {
     private LocalDate endAt;
     private Boolean flag;
     private List<CourseAttractionDTO> attractions; // 장소 목록 추가
-    private Integer memberid;
 
-
-    public Integer getMemberid() {
-        return memberid;
-    }
-
-    public void setMember_id(Integer memberid) {
-        this.memberid = memberid;
-    }
 }
