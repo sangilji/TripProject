@@ -158,18 +158,14 @@ public class AccompanyService {
         accompanyRepository.delete(accompany);
     }
 
-    public Page<AccompanyResponseDto> getByThemeOrMemberId(String theme, String memberId, Pageable pageable) {
-        if (memberId != null && !memberId.isEmpty()) {
-            log.info("{}",memberId);
-            return accompanyRepository.getAccompanyByMemberIdWithMemberAndCommentCount(Integer.parseInt(memberId), pageable);
+    public Page<AccompanyResponseDto> getByThemeOrMemberIdOrTitle(String theme, String memberId,String title, Pageable pageable) {
+        if (memberId == null || memberId.isEmpty()) {
+            return accompanyRepository.getAccompanyByTitleWithMemberAndCommentCount(title, theme,pageable);
         }
-        if (theme == null || theme.isEmpty()) {
-            return accompanyRepository.getAccompanyWithMemberAndCommentCount(pageable);
-        }
-        return accompanyRepository.getAccompanyByThemeWithMemberAndCommentCount(theme, pageable);
+        return accompanyRepository.getAccompanyByThemeWithMemberAndCommentCount(theme, Integer.parseInt(memberId),title, pageable);
     }
 
     public Page<AccompanyResponseDto> getByTitle(String title, Pageable pageable) {
-        return accompanyRepository.getAccompanyByTitleWithMemberAndCommentCount(title, pageable);
+        return accompanyRepository.getAccompanyByTitleWithMemberAndCommentCount(title, "", pageable);
     }
 }
