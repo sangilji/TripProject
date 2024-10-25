@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/trip/TokyoCSS.css"/>
+</head>
+<body th:style="'background-image: url(/img/bg.png);background-size: cover;overflow:hidden;'">
+<div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+<div class="box">
+    <div class="table schedule"> <!--전체, n일차 -->
+        <h3>일정 목록</h3>
+        <div id="sidebar">
+            <div id="dayTabs">
+                <!-- 저장된 일자를 끌고와야함 -->
+            </div>
+        </div>
+        <div id="correction" style="text-align: center">
+            <button id = "corrention-btn">일정 수정</button> <!--수정 버튼 누르면 tokyoSchedule로 이동 -->
+        </div>
+    </div>
+
+    <div class ="table Saved-location-list">
+        <!--
+        전체일정 default상태 1일차부터 시작
+        각 일차 별 박스로 묶어서 스크롤 아래로 확인
+        -->
+    </div>
+
+    <div class = "table Saved-maps">
+        <div id = "map"></div>
+    </div>
+</div>
+
+<script src = "/js/trip/mapform.js"></script>
+<script async src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyCv7v_klpbd7n2jtI3Ab6Y25WgeVPP_qK4&libraries=places"></script>
+
+</body>
+</html>

@@ -2,9 +2,11 @@ package com.example.ryokouikitai.Trip;
 
 
 import com.example.ryokouikitai.Trip.DTO.CourseRequestDTO;
+import com.example.ryokouikitai.Trip.DTO.CourseResponseDTO;
 import com.example.ryokouikitai.domain.member.MemberInfo;
 import com.example.ryokouikitai.global.response.BaseResponse;
 import com.example.ryokouikitai.service.course.CourseService;
+import com.example.ryokouikitai.service.trip.TripService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,7 @@ public class CourseController {
 
 
     private final CourseService courseService; // CourseService 주입
+    private final TripService tripService; // CourseService 주입
 
     // 새로운 코스 및 장소별 일정을 저장하는 엔드포인트
     @PostMapping("/saveSchedule")
@@ -27,7 +30,7 @@ public class CourseController {
         System.out.println("Received title: " + courseRequestDTO.getTitle());
         System.out.println("Received startAt: " + courseRequestDTO.getStartAt());
         System.out.println("Received endAt: " + courseRequestDTO.getEndAt());
-//        courseService.createCourseWithAttractions(courseRequestDTO,memberInfo.getId());
+        tripService.createCourseWithAttractions(courseRequestDTO,memberInfo.getId());
         return BaseResponse.okWithData(HttpStatus.OK,"Schedule saved successfully",courseRequestDTO);
     }
 
@@ -44,5 +47,12 @@ public class CourseController {
         courseService.deleteCourse(id);
         return ResponseEntity.ok("Course deleted successfully");
     }
+    // 일정 조회 API 추가
+//    @GetMapping("/course/{courseId}")
+//    public ResponseEntity<?> getCourseDetails(@PathVariable Long courseId) {
+//        CourseResponseDTO courseResponseDTO = tripService.getCourseWithAttractions(courseId);
+//        return ResponseEntity.ok(courseResponseDTO); // 코스 상세 정보를 JSON 형태로 반환
+//    }
+
 }
 
