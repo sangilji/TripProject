@@ -112,6 +112,7 @@
             for (let i = 0; i <= dayCount; i++) {
                 let dayTab = document.createElement('div');
                 dayTab.classList.add('tab');
+                dayTab.style.padding ='20px 0';
                 if (i === 0) {
                     dayTab.textContent = '전체 일정';
                 } else {
@@ -408,18 +409,18 @@
 <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
 <div class="box">
     <div class="table schedule"> <!--전체, n일차 -->
-        <h3>일정 목록</h3>
+        <h3 class="box-title">일정 목록</h3>
         <div id="sidebar">
             <div id="dayTabs"></div>
         </div>
         <div id="savedcancel" style="text-align: center">
-            <button id="saved-btn">저장</button> <!--저장되면 컨트롤러로 가서 데이터 저장 진행-->
-            <button id="cancel-btn">취소</button> <!--취소되면 현재 페이지 리셋?-->
+            <button class="saved-btn" id="saved-btn">저장</button> <!--저장되면 컨트롤러로 가서 데이터 저장 진행-->
+            <button class="cancel-btn" id="cancel-btn">취소</button> <!--취소되면 현재 페이지 리셋?-->
         </div>
     </div>
     <div class="location"> <!--장소 검색 찜 목록 -->
         <div id="location2">
-            <h3 th:style="'margin-top:10px;'">장소검색</h3>
+            <h3 th:style="'padding-top:10px;'" class="box-title">장소검색</h3>
             <div class="text-style">
                 <select name="theme" id="theme" class="form-select select-style">
                     <option value="default">테마를 선택해주세요</option>
@@ -432,42 +433,41 @@
             </div>
             <div id="commentModal" class="modal" style="display: none;">
                 <div class="modal-content">
-                    <span class="close">&times;</span>
+                    <span class="close"></span>
                     <div class="ModalBox">
                         <h2 id="tagH2">내용 입력</h2>
-                        <div id="TitleName">
-                            장소이름 : <input id="attractionName" type="text">
-                        </div>
                         <div id="InfoLocation">
-                            <p>위도 : <span id="latitude"></span></p>
-                            <p>경도 : <span id="longitude"></span></p>
-                            <p>주소 : <span id="address"></span></p>
+                            장소이름 : <input id="attractionName" type="text" th:style="'margin-bottom: 10px;'">
+                            <p>위도 : <span id="latitude" th:style="'margin-bottom: 10px;'"></span></p>
+                            <p>경도 : <span id="longitude" th:style="'margin-bottom: 10px;'"></span></p>
+                            <p>주소 : <span id="address" th:style="'margin-bottom: 10px;'"></span></p>
+                            <div th:style="'margin-bottom: 10px;'">
+                                테마선택 :
+                                <select name="Category" id="CategorySelect">
+                                    <option value="">선택해주세요</option>
+                                    <option value="식도락">식도락</option>
+                                    <option value="감성">감성</option>
+                                    <option value="쇼핑">쇼핑</option>
+                                    <option value="액티비티">액티비티</option>
+                                    <option value="관광">관광</option>
+                                </select>
+                            </div>
                         </div>
-                        <div>
-                            테마선택 :
-                            <select name="Category" id="CategorySelect">
-                                <option value="">선택해주세요</option>
-                                <option value="식도락">식도락</option>
-                                <option value="감성">감성</option>
-                                <option value="쇼핑">쇼핑</option>
-                                <option value="액티비티">액티비티</option>
-                                <option value="관광">관광</option>
-                            </select>
-                        </div>
+
                         <div>
                             <textarea id="comment-input" rows="4" cols="40" placeholder="일정 내용을 입력하세요"></textarea>
                         </div>
                         <div>
                             <button id="save-comment-btn">저장</button>
-                            <button id="cancle-mmooddaall">취소</button>
+                            <button id="cancel-modal">취소</button>
                         </div>
                     </div>
                 </div>
             </div>
             <div th:style="'display:flex;'">
                 <div>
-                    <input id="search-box" type="text" placeholder="위치 검색">
-                    <button id="save-btn">+</button>
+                    <input id="search-box" class="loc-search" type="text" placeholder="위치 입력 후 검색버튼을 눌러주세요">
+                    <button id="save-btn" class="saved-search"><img src="/img/search.png" th:style="'height:25px; width:25px;'" alt=""></button>
                 </div>
             </div>
             <div id="saved-locations" class="column1">
@@ -480,8 +480,8 @@
         </div>
     </div>
     <div class="table ddaySchedule" id="DaySchedule"> <!--n일차 일정-->
-        <h2 id="city123"></h2>
-        <p id="currentDay">1 일차</p>
+        <h2 id="city123" class="box-title"></h2>
+        <p id="currentDay" th:style="'border: solid 1px; padding: 10px 100px'">1 일차</p>
         <div class="column1" th:style="'width:100%;height:100%;'">
 
         </div>

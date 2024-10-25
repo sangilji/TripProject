@@ -97,30 +97,45 @@ a.nav-link-small:hover {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 700px; /* 정사각형 모달 */
-    height: 700px;
-    background-color: white;
-    border-radius: 10px;
+    width: 600px; /* 정사각형 모달 */
+    height: 600px;
+    background-color: rgba(25, 40, 60, 0.9) ;
+    border-radius: 45px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 50px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .modal-content {
-    padding: 20px;
+    /*padding: 50px;*/
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
+    align-items: center;
+    /*justify-content: space-between;*/
+    height: 75%;
+    margin:20px;
+    background-color: rgba(25, 40, 60, 0.1) ;
+    /*background-color: #1D2E45;*/
+    border:none;
+    color:white;
 }
 
 .date-picker-container {
     display: flex;
     justify-content: space-between;
-    flex-display: row;
+    flex-direction: column;
 }
 
 .date-picker {
+    display:flex;
     position: relative;
-    width: 25%; /* 입력 필드 크기 조정 */
+    width: 100%; /* 입력 필드 크기 조정 */
+    flex-direction: row;
+    padding:20px;
+    justify-content: center;
+    align-items: baseline;
 }
 
 .flatpickr-calendar {
@@ -132,4 +147,47 @@ a.nav-link-small:hover {
     position: absolute;
     top: 10px;
     left: 100%; /* 입력 필드 바로 옆에 배치 */
+}
+
+.m-title{
+margin-bottom: 20px;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.saveScheduleBtn{
+    width: 60%; /* 버튼의 너비를 폼에 맞춤 */
+    height: 40px; /* 버튼 높이를 키움 */
+    font-size: 18px; /* 버튼 글씨 크기를 키움 */
+    margin-top: 20px; /* 버튼 간의 간격 추가 */
+
+    border-radius: 5px; /* 버튼 모서리를 둥글게 */
+    background-color: #d9d9d9;
+    color: #2C2C2C;
+    border-color: #D9D9D9;
+    margin-bottom:20px;
+}
+.saveScheduleBtn:hover {
+    width: 60%; /* 버튼의 너비를 폼에 맞춤 */
+    height: 40px; /* 버튼 높이를 키움 */
+    font-size: 18px; /* 버튼 글씨 크기를 키움 */
+    margin-top: 20px; /* 버튼 간의 간격 추가 */
+
+    border-radius: 5px; /* 버튼 모서리를 둥글게 */
+    background-color: #424C6E;
+    color: #FFFFFF;
+    border-color: #424C6E;
+    margin-bottom:20px;
+}
+.close{
+    margin-left:475px;
+    margin-bottom:25px;
+    color:#FFFFFF;
+}
+.close:hover{
+    margin-left:475px;
+    margin-bottom:25px;
+    color:#FFFFFF;
 }

@@ -159,6 +159,18 @@
     border-color: #D9D9D9;
 }
 
+.button-style:hover {
+    width: 105%; /* 버튼의 너비를 폼에 맞춤 */
+    height: 40px; /* 버튼 높이를 키움 */
+    font-size: 18px; /* 버튼 글씨 크기를 키움 */
+    margin-top: 20px; /* 버튼 간의 간격 추가 */
+
+    border-radius: 5px; /* 버튼 모서리를 둥글게 */
+    background-color: #424C6E;
+    color: #FFFFFF;
+    border-color: #424C6E;
+}
+
 .login-button:hover {
     width: 105%; /* 버튼의 너비를 폼에 맞춤 */
     height: 40px; /* 버튼 높이를 키움 */

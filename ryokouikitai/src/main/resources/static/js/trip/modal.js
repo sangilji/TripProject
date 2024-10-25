@@ -5,7 +5,7 @@ var closeModalBtn = document.getElementsByClassName("close")[0];
 var cityName = locationURL.split("/").pop();
 // 모달 열기
 openModalBtn.onclick = function () {
-    modal.style.display = "block";
+    modal.style.display = "flex";
 }
 
 // 모달 닫기
