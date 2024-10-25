@@ -70,7 +70,6 @@
                         동행찾기
                     </button>
                 </div>
-                <div th:text="${kind}"></div>
                 <table class="table line">
                     <tr class="table-header" th:each=" val, i : ${post}"
                         th:onclick="|location.href='/board/tip/'+${val.id}|">
