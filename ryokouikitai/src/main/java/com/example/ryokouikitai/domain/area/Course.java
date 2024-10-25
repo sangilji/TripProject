@@ -1,6 +1,7 @@
 package com.example.ryokouikitai.domain.area;
 
 import com.example.ryokouikitai.Trip.DTO.CourseRequestDTO;
+import com.example.ryokouikitai.domain.board.BoardComment;
 import com.example.ryokouikitai.domain.member.Member;
 import lombok.*;
 
@@ -8,6 +9,9 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -21,6 +25,9 @@ public class Course {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<CourseAttraction> courseAttractions;
 
     private String title;
     private String content;
@@ -42,5 +49,13 @@ public class Course {
         this.content = requestDTO.getContent();
 
 
+    }
+
+    public void setAttractions(List<List<CourseAttraction>> collect) {
+        List<CourseAttraction> newCourseAttraction = new ArrayList<>();
+        for (List<CourseAttraction> attractions : collect) {
+            newCourseAttraction.addAll(attractions);
+        }
+        courseAttractions= newCourseAttraction;
     }
 }

@@ -245,3 +245,27 @@ html, body {
     justify-content: center;
     align-items: center;
 }
+.Saved-location-list {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 20%;
+    height: 95%;
+    border: solid;
+    border-radius: 15px;
+    color: white;
+    overflow: auto;
+
+}
+.Saved-maps {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 65%;
+    height: 95%;
+    border: solid;
+    border-radius: 15px;
+    color: white;
+}
