@@ -9,9 +9,14 @@ var city = CityName;// 원하는 도시 설정
 
 
 async function fetchWeather() {
+    if (city.charAt(city.length - 1) === '#') {
+        city = city.substring(0, city.length - 1);
+    }
     if (city==='hukuoka'){
         city='fukuoka';
     }
+    // console.log(city);
+
     const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`);
     const data = await response.json();
 

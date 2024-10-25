@@ -29,11 +29,16 @@
             });
         }
 
-        function searchAccompany(param) {
+        function searchAccompany(param,me) {
             console.log(param);
+            let id='';
+            if (me==='true'){
+                id = [[${session.memberInfo.id}]];
+            }
+            const content = $('#searchContent').val();
             $.ajax({
                 type: "get",
-                url: `/accompany/search?theme=${param}&memberId=`,
+                url: `/accompany/search?theme=${param}&memberId=${id}&title=${content}`,
                 success: function (response) {
                     console.log(response)
                     $('#square-group').replaceWith(response);
@@ -63,7 +68,7 @@
 
             $("#searchContent").on("keyup", function (e) {
                 if (e.key === 'Enter') {
-                    searchByContent();
+                    searchAccompany('','');
                 }
             });
         });
@@ -81,7 +86,7 @@
         </div>
         <div th:style="'color: white; font-size:14px'">포인트 : 10pt</div>
         <div class="button-group">
-            <button class="button-style" onclick="searchMe()">내동행</button>
+            <button class="button-style" onclick="searchAccompany('','true')">내동행</button>
             <button class="button-style" th:onclick="|location.href='@{/accompany}'|">동행찾기</button>
         </div>
         <!--        <div class="profile-textarea" th:style="'margin-top:20px; color: white'" th:text="${member.introduce}">안녕! 우리 친하게 지내자</div>-->
@@ -113,17 +118,17 @@
                         <label th:for="title">제목</label>
                         <div class="search-bar-s">
                             <input id="searchContent" type="text" class="search-input-s" placeholder="검색어를 입력하세요">
-                            <button class="search-btn-s" onclick="searchByContent()"><img src="/img/search.png"
+                            <button class="search-btn-s" onclick="searchAccompany('','')"><img src="/img/search.png"
                                                                                           class="search-img"></button>
                         </div>
                     </div>
                     <div class="btn-group">
-                        <button class="theme-btn" onclick="searchAccompany('')">전체</button>
-                        <button class="theme-btn" onclick="searchAccompany('식도락')">식도락</button>
-                        <button class="theme-btn" onclick="searchAccompany('감성')">감성</button>
-                        <button class="theme-btn" onclick="searchAccompany('쇼핑')">쇼핑</button>
-                        <button class="theme-btn" onclick="searchAccompany('액티비티')">액티비티</button>
-                        <button class="theme-btn" onclick="searchAccompany('관광')">관광</button>
+                        <button class="theme-btn" onclick="searchAccompany('','')">전체</button>
+                        <button class="theme-btn" onclick="searchAccompany('식도락','')">식도락</button>
+                        <button class="theme-btn" onclick="searchAccompany('감성','')">감성</button>
+                        <button class="theme-btn" onclick="searchAccompany('쇼핑','')">쇼핑</button>
+                        <button class="theme-btn" onclick="searchAccompany('액티비티','')">액티비티</button>
+                        <button class="theme-btn" onclick="searchAccompany('관광','')">관광</button>
                     </div>
                     <div id="search">
                         <div class="square" th:each="accompany : ${accompanyList}"
@@ -160,17 +165,45 @@
                     <div class="pagination" id="page">
                         <ul>
                             <li th:if="${page.hasPrevious()}">
-                                <a th:href="@{/accompany(page=${page.number - 1})}">&laquo; 이전</a>
+                                <a th:href="@{/accompany(page=${page.number - 1}, theme=${category}, memberId=${memberId}, title=${title})}">&laquo; 이전</a>
                             </li>
                             <li th:each="i : ${#numbers.sequence(0, (page.totalPages - 1 == -1?0:page.totalPages - 1))}"
                                 th:classappend="${page.number == i} ? 'active'">
-                                <a th:href="@{/accompany(page=${i})}" th:text="${i + 1}">0</a>
+                                <a th:href="@{/accompany(page=${i}, theme=${category}, memberId=${memberId}, title=${title})}" th:text="${i + 1}">0</a>
                             </li>
                             <li th:if="${page.hasNext()}">
-                                <a th:href="@{/accompany(page=${page.number + 1})}">다음 &raquo;</a>
+                                <a th:href="@{/accompany(page=${page.number + 1}, theme=${category}, memberId=${memberId}, title=${title})}">다음 &raquo;</a>
                             </li>
                         </ul>
                     </div>
+<!--                    <div class="pagination" id="page1" th:if="${toggle} == 1">-->
+<!--                        <ul>-->
+<!--                            <li th:if="${page.hasPrevious()}">-->
+<!--                                <a th:href="@{/accompany(page=${page.number - 1}, title = ${title})}">&laquo; 이전</a>-->
+<!--                            </li>-->
+<!--                            <li th:each="i : ${#numbers.sequence(0, (page.totalPages - 1 == -1?0:page.totalPages - 1))}"-->
+<!--                                th:classappend="${page.number == i} ? 'active'">-->
+<!--                                <a th:href="@{/accompany/searchContent(page=${i}, title = ${title})}" th:text="${i + 1}">0</a>-->
+<!--                            </li>-->
+<!--                            <li th:if="${page.hasNext()}">-->
+<!--                                <a th:href="@{/accompany/searchContent(page=${page.number + 1}, title = ${title})}">다음 &raquo;</a>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                    <div class="pagination" id="page2" th:if="${toggle} == 2">-->
+<!--                        <ul>-->
+<!--                            <li th:if="${page.hasPrevious()}">-->
+<!--                                <a th:href="@{/accompany/search(page=${page.number - 1}, theme = ${theme}, memberId = ${memberId})}">&laquo; 이전</a>-->
+<!--                            </li>-->
+<!--                            <li th:each="i : ${#numbers.sequence(0, (page.totalPages - 1 == -1?0:page.totalPages - 1))}"-->
+<!--                                th:classappend="${page.number == i} ? 'active'">-->
+<!--                                <a th:href="@{/accompany/search(page=${i}, theme = ${theme}, memberId = ${memberId})}" th:text="${i + 1}">0</a>-->
+<!--                            </li>-->
+<!--                            <li th:if="${page.hasNext()}">-->
+<!--                                <a th:href="@{/accompany/search(page=${page.number + 1}, theme = ${theme}, memberId = ${memberId})}">다음 &raquo;</a>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
                 </div>
             </div>
         </div>

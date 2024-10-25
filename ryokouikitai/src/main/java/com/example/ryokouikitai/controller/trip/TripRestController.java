@@ -20,9 +20,10 @@ public class TripRestController {
 
     private final TripService tripService;
 
-    @GetMapping("/search/{theme}")
-    public ResponseEntity<?> search(@PathVariable String theme) {
-        List<Attraction> attractions = tripService.getAttraction(theme);
+    @GetMapping("/search")
+    public ResponseEntity<?> search(@RequestParam String theme) {
+//        List<Attraction> attractions = tripService.getAttraction(theme);
+        List<Attraction> attractions = tripService.getAttractionByCourseAttraction(theme);
         return BaseResponse.okWithData(HttpStatus.OK, "어트랙션 조회", attractions);
     }
 

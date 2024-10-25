@@ -9,6 +9,7 @@ import com.example.ryokouikitai.dto.member.JoinForm;
 import com.example.ryokouikitai.dto.member.LoginForm;
 import com.example.ryokouikitai.dto.member.UpdateForm;
 import com.example.ryokouikitai.dto.member.MemberResponseDto;
+import com.example.ryokouikitai.service.accompany.AccompanyService;
 import com.example.ryokouikitai.service.board.BoardService;
 import com.example.ryokouikitai.service.course.CourseService;
 import com.example.ryokouikitai.service.member.MemberService;
@@ -34,6 +35,7 @@ public class MemberController {
     private final BoardService boardService;
     //    private final AccompanyService accompanyService;
     private final CourseService courseService;
+    private final AccompanyService accompanyService;
 
     @GetMapping("/login")
     public String login(Model model) {
@@ -90,12 +92,26 @@ public class MemberController {
         return "members/mypage";
     }
     @GetMapping("/mypage2")
-    public String mypage2(Model model, @PageableDefault(size = 7) Pageable pageable, HttpSession session){
-
+    public String mypage2(@RequestParam(required = false) String kind, Model model, @PageableDefault(size = 7) Pageable pageable, HttpSession session){
+        if (kind == null) {
+            kind = "Trip";
+        }
         MemberInfo memberInfo = (MemberInfo) session.getAttribute("memberInfo");
-        Page<Course> memberResponseDto = courseService.getByMemberId(memberInfo.getId(),pageable);
-        model.addAttribute("post", memberResponseDto.getContent());
-        model.addAttribute("page", memberResponseDto);
+        if (kind.equals("Trip")) {
+            Page<Course> memberResponseDto = courseService.getByMemberId(memberInfo.getId(),pageable);
+            model.addAttribute("post", memberResponseDto.getContent());
+            model.addAttribute("page", memberResponseDto);
+
+        }else if (kind.equals("Accompany")){
+            Page<Accompany> memberResponseDto = accompanyService.getByMemberId(memberInfo.getId(), pageable);
+            model.addAttribute("post", memberResponseDto.getContent());
+            model.addAttribute("page", memberResponseDto);
+        }else {
+            Page<Board> memberResponseDto = boardService.getByMemberId(memberInfo.getId(),pageable);
+            model.addAttribute("post", memberResponseDto.getContent());
+            model.addAttribute("page", memberResponseDto);
+        }
+        model.addAttribute("kind", kind);
 
         return "members/mypage2";
     }
@@ -126,6 +142,7 @@ public class MemberController {
         Page<Course> memberResponseDto = courseService.getByMemberId(memberInfo.getId(),pageable);
         model.addAttribute("post", memberResponseDto.getContent());
         model.addAttribute("page", memberResponseDto);
+        model.addAttribute("kind", "Trip");
         // 상위 데이터에 데이터 잡아서 지금 받은 걸로 수정
         return "members/mypage2 :: #post-table";
     }
@@ -133,9 +150,10 @@ public class MemberController {
     @GetMapping("/searchAccompany")
     public String searchAccompany(Model model, @PageableDefault(size = 7) Pageable pageable, HttpSession session) {
         MemberInfo memberInfo = (MemberInfo) session.getAttribute("memberInfo");
-//        Page<Accompany> memberResponseDto = accompanyService.getByMemberId(memberInfo.getId(),pageable);
-//        model.addAttribute("post", memberResponseDto.getContent());
-//        model.addAttribute("page", memberResponseDto);
+        Page<Accompany> memberResponseDto = accompanyService.getByMemberId(memberInfo.getId(), pageable);
+        model.addAttribute("post", memberResponseDto.getContent());
+        model.addAttribute("page", memberResponseDto);
+        model.addAttribute("kind", "Accompany");
         // 상위 데이터에 데이터 잡아서 지금 받은 걸로 수정
         return "members/mypage2 :: #post-table";
     }
@@ -146,6 +164,7 @@ public class MemberController {
         Page<Board> memberResponseDto = boardService.getByMemberId(memberInfo.getId(),pageable);
         model.addAttribute("post", memberResponseDto.getContent());
         model.addAttribute("page", memberResponseDto);
+        model.addAttribute("kind", "Board");
         // 상위 데이터에 데이터 잡아서 지금 받은 걸로 수정
         return "members/mypage2 :: #post-table";
     }

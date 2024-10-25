@@ -69,7 +69,7 @@ public class TripService {
 
     // 추가: 어트랙션 조회 메서드
     public List<Attraction> getAttraction(String theme) {
-        if ("0".equals(theme)) {
+        if (theme.isEmpty()) {
             // 테마가 "0"일 경우 모든 어트랙션 조회
             return attractionRepository.findAll();
         } else {
@@ -90,6 +90,17 @@ public class TripService {
         return attraction;
     }
 
+    public List<Attraction> getAttractionByCourseAttraction(String theme) {
+        if (theme.isEmpty()) {
+            // 테마가 "0"일 경우 모든 어트랙션 조회
+            return attractionRepository.findAllByCourseAttraction();
+        }
+        // 테마에 해당하는 어트랙션 조회 (카테고리로 필터링)
+        Category category = categoryRepository.findByName(theme)
+                .orElseThrow(() -> new IllegalArgumentException("Category not found"));
+        return attractionRepository.findAllByCourseAttractionWithCategory(category);
+    }
+
     @Transactional(readOnly = true)
     public CourseResponseDTO getCourseWithAttractions(Integer courseId) {
         Course course = courseRepository.findById(courseId)
@@ -97,7 +108,6 @@ public class TripService {
 
         // Course 엔티티를 DTO로 변환
 //        CourseResponseDTO courseResponseDTO = CourseResponseDTO.fromCourse(course);
-//        return courseResponseDTO;
         return null;
     }
 

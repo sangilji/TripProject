@@ -11,7 +11,8 @@
     <link rel="stylesheet" href="/css/trip/TokyoCSS.css"/>
     <script th:inline="javascript">
         var initialPosition = {lat: 35.68160, lng: 139.766687};
-
+        var searchBox;
+        var bool = false;
         let markers = []; // 마커 저장 배열
         let savedComments = [];
         let commentLocations = []; // 각 코멘트와 관련된 위치 저장 배열
@@ -21,8 +22,9 @@
         var colorList = ["m", "red-dot.png", "blue-dot.png", "green-dot.png", "yellow-dot.png", "purple-dot.png"]
         const attractionCopy=[[${attraction}]];
         const savedDataByDays = [];
+        let map;
         $(document).ready(function (e) {
-            let map;
+
             const dayScheduleColumn = document.querySelector('#DaySchedule .column1');
 
             new Sortable(dayScheduleColumn, {
@@ -43,6 +45,15 @@
                     savedDataByDays[day - 1].attraction.splice(newIndex, 0, attraction);
                     // 결과 확인
                     console.log(`Day ${day}의 남은 데이터:`, savedDataByDays[day - 1].attraction);
+                    const location = new google.maps.LatLng(
+                        parseFloat(attraction.latitude),
+                        parseFloat(attraction.longitude)
+                    );
+                    map.setCenter(location);
+                    map.setZoom(15);
+
+                    // 마커 추가
+                    addMarker(location);
                 },
 
                 // 드래그 항목이 나갈 때 발생
@@ -51,11 +62,12 @@
                     const i = evt.oldIndex;
                     const day = parseInt($('#currentDay').text().split(" ")[0]); // 현재 일차 추출
                     // const attractionId = [[${attraction}]][i].id; // 삭제할 id 추출
-
+                    const attraction = savedDataByDays[day-1].attraction[i];
                     savedDataByDays[day - 1].attraction.splice(i, 1);
-
+                    removeMarker3(attraction);
                     // 결과 확인
                     console.log(`Day ${day}의 남은 데이터:`, savedDataByDays[day - 1].attraction);
+
                 },
 
                 // 드래그 도중 항목이 이동할 때 발생
@@ -115,6 +127,7 @@
             for (let i = 0; i <= dayCount; i++) {
                 let dayTab = document.createElement('div');
                 dayTab.classList.add('tab');
+                dayTab.style.padding ='20px 0';
                 if (i === 0) {
                     dayTab.textContent = '전체 일정';
                 } else {
@@ -161,8 +174,15 @@
 
 
             document.getElementById('save-btn').addEventListener('click', function () {
-                if (markers.length > 0) {
+                const place = searchBox.getPlace();
+                if (!place.geometry || !place.geometry.location) return;
+
+                const location = place.geometry.location;
+
+                if (bool) {
                     // 모달 열기
+                    console.log(location);
+                    addMarker(location);
                     modal.style.display = "block";
                 }
             });
@@ -208,10 +228,10 @@
 
             // 검색 박스 (자동 완성)
             const input = document.getElementById("search-box");
-            const searchBox = new google.maps.places.Autocomplete(input);
-
+            searchBox = new google.maps.places.Autocomplete(input);
             // 장소가 선택될 때 이벤트
             searchBox.addListener("place_changed", function () {
+                bool = true;
                 const place = searchBox.getPlace();
                 if (!place.geometry || !place.geometry.location) return;
 
@@ -225,7 +245,7 @@
                 map.setZoom(15);
 
                 // 마커 추가
-                addMarker(location);
+                // addMarker(location);
                 displayLatlng(location, address, name);
             });
 
@@ -233,14 +253,8 @@
             map.addListener("click", function (event) {
                 const clickedLocation = event.latLng;
 
-                /*
-                // 클릭 이벤트로 마커 추가
-                map.addListener("click", function (event) {
-                    const clickedLocation = event.latLng;
-                    addMarker(clickedLocation);
-                    displayLatlng(clickedLocation, address);
-                 */
                 geocodeLatLng(clickedLocation);
+                $('#commentModal').show();
             });
         }
 
@@ -261,6 +275,7 @@
         }
 
         function addMarker(location) {
+            console.log(location);
             const marker = new google.maps.Marker({
                 position: location,
                 map: map,
@@ -268,7 +283,7 @@
 
             // 마커를 배열에 저장
             markers.push(marker);
-
+            console.log(markers);
             // 마커 클릭 시 삭제 이벤트
             marker.addListener("click", function () {
                 marker.setMap(null); // 마커를 지도에서 제거
@@ -285,6 +300,32 @@
                 markers.splice(index, 1);
                 commentLocations.splice(index, 1); // 관련된 위치 정보도 삭제
             }
+        }
+        function removeMarker2() {
+            const index = markers.length-1;
+            console.log(index);
+            if (index > -1) {
+                markers[index].setMap(null);
+                markers.splice(index, 1);
+                commentLocations.splice(index, 1); // 관련된 위치 정보도 삭제
+            }
+        }
+
+        function removeMarker3(attraction) {
+            const targetLocation = new google.maps.LatLng(
+                parseFloat(attraction.latitude),
+                parseFloat(attraction.longitude)
+            );
+            markers = markers.filter(marker => {
+                const markerPosition = marker.getPosition();
+
+                // 좌표 비교: 같은 마커일 경우 지도에서 제거
+                if (markerPosition.equals(targetLocation)) {
+                    marker.setMap(null); // 지도에서 마커 제거
+                    return false; // 해당 마커를 필터링하여 배열에서 제거
+                }
+                return true; // 유지할 마커
+            });
         }
 
         function displayLatlng(location, address, name) {
@@ -460,6 +501,11 @@
             });
         }
 
+        function closeModal() {
+            removeMarker2();
+            $('#commentModal').hide(); // 모달을 숨김
+        }
+
 
         window.onload = initMap;
     </script>
@@ -491,18 +537,18 @@
 <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
 <div class="box">
     <div class="table schedule"> <!--전체, n일차 -->
-        <h3>일정 목록</h3>
+        <h3 class="box-title">일정 목록</h3>
         <div id="sidebar">
             <div id="dayTabs"></div>
         </div>
         <div id="savedcancel" style="text-align: center">
-            <button id="saved-btn" onclick="savedCourse()">저장</button> <!--저장되면 컨트롤러로 가서 데이터 저장 진행-->
-            <button id="cancel-btn">취소</button> <!--취소되면 현재 페이지 리셋?-->
+            <button class="saved-btn" id="saved-btn" onclick="savedCourse()">저장</button> <!--저장되면 컨트롤러로 가서 데이터 저장 진행-->
+            <button class="cancel-btn" id="cancel-btn">취소</button> <!--취소되면 현재 페이지 리셋?-->
         </div>
     </div>
     <div class="location"> <!--장소 검색 찜 목록 -->
         <div id="location2">
-            <h3 th:style="'margin-top:10px;'">장소검색</h3>
+            <h3 th:style="'padding-top:10px;'" class="box-title">장소검색</h3>
             <div class="text-style">
                 <select name="theme" id="theme" class="form-select select-style"  onchange="searchByTheme()">
                     <option value="">테마를 선택해주세요</option>
@@ -515,42 +561,41 @@
             </div>
             <div id="commentModal" class="modal" style="display: none;">
                 <div class="modal-content">
-                    <span class="close">&times;</span>
+                    <span class="close" onclick="closeModal()"></span>
                     <div class="ModalBox">
                         <h2 id="tagH2">내용 입력</h2>
-                        <div id="TitleName">
-                            장소이름 : <input id="attractionName" type="text">
-                        </div>
                         <div id="InfoLocation">
-                            <p>위도 : <span id="latitude"></span></p>
-                            <p>경도 : <span id="longitude"></span></p>
-                            <p>주소 : <span id="address"></span></p>
+                            장소이름 : <input id="attractionName" type="text" th:style="'margin-bottom: 10px;'">
+                            <p>위도 : <span id="latitude" th:style="'margin-bottom: 10px;'"></span></p>
+                            <p>경도 : <span id="longitude" th:style="'margin-bottom: 10px;'"></span></p>
+                            <p>주소 : <span id="address" th:style="'margin-bottom: 10px;'"></span></p>
+                            <div th:style="'margin-bottom: 10px;'">
+                                테마선택 :
+                                <select name="Category" id="CategorySelect">
+                                    <option value="">선택해주세요</option>
+                                    <option value="식도락">식도락</option>
+                                    <option value="감성">감성</option>
+                                    <option value="쇼핑">쇼핑</option>
+                                    <option value="액티비티">액티비티</option>
+                                    <option value="관광">관광</option>
+                                </select>
+                            </div>
                         </div>
-                        <div>
-                            테마선택 :
-                            <select name="Category" id="CategorySelect">
-                                <option value="">선택해주세요</option>
-                                <option value="식도락">식도락</option>
-                                <option value="감성">감성</option>
-                                <option value="쇼핑">쇼핑</option>
-                                <option value="액티비티">액티비티</option>
-                                <option value="관광">관광</option>
-                            </select>
-                        </div>
+
                         <div>
                             <textarea id="comment-input" rows="4" cols="40" placeholder="일정 내용을 입력하세요"></textarea>
                         </div>
                         <div>
                             <button id="save-comment-btn">저장</button>
-                            <button id="cancle-mmooddaall">취소</button>
+                            <button id="cancel-modal" onclick="closeModal()">취소</button>
                         </div>
                     </div>
                 </div>
             </div>
             <div th:style="'display:flex;'">
                 <div>
-                    <input id="search-box" type="text" placeholder="위치 검색">
-                    <button id="save-btn">+</button>
+                    <input id="search-box" class="loc-search" type="text" placeholder="위치 입력 후 검색버튼을 눌러주세요">
+                    <button id="save-btn" class="saved-search"><img src="/img/search.png" th:style="'height:25px; width:25px;'" alt=""></button>
                 </div>
             </div>
             <div id="saved-locations" class="column1">
@@ -563,8 +608,8 @@
         </div>
     </div>
     <div class="table ddaySchedule" id="DaySchedule"> <!--n일차 일정-->
-        <h2 id="city123"></h2>
-        <p id="currentDay">1 일차</p>
+        <h2 id="city123" class="box-title"></h2>
+        <p id="currentDay" th:style="'border: solid 1px; padding: 10px 100px'">1 일차</p>
         <div class="column1" th:style="'width:100%;height:100%;'">
 
         </div>
