@@ -24,21 +24,52 @@ window.onclick = function(event) {
 flatpickr("#startDate", {
     dateFormat: "Y-m-d",
     appendTo: document.getElementById("calendarModal"), // 모달 내에서 캘린더 표시
+    onReady: function (selectedDates, dateStr, instance) {
+        setTimeout(() => adjustCalendarPosition(instance), 0);
+    },
     onChange: function(selectedDates, dateStr, instance) {
         console.log("출발하는 날: ", dateStr);
     },
-    positionElement: document.getElementById("startDate") // 입력 필드 옆에 캘린더 표시
+    onOpen: function (selectedDates, dateStr, instance) {
+        setTimeout(() => adjustCalendarPosition(instance), 0);
+    },
 });
+function adjustCalendarPosition(instance) {
+    const calendar = instance.calendarContainer;
+    if (calendar) {
+        calendar.style.top = "290px";   // 원하는 위치
+        calendar.style.left = "170px";   // 예시로 왼쪽 50px 이동
+        calendar.style.position = "absolute";
+    } else {
+        console.error("Calendar container is not found");
+    }
+}
 
 // Flatpickr 설정 (돌아오는 날)
 flatpickr("#endDate", {
     dateFormat: "Y-m-d",
     appendTo: document.getElementById("calendarModal"), // 모달 내에서 캘린더 표시
+    onReady: function (selectedDates, dateStr, instance) {
+        setTimeout(() => adjustCalendarPosition2(instance), 0);
+    },
     onChange: function(selectedDates, dateStr, instance) {
         console.log("돌아오는 날: ", dateStr);
     },
-    positionElement: document.getElementById("endDate"), // 입력 필드 옆에 캘린더 표시
+    onOpen: function (selectedDates, dateStr, instance) {
+        setTimeout(() => adjustCalendarPosition2(instance), 0);
+    },
 });
+
+function adjustCalendarPosition2(instance) {
+    const calendar = instance.calendarContainer;
+    if (calendar) {
+        calendar.style.top = "350px";   // 원하는 위치
+        calendar.style.left = "170px";   // 예시로 왼쪽 50px 이동
+        calendar.style.position = "absolute";
+    } else {
+        console.error("Calendar container is not found");
+    }
+}
 
 // 일정 저장 버튼 클릭 시
 document.getElementById("saveScheduleBtn").onclick = function() {

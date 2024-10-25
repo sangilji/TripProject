@@ -98,7 +98,7 @@ a.nav-link-small:hover {
     top: 50%;
     transform: translate(-50%, -50%);
     width: 600px; /* 정사각형 모달 */
-    height: 600px;
+    height: 650px;
     background-color: rgba(25, 40, 60, 0.9) ;
     border-radius: 45px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -139,7 +139,7 @@ a.nav-link-small:hover {
 }
 
 .flatpickr-calendar {
-    z-index: 10000; /* 모달 위에 나타나도록 설정 */
+    /*z-index: 10000; !* 모달 위에 나타나도록 설정 *!*/
 }
 
 /* Flatpickr 캘린더가 입력 필드 옆에 나타나도록 조정 */
