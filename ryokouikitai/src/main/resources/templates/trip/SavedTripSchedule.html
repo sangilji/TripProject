@@ -13,7 +13,9 @@
         <h3>일정 목록</h3>
         <div id="sidebar">
             <div id="dayTabs">
-                <!-- 저장된 일자를 끌고와야함 -->
+                <div th:each="attraction : ${course?.attractions}">
+                    <button th:text="'Day ' + ${attraction?.day}"></button>
+                </div>
             </div>
         </div>
         <div id="correction" style="text-align: center">
@@ -22,10 +24,9 @@
     </div>
 
     <div class ="table Saved-location-list">
-        <!--
-        전체일정 default상태 1일차부터 시작
-        각 일차 별 박스로 묶어서 스크롤 아래로 확인
-        -->
+        <<div th:each="attraction : ${course?.attractions}">
+<!--            <div th:text="${attraction?.attractionName}"></div>-->
+        </div>
     </div>
 
     <div class = "table Saved-maps">

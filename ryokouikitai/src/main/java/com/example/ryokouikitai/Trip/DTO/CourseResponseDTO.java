@@ -1,9 +1,11 @@
 package com.example.ryokouikitai.Trip.DTO;
 
 import com.example.ryokouikitai.domain.area.Course;
+import com.example.ryokouikitai.dto.trip.AttractionCourseDto;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,6 +14,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class CourseResponseDTO {
     private String title;
     private String content;
@@ -27,9 +30,15 @@ public class CourseResponseDTO {
 //                .startAt(course.getStartAt())
 //                .endAt(course.getEndAt())
 //                .attractions(course.getCourseAttractions().stream()
-//                        .map(CourseAttractionDTO::new)
+//                        .map(courseAttraction -> new CourseAttractionDTO(
+//                                courseAttraction.getDay(),
+//                                // AttractionCourseDto 생성
+//                                Arrays.asList(new AttractionCourseDto(
+//                                        courseAttraction.getAttraction().getId(), // Attraction의 id
+//                                        courseAttraction.getOrders() // Attraction 순서
+//                                ))
+//                        ))
 //                        .collect(Collectors.toList()))
 //                .build();
 //    }
-
 }
