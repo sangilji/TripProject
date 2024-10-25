@@ -138,7 +138,7 @@
 }
 
 .join-form input {
-    width:550px; /* 입력 필드 너비를 폼에 맞춤 */
+    width: 550px; /* 입력 필드 너비를 폼에 맞춤 */
     height: 50px; /* 입력 필드의 높이를 키움 */
     /*padding: 10px; !* 입력 필드 내부 여백을 추가 *!*/
     font-size: 15px; /* 입력 글씨 크기를 키움 */
@@ -414,8 +414,6 @@ a {
 }
 
 
-
-
 .search-img {
     width: 25px;
     height: 25px;
@@ -482,21 +480,25 @@ a {
     background-color: rgba(255, 99, 132, 1);
     border-color: rgba(255, 99, 132, 1);
 }
+
 .btn2:hover {
     color: #ffffff;
     background-color: rgba(54, 162, 235, 1);
     border-color: rgba(54, 162, 235, 1);
 }
+
 .btn3:hover {
     color: #ffffff;
     background-color: rgba(75, 192, 192, 1);
     border-color: rgba(75, 192, 192, 1);
 }
+
 .btn4:hover {
     color: #ffffff;
     background-color: rgba(255, 206, 86, 1);
     border-color: rgba(255, 206, 86, 1);
 }
+
 .btn5:hover {
     color: #ffffff;
     background-color: rgba(153, 102, 255, 1);
@@ -609,8 +611,8 @@ a {
     width: 540px;
     height: 50px;
     font-size: 15px;
-    margin-top: 30px;
-    margin-bottom:30px;
+    margin-top: 10px;
+    margin-bottom: 50px;
 }
 
 .profile-s-detail {
@@ -625,6 +627,7 @@ a {
     display: flex;
     flex-direction: row;
 }
+
 .button-group {
     display: flex;
     justify-content: flex-end;
@@ -640,10 +643,10 @@ a {
     margin-top: 30px;
 }
 
-.last{
-    display:flex;
+.last {
+    display: flex;
     justify-content: space-between;
-    width:100%;
+    width: 100%;
 }
 
 .profile-s-comment {
@@ -652,18 +655,19 @@ a {
     margin-top: 10px;
 }
 
-.comment{
-    margin-left:15px;
+.comment {
+    margin-left: 15px;
     display: flex;
     flex-direction: column;
 }
+
 .profile-box-group-comment {
     display: flex;
     flex-direction: row;
     align-content: center;
 }
 
-.comment-text{
+.comment-text {
     border: #FFFFFF;
     width: 600px;
     /*margin-top: 20px;*/
@@ -687,12 +691,12 @@ a {
     justify-content: center;
 }
 
-.comment-box{
+.comment-box {
     display: flex;
     align-items: center;
     justify-content: center;
 
-    margin-top:40px;
+    margin-top: 40px;
 }
 
 .board-form {
@@ -715,7 +719,7 @@ a {
 }
 
 .board-form input {
-    width:85%; /* 입력 필드 너비를 폼에 맞춤 */
+    width: 85%; /* 입력 필드 너비를 폼에 맞춤 */
     height: 35px; /* 입력 필드의 높이를 키움 */
     padding: 10px; /* 입력 필드 내부 여백을 추가 */
     font-size: 15px; /* 입력 글씨 크기를 키움 */
@@ -723,8 +727,8 @@ a {
     border: 1px solid #ccc; /* 입력 필드의 테두리 */
 }
 
-.pagination{
-    display:flex;
+.pagination {
+    display: flex;
     justify-content: center;
 }
 
@@ -734,16 +738,40 @@ a {
     font-size: 16px;
 }
 
-li{
+li {
     list-style-type: none;
 }
 
-#comments{
+#comments {
     overflow: scroll;
-    height:420px;
+    height: 420px;
     margin-top: 15px;
 }
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
     display: none;
+}
+
+/* Rectangle 281 */
+
+.plan-link {
+    position: absolute;
+    width: 200px;
+    height: 40px;
+    left: 20px;
+    top: 310px;
+    color: #2C2C2C;
+    background: #D9D9D9;
+    border-radius: 10px;
+}
+
+.plan-link:hover {
+    position: absolute;
+    width: 200px;
+    height: 40px;
+    left: 20px;
+    top: 310px;
+    color: #ffffff;
+    background: #424C6E;
+    border-radius: 10px;
 }
