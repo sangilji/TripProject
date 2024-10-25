@@ -70,6 +70,7 @@
                         동행찾기
                     </button>
                 </div>
+                <div th:text="${kind}"></div>
                 <table class="table line">
                     <tr class="table-header" th:each=" val, i : ${post}"
                         th:onclick="|location.href='/board/tip/'+${val.id}|">
@@ -83,14 +84,14 @@
                 <div class="pagination">
                     <ul>
                         <li th:if="${page.hasPrevious()}">
-                            <a th:href="@{mypage2(page=${page.number - 1})}">&laquo;이전</a>
+                            <a th:href="@{mypage2(page=${page.number - 1}, kind=${kind})}">&laquo;이전</a>
                         </li>
                         <li th:each="i : ${#numbers.sequence(0,(page.totalPages - 1==-1? 0: page.totalPages - 1))}"
                             th:classappend="${page.number == i}?'active'">
-                            <a th:href="@{mypage2(page=${i})}" th:text="${i + 1}">1</a>
+                            <a th:href="@{mypage2(page=${i}, kind=${kind})}" th:text="${i + 1}">1</a>
                         </li>
                         <li th:if="${page.hasNext()}">
-                            <a th:href="@{mypage2(page=${page.number + 1})}">다음&raquo;</a>
+                            <a th:href="@{mypage2(page=${page.number + 1}, kind=${kind})}">다음&raquo;</a>
                         </li>
                     </ul>
                 </div>

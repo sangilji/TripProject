@@ -168,4 +168,11 @@ public class AccompanyService {
     public Page<AccompanyResponseDto> getByTitle(String title, Pageable pageable) {
         return accompanyRepository.getAccompanyByTitleWithMemberAndCommentCount(title, "", pageable);
     }
+
+    @Transactional
+    public Page<Accompany> getByMemberId(Integer id, Pageable pageable) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 멤버입니다. "));
+        return accompanyRepository.findByMemberOrderByIdAsc(member, pageable);
+    }
 }

@@ -20,9 +20,9 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
     Board findByIdWithComment(@Param("id") Integer id);
 
     @Query("select new com.example.ryokouikitai.dto.board.BoardResponseDto(b, count(c)) " +
-            "from Board b left join BoardComment c on c.board = b where b.boardMenu = :boardName and b.theme.name= :theme " +
+            "from Board b left join BoardComment c on c.board = b where b.boardMenu = :boardName and b.theme.name like %:theme% and b.title like  %:title% " +
             "group by b")
-    Page<BoardResponseDto> findAllByBoardMenuAndTheme(@Param("boardName") String boardName, Pageable pageable, @Param("theme") String theme);
+    Page<BoardResponseDto> findAllByBoardMenuAndTheme(@Param("boardName") String boardName, @Param("title") String title, @Param("theme") String theme, Pageable pageable);
     
     // 검색 기능 구현
     @Query("select new com.example.ryokouikitai.dto.board.BoardResponseDto(b, count(c)) " +

@@ -28,18 +28,42 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("/tip")
-    public String getBoard1(Model model, @PageableDefault(size=4) Pageable pageable) {
-        Page<BoardResponseDto> boardList = boardService.getAllByBoardName(pageable, "tip");
+    public String getBoard1(@RequestParam(required = false) String theme, @RequestParam(required = false) String title, @RequestParam(required = false) String boardName, Model model, @PageableDefault(size = 4) Pageable pageable) {
+        if (theme == null) {
+            theme = ""; // 원하는 기본값으로 변경
+        }
+        if (boardName == null) {
+            boardName = "tip"; // 원하는 기본값으로 변경
+        }
+        if (title == null) {
+            title = ""; // 원하는 기본값으로 변경
+        }
+        Page<BoardResponseDto> boardList = boardService.getByTheme(theme, title, boardName, pageable);
         model.addAttribute("boardList", boardList.getContent());
         model.addAttribute("page", boardList);
+        model.addAttribute("theme", theme);
+        model.addAttribute("title", title);
+        model.addAttribute("boardName", boardName);
         return "board/board1";
     }
 
     @GetMapping("/plan")
-    public String getBoard2(Model model, @PageableDefault(size = 4) Pageable pageable) {
-        Page<BoardResponseDto> boardList = boardService.getAllByBoardName(pageable, "plan");
+    public String getBoard2(@RequestParam(required = false) String theme, @RequestParam(required = false) String title, @RequestParam(required = false) String boardName, Model model, @PageableDefault(size = 4) Pageable pageable) {
+        if (theme == null) {
+            theme = ""; // 원하는 기본값으로 변경
+        }
+        if (boardName == null) {
+            boardName = "plan"; // 원하는 기본값으로 변경
+        }
+        if (title == null) {
+            title = ""; // 원하는 기본값으로 변경
+        }
+        Page<BoardResponseDto> boardList = boardService.getByTheme(theme, title, boardName, pageable);
         model.addAttribute("boardList", boardList.getContent());
         model.addAttribute("page", boardList);
+        model.addAttribute("theme", theme);
+        model.addAttribute("title", title);
+        model.addAttribute("boardName", boardName);
         return "board/board2";
     }
 
@@ -79,25 +103,33 @@ public class BoardController {
 
     // 마이페이지 필터에서 참고
     @GetMapping("/search")
-    public String search(@RequestParam String theme, Model model, @PageableDefault(size = 4) Pageable pageable) {
+    public String search(@RequestParam String theme, @RequestParam String title, @RequestParam String boardName, Model model, @PageableDefault(size = 4) Pageable pageable) {
         log.info("{}", theme);
-        Page<BoardResponseDto> boardResponseDto = boardService.getByTheme(theme, pageable);
+        Page<BoardResponseDto> boardResponseDto = boardService.getByTheme(theme, title, boardName, pageable);
         model.addAttribute("boardList", boardResponseDto.getContent());
         model.addAttribute("page", boardResponseDto);
+        model.addAttribute("theme", theme);
+        model.addAttribute("title", title);
+        model.addAttribute("boardName", boardName);
+        log.info("{}",boardName);
         // 상위 데이터에 데이터 잡아서 지금 받은 걸로 수정
+        if (boardName.equals("tip")) {
+            return "board/board1 :: #board";
+        }
         return "board/board2 :: #board";
     }
 
+
     // 검색창 기능
     @GetMapping("/searchContent")
-    public String searchContent(@RequestParam String title, @RequestParam String boardName, Model model,  @PageableDefault(size = 4) Pageable pageable) {
-        Page<BoardResponseDto> boardResponseDto = boardService.getByTitle(title,boardName, pageable);
+    public String searchContent(@RequestParam String title, @RequestParam String boardName, Model model, @PageableDefault(size = 4) Pageable pageable) {
+        Page<BoardResponseDto> boardResponseDto = boardService.getByTitle(title, boardName, pageable);
         model.addAttribute("boardList", boardResponseDto.getContent());
         model.addAttribute("page", boardResponseDto);
         // 상위 데이터에 데이터 잡아서 지금 받은 걸로 수정
-        if(boardName.equals("tip")){
+        if (boardName.equals("tip")) {
             return "board/board1 :: #board";
-        }else{
+        } else {
             return "board/board2 :: #board";
         }
     }

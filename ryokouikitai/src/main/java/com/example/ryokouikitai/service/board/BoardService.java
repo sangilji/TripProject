@@ -133,11 +133,8 @@ public class BoardService {
     }
 
     // 테마별로 정렬
-    public Page<BoardResponseDto> getByTheme(String theme, Pageable pageable) {
-        if(theme == null || theme.isEmpty()){
-            return boardRepository.findAllByBoardMenu("plan", pageable);
-        }
-        return boardRepository.findAllByBoardMenuAndTheme("plan", pageable, theme);
+    public Page<BoardResponseDto> getByTheme(String theme, String title, String boardName, Pageable pageable) {
+        return boardRepository.findAllByBoardMenuAndTheme(boardName,title,theme, pageable);
     }
 
     public Page<BoardResponseDto> getByTitle(String title, String boardName, Pageable pageable) {

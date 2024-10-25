@@ -1,6 +1,7 @@
 package com.example.ryokouikitai.repository.accompany;
 
 import com.example.ryokouikitai.domain.accompany.Accompany;
+import com.example.ryokouikitai.domain.member.Member;
 import com.example.ryokouikitai.dto.accompany.AccompanyResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,4 +35,6 @@ public interface AccompanyRepository extends JpaRepository<Accompany, Integer> {
             "from Accompany a left join AccompanyComment c on c.accompany = a where a.title like %:title% and a.category.name like %:theme% " +
             "group by a")
     Page<AccompanyResponseDto> getAccompanyByTitleWithMemberAndCommentCount(@Param("title") String title, @Param("theme")String theme, Pageable pageable);
+
+    Page<Accompany> findByMemberOrderByIdAsc(Member member, Pageable pageable);
 }
