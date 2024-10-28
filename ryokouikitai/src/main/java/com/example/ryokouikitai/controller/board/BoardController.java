@@ -1,10 +1,12 @@
 package com.example.ryokouikitai.controller.board;
 
+import com.example.ryokouikitai.domain.area.Course;
 import com.example.ryokouikitai.domain.board.Board;
 import com.example.ryokouikitai.domain.member.MemberInfo;
 import com.example.ryokouikitai.dto.board.BoardDetailDto;
 import com.example.ryokouikitai.dto.board.BoardResponseDto;
 import com.example.ryokouikitai.service.board.BoardService;
+import com.example.ryokouikitai.service.course.CourseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 // 페이지 이동 return을 통해서 이동
 @Controller
@@ -26,6 +29,7 @@ import javax.servlet.http.HttpSession;
 @Slf4j
 public class BoardController {
     private final BoardService boardService;
+    private final CourseService courseService;
 
     @GetMapping("/tip")
     public String getBoard1(@RequestParam(required = false) String theme, @RequestParam(required = false) String title, @RequestParam(required = false) String boardName, Model model, @PageableDefault(size = 4) Pageable pageable) {
@@ -89,7 +93,10 @@ public class BoardController {
     }
 
     @GetMapping("/write")
-    public String getWriteBoard() {
+    public String getWriteBoard(HttpSession session, Model model) {
+        MemberInfo memberInfo = (MemberInfo) session.getAttribute("memberInfo");
+        List<Course> courses = courseService.getByMe(memberInfo.getId());
+        model.addAttribute("courses", courses);
         return "board/write";
     }
 
@@ -98,6 +105,8 @@ public class BoardController {
         MemberInfo memberInfo = (MemberInfo) session.getAttribute("memberInfo");
         Board board = boardService.getById(memberInfo, boardId).getBoard();
         model.addAttribute("board", board);
+        List<Course> courses = courseService.getByMe(memberInfo.getId());
+        model.addAttribute("courses", courses);
         return "board/rewrite";
     }
 

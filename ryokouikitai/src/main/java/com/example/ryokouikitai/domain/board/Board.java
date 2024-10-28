@@ -37,6 +37,8 @@ public class Board {
 
     private String title;
 
+    private int courseId;
+
     @Column(length = 2048)
     private String content;
     private int likeCount;
@@ -55,6 +57,7 @@ public class Board {
         this.boardMenu = writeForm.getBoardName();
         this.title = writeForm.getTitle();
         this.content = writeForm.getContent();
+        this.courseId = writeForm.getCourseId();
     }
 
     public void updateLikeCount(int count) {

@@ -15,5 +15,6 @@ public class WriteForm {
     private String title;
     private String content;
     private Integer id;
+    private Integer courseId;
 }
 

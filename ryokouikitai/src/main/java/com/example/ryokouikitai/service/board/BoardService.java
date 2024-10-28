@@ -50,6 +50,7 @@ public class BoardService {
                 .boardMenu(writeForm.getBoardName())
                 .flag((false))
                 .createdAt(LocalDateTime.now())
+                .courseId(writeForm.getCourseId())
                 .build();
         boardRepository.save(board);
         return board;

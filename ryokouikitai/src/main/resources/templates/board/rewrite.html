@@ -19,6 +19,7 @@
             const title = $('#title').val();
             const id = [[${board.id}]];
             const content = $('#summernote').summernote('code');
+            const myPlan = $('#myPlan').val();
             console.log(boardName);
             console.log(theme);
             console.log(title);
@@ -28,7 +29,7 @@
                 alert("게시판을 선택해주세요.");
                 return;
             }
-            if (theme === 'default' && boardName==='plan') {
+            if (theme === 'default' && boardName === 'plan') {
                 alert("테마를 선택해주세요.");
                 return;
             }
@@ -36,13 +37,20 @@
                 alert("제목을 입력해주세요.");
                 return;
             }
+            if (boardName === 'plan') {
+                if (myPlan === '0') {
+                    alert("일정을 선택해야 합니다.")
+                    return;
+                }
+            }
             // 객체 생성
-            const writeForm ={
+            const writeForm = {
                 id: id,
                 boardName: boardName,
                 theme: theme,
                 title: title,
-                content: content
+                content: content,
+                courseId: myPlan,
             };
             console.log(writeForm)
 
@@ -54,14 +62,15 @@
                 dataType: "JSON",
                 success: function (response) {
                     // console.log(response);
-                    window.location.href='/board/'+response.data+"/"+id;
+                    window.location.href = '/board/' + response.data + "/" + id;
                 },
                 error: function (request, status, error) {
                     alert("또 왜 안돼! 넘 빡치자나");
                 }
             });
         }
-        $(document).ready(function(){
+
+        $(document).ready(function () {
             $('#summernote').summernote('code', [[${board.content}]]);
         });
     </script>
@@ -72,8 +81,12 @@
     <div class="left-box" th:style="'position:fixed;'">
         <div class="theme"><p th:style="'margin-top:2px'" th:text="${session.memberInfo.theme}">감성</p></div>
         <div><img src="/img/profile.jpg" class="profile"></div>
-        <div th:style="'color: white; margin-top:20px; font-size: 16px'" th:text="${session.memberInfo.nickname} + '님'">수콩님</div>
-        <div th:style="'color: white; font-size:14px'" th:text="'포인트 : ' + ${session.memberInfo.point} + 'pt'">포인트 : 10pt</div>
+        <div th:style="'color: white; margin-top:20px; font-size: 16px'" th:text="${session.memberInfo.nickname} + '님'">
+            수콩님
+        </div>
+        <div th:style="'color: white; font-size:14px'" th:text="'포인트 : ' + ${session.memberInfo.point} + 'pt'">포인트 :
+            10pt
+        </div>
         <div class="button-group">
             <button class="button-style">내동행</button>
             <button class="button-style">동행찾기</button>
@@ -93,14 +106,14 @@
                             <label th:for="area">게시판</label>
                             <select name="theme" id="boardName" class="form-select select-style">
                                 <option value="default">게시판을 선택해주세요</option>
-                                <option value="tip"  th:selected="'tip'==${board.boardMenu}">자유게시판</option>
-                                <option value="plan"  th:selected="'plan'==${board.boardMenu}">일정공유</option>
+                                <option value="tip" th:selected="'tip'==${board.boardMenu}">자유게시판</option>
+                                <option value="plan" th:selected="'plan'==${board.boardMenu}">일정공유</option>
                             </select>
                         </div>
                         <div class="title">
                             <label th:for="theme">테마</label>
                             <select name="theme" id="theme" class="form-select select-style">
-                                <option value="default" >테마를 선택해주세요</option>
+                                <option value="default">테마를 선택해주세요</option>
                                 <option value="식도락" th:selected="'식도락'==${board.theme.getName()}">식도락</option>
                                 <option value="감성" th:selected="'감성'==${board.theme.getName()}">감성</option>
                                 <option value="쇼핑" th:selected="'쇼핑'==${board.theme.getName()}">쇼핑</option>
@@ -111,7 +124,11 @@
                         <div class="myPlan">
                             <label th:for="myPlan">내글</label>
                             <select name="myPlan" id="myPlan" class="form-select select-style">
-                                <option value="default">내글을 선택해주세요</option>
+                                <option value="0">내글을 선택해주세요</option>
+                                <option th:each="val : ${courses}" th:value="${val.getId()}"
+                                        th:utext="${val.title}"
+                                        th:selected="${val.getId()} == *{courseId}"
+                                ></option>
                             </select>
                         </div>
                         <div class="title">

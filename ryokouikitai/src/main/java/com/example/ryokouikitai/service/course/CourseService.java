@@ -99,4 +99,10 @@ public class CourseService {
                 .orElseThrow(() -> new IllegalArgumentException("카테고리 에러"));
         return attractionRepository.findByCategory(category);
     }
+
+    public List<Course> getByMe(Integer id) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Member not found"));
+        return courseRepository.findByMember(member);
+    }
 }

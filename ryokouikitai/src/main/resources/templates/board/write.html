@@ -17,6 +17,7 @@
             const boardName = $('#boardName').val();
             const theme = $('#theme').val();
             const title = $('#title').val();
+            const myPlan = $('#myPlan').val();
             const content = $('#summernote').summernote('code');
             console.log(boardName);
             console.log(theme);
@@ -35,12 +36,20 @@
                 alert("제목을 입력해주세요.");
                 return;
             }
+            if (boardName === 'plan') {
+                if (myPlan === '0') {
+                    alert("일정을 선택해야 합니다.")
+                    return;
+                }
+            }
             // 객체 생성
             const writeForm ={
                 boardName: boardName,
                 theme: theme,
                 title: title,
-                content: content
+                content: content,
+                courseId: myPlan,
+
             };
             console.log(writeForm)
 
@@ -107,7 +116,9 @@
                         <div class="myPlan">
                             <label th:for="myPlan">내글</label>
                             <select name="myPlan" id="myPlan" class="form-select select-style">
-                                <option value="default">내글을 선택해주세요</option>
+                                <option value="0">내글을 선택해주세요</option>
+                                <option th:each="val : ${courses}" th:value="${val.getId()}"
+                                        th:utext="${val.title}"></option>
                             </select>
                         </div>
                         <div class="title">
