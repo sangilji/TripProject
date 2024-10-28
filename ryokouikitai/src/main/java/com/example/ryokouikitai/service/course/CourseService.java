@@ -130,7 +130,7 @@ public class CourseService {
             }
             addACD.add(courseDto);
         }
-        if (addACD.isEmpty()) {
+        if (!addACD.isEmpty()) {
             courseAttractionDto.add(CourseAttractionDTO
                     .builder()
                     .day(start)
@@ -143,6 +143,7 @@ public class CourseService {
                 .content(course.getContent())
                 .startAt(course.getStartAt())
                 .endAt(course.getEndAt())
+                .memberId(course.getMember().getId())
                 .build();
 
     }

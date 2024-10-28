@@ -21,6 +21,7 @@ public class CourseResponseDTO {
     private LocalDate startAt;
     private LocalDate endAt;
     private List<CourseAttractionDTO> attractions;
+    private Integer memberId;
 
 //    // Course 엔티티를 받아서 DTO로 변환하는 빌더 메서드
 //    public static CourseResponseDTO fromCourse(Course course) {
