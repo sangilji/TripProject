@@ -1,6 +1,7 @@
 package com.example.ryokouikitai.service.trip;
 
 import com.example.ryokouikitai.Trip.DTO.CourseRequestDTO;
+import com.example.ryokouikitai.Trip.DTO.CourseResponseDTO;
 import com.example.ryokouikitai.Trip.Repository.CourseAttractionRepository;
 import com.example.ryokouikitai.domain.area.*;
 import com.example.ryokouikitai.domain.member.Member;
@@ -29,7 +30,7 @@ public class TripService {
     private final CourseAttractionRepository courseAttractionRepository;
 
     @Transactional
-    public Course createCourseWithAttractions(CourseRequestDTO courseRequestDTO, Integer memberId) {
+    public Integer createCourseWithAttractions(CourseRequestDTO courseRequestDTO, Integer memberId) {
 
         // Member 조회
         Member member = memberRepository.findById(memberId)
@@ -61,9 +62,9 @@ public class TripService {
                 .collect(Collectors.toList()));
 
         // Course 저장
-        courseRepository.save(course);
 
-        return course;
+
+        return courseRepository.save(course).getId();
     }
 
     // 추가: 어트랙션 조회 메서드
@@ -94,19 +95,51 @@ public class TripService {
             // 테마가 "0"일 경우 모든 어트랙션 조회
             return attractionRepository.findAllByCourseAttraction();
         }
-            // 테마에 해당하는 어트랙션 조회 (카테고리로 필터링)
-            Category category = categoryRepository.findByName(theme)
-                    .orElseThrow(() -> new IllegalArgumentException("Category not found"));
-            return attractionRepository.findAllByCourseAttractionWithCategory(category);
+        // 테마에 해당하는 어트랙션 조회 (카테고리로 필터링)
+        Category category = categoryRepository.findByName(theme)
+                .orElseThrow(() -> new IllegalArgumentException("Category not found"));
+        return attractionRepository.findAllByCourseAttractionWithCategory(category);
     }
 
-//    @Transactional(readOnly = true)
-//    public CourseResponseDTO getCourseWithAttractions(Long courseId) {
-//        Course course = courseRepository.findById(courseId)
-//                .orElseThrow(() -> new IllegalArgumentException("Course not found"));
-//
-//        // Course 엔티티를 DTO로 변환
-//        CourseResponseDTO courseResponseDTO = new CourseResponseDTO(course);
-//        return courseResponseDTO;
-//    }
+    @Transactional(readOnly = true)
+    public CourseResponseDTO getCourseWithAttractions(Integer courseId) {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new IllegalArgumentException("Course not found"));
+
+        // Course 엔티티를 DTO로 변환
+//        CourseResponseDTO courseResponseDTO = CourseResponseDTO.fromCourse(course);
+        return null;
+    }
+
+    public Course saveCourse(CourseRequestDTO courseRequestDTO, Integer memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("Member not found"));
+
+        // Course 생성 및 저장
+        Course course = Course.builder()
+                .title(courseRequestDTO.getTitle())
+                .content(courseRequestDTO.getContent())
+                .startAt(courseRequestDTO.getStartAt())
+                .endAt(courseRequestDTO.getEndAt())
+                .flag(courseRequestDTO.getFlag())
+                .member(member)
+                .createdAt(LocalDateTime.now())
+                .likeCount(0)
+                .viewCount(0)
+                .build();
+
+        course.setAttractions(courseRequestDTO.getAttractions().stream()
+                .map(courseAttractionDTO -> courseAttractionDTO.getAttraction().stream()
+                        .map(attractionCourseDto -> CourseAttraction.builder()
+                                .attraction(attractionRepository.findById(attractionCourseDto.getId()).get())
+                                .orders(attractionCourseDto.getOrder())
+                                .course(course)
+                                .day(courseAttractionDTO.getDay())
+                                .build())
+                        .collect(Collectors.toList()))
+                .collect(Collectors.toList()));
+
+        courseRepository.save(course);
+        return course;
+    }
 }

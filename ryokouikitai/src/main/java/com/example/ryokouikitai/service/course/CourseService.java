@@ -2,24 +2,32 @@ package com.example.ryokouikitai.service.course;
 
 import com.example.ryokouikitai.Trip.DTO.CourseAttractionDTO;
 import com.example.ryokouikitai.Trip.DTO.CourseRequestDTO;
+import com.example.ryokouikitai.Trip.DTO.CourseResponseDTO;
 import com.example.ryokouikitai.Trip.Repository.CourseAttractionRepository;
 import com.example.ryokouikitai.domain.area.Attraction;
 import com.example.ryokouikitai.domain.area.Category;
 import com.example.ryokouikitai.domain.area.Course;
 import com.example.ryokouikitai.domain.area.CourseAttraction;
 import com.example.ryokouikitai.domain.member.Member;
+import com.example.ryokouikitai.dto.trip.AttractionCourseDto;
 import com.example.ryokouikitai.repository.area.ThemeRepository;
 import com.example.ryokouikitai.repository.course.CourseRepository;
 import com.example.ryokouikitai.repository.member.MemberRepository;
 import com.example.ryokouikitai.repository.trip.AttractionRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CourseService {
@@ -35,7 +43,6 @@ public class CourseService {
 
         return courseRepository.findByMemberOrderByIdAsc(member, pageable);
     }
-
 
 
     // 코스 및 장소 저장 메서드
@@ -98,6 +105,47 @@ public class CourseService {
         Category category = categoryRepository.findByName(theme)
                 .orElseThrow(() -> new IllegalArgumentException("카테고리 에러"));
         return attractionRepository.findByCategory(category);
+    }
+
+    public CourseResponseDTO getCourse(String id) {
+        Course course = courseRepository.findById(Integer.valueOf(id))
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 Course입니다."));
+        List<CourseAttraction> cA = courseAttractionRepository.findByCourseOrderByDayAscOrdersAsc(course);
+        List<AttractionCourseDto> attractionCourseDto = cA.stream().map(CourseAttraction::toAttractionCourseDto).collect(Collectors.toList());
+        List<CourseAttractionDTO> courseAttractionDto = new ArrayList<>();
+        List<AttractionCourseDto> addACD = new ArrayList<>();
+        int start = 0;
+        for (AttractionCourseDto courseDto : attractionCourseDto) {
+            log.info("order = {}", courseDto.getOrder());
+            if (courseDto.getOrder() == 1) {
+                if (!addACD.isEmpty()) {
+                    courseAttractionDto.add(CourseAttractionDTO
+                            .builder()
+                            .day(start)
+                            .attraction(addACD)
+                            .build());
+                }
+                addACD = new ArrayList<>();
+                start++;
+            }
+            addACD.add(courseDto);
+        }
+        if (!addACD.isEmpty()) {
+            courseAttractionDto.add(CourseAttractionDTO
+                    .builder()
+                    .day(start)
+                    .attraction(addACD)
+                    .build());
+        }
+        return CourseResponseDTO.builder()
+                .attractions(courseAttractionDto)
+                .title(course.getTitle())
+                .content(course.getContent())
+                .startAt(course.getStartAt())
+                .endAt(course.getEndAt())
+                .memberId(course.getMember().getId())
+                .build();
+
     }
 
     public List<Course> getByMe(Integer id) {

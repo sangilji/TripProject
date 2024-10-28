@@ -1,40 +1,300 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header">
-<head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="/css/trip/TokyoCSS.css"/>
+</head>
+<head>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            justify-content: center;
+        }
+
+        .schedule {
+            box-sizing: border-box;
+            display: flex;
+            color: white;
+            align-items: center;
+            width: 10%;
+            height: 95%;
+            border: 1px solid;
+            border-radius: 15px;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        #sidebar {
+            width: 100%;
+            text-align: center;
+            border: 2px;
+            height: 95vh;
+            display: flex;
+            align-self: end;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            justify-content: center;
+            overflow: auto;
+        }
+
+        .tab {
+            padding: 20px 0;
+            box-sizing: border-box;
+            font-size: 18px;
+            border-bottom: solid 1px;
+            /*margin-bottom: 10px;*/
+            cursor: pointer;
+            /*padding: 10px;*/
+            /*background-color: #ddd;*/
+        }
+
+        .tab:hover {
+            background-color: #ccc;
+        }
+
+        div.box1 {
+            box-sizing: border-box;
+            display: flex;
+            position: absolute;
+            width: 90%;
+            height: 85%;
+            margin-top: 150px;
+            background: conic-gradient(from 90deg at 50% 50%, rgba(36, 59, 85, 0.6) -27deg, rgba(20, 30, 48, 0.6) 90deg, rgba(28, 45, 67, 0.6) 203.4deg, rgba(36, 59, 85, 0.6) 333deg, rgba(20, 30, 48, 0.6) 450deg);
+            border-width: 1px 5px 5px 1px;
+            border-style: solid;
+            border-color: #2C2C2C;
+            border-radius: 30px;
+            align-self: stretch;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .table {
+            padding: 10px;
+            margin: 7px;
+            text-align: center;
+        }
+
+        .maps {
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 65%;
+            height: 95%;
+            border: 1px solid;
+            border-radius: 15px;
+            color: white;
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+
+        .Saved-location-list {
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 20%;
+            height: 95%;
+            border: 1px solid;
+            border-radius: 15px;
+            color: white;
+            overflow: auto;
+        }
+
+        #dayTabs {
+            color: white;
+            box-sizing: border-box;
+            display: flex;
+            border-width: 1px 1px 1px 1px;
+            overflow: auto;
+            flex-direction: column;
+            width: 120px;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        .box-title {
+            font-size: 20px;
+            margin: 20px;
+        }
+
+        #corrention-btn {
+            width: 105%; /* 버튼의 너비를 폼에 맞춤 */
+            height: 40px; /* 버튼 높이를 키움 */
+            font-size: 18px; /* 버튼 글씨 크기를 키움 */
+            margin-top: 20px; /* 버튼 간의 간격 추가 */
+            border-radius: 5px; /* 버튼 모서리를 둥글게 */
+            background-color: #d9d9d9;
+            color: #2C2C2C;
+            border-color: #D9D9D9;
+        }
+
+        #corrention-btn:hover {
+            width: 105%; /* 버튼의 너비를 폼에 맞춤 */
+            height: 40px; /* 버튼 높이를 키움 */
+            font-size: 18px; /* 버튼 글씨 크기를 키움 */
+            margin-top: 20px; /* 버튼 간의 간격 추가 */
+            border-radius: 5px; /* 버튼 모서리를 둥글게 */
+            background-color: #424C6E;
+            color: #FFFFFF;
+            border-color: #424C6E;
+        }
+    </style>
+
+    <script th:inline="javascript">
+        let map;
+        var lat = parseFloat([[${course.attractions[0].attraction[0].latitude}]]);
+        var lng = parseFloat([[${course.attractions[0].attraction[0].longitude}]]);
+        const course = [[${course}]];
+        var initialPosition = {lat: lat, lng: lng};
+
+
+        function initMap() {
+            // 지도 표시
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: initialPosition,
+                zoom: 15,
+            });
+        }
+
+        window.onload = initMap;
+
+
+        console.log(course);
+
+        function moveMap(param) {
+            const location = new google.maps.LatLng(
+                parseFloat(param.latitude),
+                parseFloat(param.longitude)
+            );
+            map.setCenter(location);
+            map.setZoom(15);
+        }
+
+        function allDaylist() {
+            const $days = $('#days');
+            $days.empty();
+            const dayAttractions = course.attractions;
+
+            dayAttractions.forEach(dayAttraction => {
+                const $dayItem = $('<div>', {text: `Day ${dayAttraction.day}`, class: 'day-title'});
+
+                dayAttraction.attraction.forEach(value => {
+                    // 각 attraction 정보
+                    const $category = $('<div>', {text: value.category.name, class: 'category-name'});
+                    const $address = $('<div>', {text: value.address, class: 'address'});
+                    const $name = $('<div>', {
+                        text: value.name,
+                        class: 'attraction-name',
+                        click: function () {
+                            moveMap(value);
+                        }  // 클릭 시 moveMap 호출
+                    });
+
+                    // day 요소에 category, address, name 추가
+                    $dayItem.append($category, $address, $name);
+                });
+
+                // 전체 days에 각 day 정보 추가
+                $days.append($dayItem);
+            });
+        }
+
+
+        function NdayList(day) {
+            const $days = $('#days');
+            $days.empty();
+            const dayAttraction = course.attractions[day - 1];
+            dayAttraction.attraction.forEach(value => {
+                const $item = $('<div>', {class: 'list-group-item'});
+                const $category = $('<div>', {text: value.category.name});
+                const $address = $('<div>', {text: value.address});
+                const $name = $('<div>', {
+                    text: value.name,
+                    click: function () {
+                        moveMap(value);
+                    }  // 클릭 이벤트로 moveMap 함수에 value 전달
+                });
+
+                // $item 요소에 각각 추가
+                $item.append($category, $address, $name);
+
+                // $days에 $item 추가
+                $days.append($item);
+            })
+
+        }
+
+        function alldaylist() {
+
+        }
+
+        // alldaylist = document.getElementById("allday");
+        //
+        // function Ndaylist() {
+        //     for (attraction : ${course.attractions}){
+        //         for (value : ${attraction.attraction}){
+        //             document.write("<div> th:text="${value.category.name}"</div>");
+        //             document.write("<div> th:text="${value.address}"</div>");
+        //             document.write("<div> th:text="${value.name} th:onclick=moveMap([[${value}]])"</div>");
+        //         }
+        //     }
+        // }
+
+    </script>
 </head>
 <body th:style="'background-image: url(/img/bg.png);background-size: cover;overflow:hidden;'">
 <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
-<div class="box">
+<div class="box1">
     <div class="table schedule"> <!--전체, n일차 -->
-        <h3>일정 목록</h3>
+        <h3 class="box-title">일정 목록</h3>
         <div id="sidebar">
             <div id="dayTabs">
-                <!-- 저장된 일자를 끌고와야함 -->
+                <div class="tab" onclick="allDaylist()">전체일정</div>
+                <div th:each="attraction : ${course?.attractions}">
+                    <div class="tab" id="todays" th:text="${attraction?.day}+' 일차'"
+                         th:onclick="NdayList([[${attraction.day}]])"></div>
+                </div>
             </div>
         </div>
         <div id="correction" style="text-align: center">
-            <button id = "corrention-btn">일정 수정</button> <!--수정 버튼 누르면 tokyoSchedule로 이동 -->
+            <button th:if="${course.memberId} == ${session.memberInfo.id}" id="corrention-btn">일정 수정</button> <!--수정 버튼 누르면 tokyoSchedule로 이동 -->
         </div>
     </div>
 
-    <div class ="table Saved-location-list">
-        <!--
-        전체일정 default상태 1일차부터 시작
-        각 일차 별 박스로 묶어서 스크롤 아래로 확인
-        -->
+    <div class="table Saved-location-list">
+        <div id="days">
+            <div th:each="attraction : ${course.attractions}">
+                <div th:text="${attraction.day} +' day'"></div>
+                <div th:each="value : ${attraction.attraction}">
+                    <div class="list-group-item">
+                        <div th:text="${value.category.name}"></div>
+                        <div th:text="${value.address}"></div>
+                        <div th:text="${value.name}" th:onclick="moveMap([[${value}]])"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
-    <div class = "table Saved-maps">
-        <div id = "map"></div>
+    <div class="table maps">
+        <div id="map"></div>
     </div>
 </div>
 
-<script src = "/js/trip/mapform.js"></script>
-<script async src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyCv7v_klpbd7n2jtI3Ab6Y25WgeVPP_qK4&libraries=places"></script>
+
+<script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCv7v_klpbd7n2jtI3Ab6Y25WgeVPP_qK4&libraries=places"></script>
 
 </body>
 </html>

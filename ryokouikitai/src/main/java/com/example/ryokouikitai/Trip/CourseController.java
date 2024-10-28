@@ -3,6 +3,7 @@ package com.example.ryokouikitai.Trip;
 
 import com.example.ryokouikitai.Trip.DTO.CourseRequestDTO;
 import com.example.ryokouikitai.Trip.DTO.CourseResponseDTO;
+import com.example.ryokouikitai.domain.area.Course;
 import com.example.ryokouikitai.domain.member.MemberInfo;
 import com.example.ryokouikitai.global.response.BaseResponse;
 import com.example.ryokouikitai.service.course.CourseService;
@@ -30,8 +31,8 @@ public class CourseController {
         System.out.println("Received title: " + courseRequestDTO.getTitle());
         System.out.println("Received startAt: " + courseRequestDTO.getStartAt());
         System.out.println("Received endAt: " + courseRequestDTO.getEndAt());
-        tripService.createCourseWithAttractions(courseRequestDTO,memberInfo.getId());
-        return BaseResponse.okWithData(HttpStatus.OK,"Schedule saved successfully",courseRequestDTO);
+        Integer id = tripService.createCourseWithAttractions(courseRequestDTO, memberInfo.getId());
+        return BaseResponse.okWithData(HttpStatus.OK,"Schedule saved successfully",id);
     }
 
     // 기존 코스 업데이트하는 엔드포인트 (필요 시 수정)
@@ -47,10 +48,10 @@ public class CourseController {
         courseService.deleteCourse(id);
         return ResponseEntity.ok("Course deleted successfully");
     }
-    // 일정 조회 API 추가
-//    @GetMapping("/course/{courseId}")
-//    public ResponseEntity<?> getCourseDetails(@PathVariable Long courseId) {
-//        CourseResponseDTO courseResponseDTO = tripService.getCourseWithAttractions(courseId);
+//    // 일정 조회 API 추가
+//    @GetMapping("/course/{id}")
+//    public ResponseEntity<?> getCourseDetails(@PathVariable Integer id) {
+//        CourseResponseDTO courseResponseDTO = tripService.getCourseWithAttractions(id);
 //        return ResponseEntity.ok(courseResponseDTO); // 코스 상세 정보를 JSON 형태로 반환
 //    }
 
