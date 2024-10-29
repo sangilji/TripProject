@@ -12,6 +12,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
+@Builder
 public class CourseAttractionDTO {
     private Integer day;
     private List<AttractionCourseDto> attraction;

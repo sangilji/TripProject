@@ -454,6 +454,7 @@
                 success: function (response) {
                     // 성공적으로 저장되면 tokyoSchedule 페이지로 이동
                     console.log(response);
+                    window.location.href = `/trip/saveSchedule/${response.data}`;
                 },
                 error: function (xhr, status, error) {
                     alert("일정을 저장하는 중 오류가 발생했습니다.");
@@ -469,6 +470,7 @@
                 const day = String(date.getDate()).padStart(2, '0');
                 return `${year}-${month}-${day}`; // "yyyy-MM-dd" 형식
             }
+
         }
         // 테마별 장소 호출
         function searchByTheme(){
