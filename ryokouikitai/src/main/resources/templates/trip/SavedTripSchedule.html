@@ -99,13 +99,14 @@
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: flex-start;
             width: 20%;
             height: 95%;
             border: 1px solid;
             border-radius: 15px;
             color: white;
             overflow: auto;
+            padding: 20px;
         }
 
         #dayTabs {
@@ -148,6 +149,42 @@
             color: #FFFFFF;
             border-color: #424C6E;
         }
+
+        .list-theme {
+            width: 50px;
+            height: 20px;
+            top: 10%;
+            margin-top: 2px;
+            text-align: center;
+            justify-content: center;
+            font-size: 13px;
+            color: white;
+            background: #424C6E;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .list-address {
+            font-size: 15px;
+
+        }
+
+        .list-name {
+            font-size: 20px;
+        }
+
+        .list-group-item {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 0px 20px;
+        }
+
+        .day-title{
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+
     </style>
 
     <script th:inline="javascript">
@@ -186,22 +223,22 @@
             const dayAttractions = course.attractions;
 
             dayAttractions.forEach(dayAttraction => {
-                const $dayItem = $('<div>', {text: `Day ${dayAttraction.day}`, class: 'day-title'});
+                const $dayItem = $('<div>', {text: `Day ${dayAttraction.day}`, class: 'day-title list-group-item'});
 
                 dayAttraction.attraction.forEach(value => {
                     // 각 attraction 정보
-                    const $category = $('<div>', {text: value.category.name, class: 'category-name'});
-                    const $address = $('<div>', {text: value.address, class: 'address'});
+                    const $category = $('<div>', {text: value.category.name, class: 'list-theme'});
+                    const $address = $('<div>', {text: value.address, class: 'address list-address'});
                     const $name = $('<div>', {
                         text: value.name,
-                        class: 'attraction-name',
+                        class: 'list-name attraction-name ',
                         click: function () {
                             moveMap(value);
                         }  // 클릭 시 moveMap 호출
                     });
 
                     // day 요소에 category, address, name 추가
-                    $dayItem.append($category, $address, $name);
+                    $dayItem.append($category, $name, $address);
                 });
 
                 // 전체 days에 각 day 정보 추가
@@ -215,18 +252,18 @@
             $days.empty();
             const dayAttraction = course.attractions[day - 1];
             dayAttraction.attraction.forEach(value => {
-                const $item = $('<div>', {class: 'list-group-item'});
-                const $category = $('<div>', {text: value.category.name});
-                const $address = $('<div>', {text: value.address});
+                const $item = $('<div>', {class: 'day-title list-group-item'});
+                const $category = $('<div>', {text: value.category.name, class:'list-theme'});
+                const $address = $('<div>', {text: value.address, class:'list-address'});
                 const $name = $('<div>', {
-                    text: value.name,
+                    text: value.name, class:'list-name',
                     click: function () {
                         moveMap(value);
                     }  // 클릭 이벤트로 moveMap 함수에 value 전달
                 });
 
                 // $item 요소에 각각 추가
-                $item.append($category, $address, $name);
+                $item.append($category, $name, $address);
 
                 // $days에 $item 추가
                 $days.append($item);
@@ -255,31 +292,32 @@
 <body th:style="'background-image: url(/img/bg.png);background-size: cover;overflow:hidden;'">
 <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
 <div class="box1">
-    <div class="table schedule"> <!--전체, n일차 -->
+    <div class="schedule"> <!--전체, n일차 -->
         <h3 class="box-title">일정 목록</h3>
         <div id="sidebar">
             <div id="dayTabs">
-                <div class="tab" onclick="allDaylist()">전체일정</div>
-                <div th:each="attraction : ${course?.attractions}">
-                    <div class="tab" id="todays" th:text="${attraction?.day}+' 일차'"
+                <div class="tab" th:style="'padding: 20px 0px;border-top: solid 1px;'" onclick="allDaylist()">전체일정</div>
+                <th:block th:each="attraction : ${course?.attractions}">
+                    <div th:style="'padding: 20px 0px;'" class="tab" id="todays" th:text="${attraction?.day}+' 일차'"
                          th:onclick="NdayList([[${attraction.day}]])"></div>
-                </div>
+                </th:block>
             </div>
         </div>
         <div id="correction" style="text-align: center">
-            <button th:if="${course.memberId} == ${session.memberInfo.id}" id="corrention-btn">일정 수정</button> <!--수정 버튼 누르면 tokyoSchedule로 이동 -->
+            <button th:if="${course.memberId} == ${session.memberInfo.id}" id="corrention-btn">일정 수정</button>
+            <!--수정 버튼 누르면 tokyoSchedule로 이동 -->
         </div>
     </div>
 
-    <div class="table Saved-location-list">
+    <div class="Saved-location-list">
         <div id="days">
             <div th:each="attraction : ${course.attractions}">
-                <div th:text="${attraction.day} +' day'"></div>
+                <div th:style="'font-size:20px;padding: 0px 20px;'" th:text="'Day '+${attraction.day}"></div>
                 <div th:each="value : ${attraction.attraction}">
-                    <div class="list-group-item">
-                        <div th:text="${value.category.name}"></div>
-                        <div th:text="${value.address}"></div>
-                        <div th:text="${value.name}" th:onclick="moveMap([[${value}]])"></div>
+                    <div class="list-group-item day-title">
+                        <div class="list-theme" th:text="${value.category.name}"></div>
+                        <div class="list-name" th:text="${value.name}" th:onclick="moveMap([[${value}]])"></div>
+                        <div class="list-address" th:text="${value.address}"></div>
                     </div>
                 </div>
             </div>
