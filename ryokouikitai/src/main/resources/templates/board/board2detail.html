@@ -184,7 +184,7 @@
                                     도파민 보이의 일정 공유합니다!!
                                     너무 재밌었어요! 다들 즐거운 여행 하세요 :)
                                 </p>
-                                <button id="plan-link" class="plan-link" th:onclick="|location.href=|">일정표 보러가기</button>
+                                <button id="plan-link" class="plan-link" th:onclick="|location.href='/trip/saveSchedule/'+${boardDto.board.courseId}|">일정표 보러가기</button>
                             </div>
                             <div class="last">
                                 <div id="likeCountDisplay" th:style="'color: white; font-size:12px;'"
